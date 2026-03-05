@@ -3,7 +3,11 @@ import { ArrowRight } from 'lucide-react';
 import SplitText from '../ui/SplitText';
 import LiquidEther from '../ui/LiquidEther';
 
-export default function CTA() {
+interface Props {
+  onNavigate?: (view: string) => void;
+}
+
+export default function CTA({ onNavigate }: Props) {
   return (
     <section className="py-56 px-6 relative overflow-hidden text-center">
       <div className="absolute inset-0 opacity-20 pointer-events-none">
@@ -65,7 +69,7 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          onClick={() => window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+          onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
           className="group relative inline-flex items-center gap-4 font-mono text-[0.7rem] tracking-[0.25em] uppercase px-14 py-5 bg-gradient-to-br from-teal-dark to-teal text-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_50px_rgba(0,180,216,0.4)]"
         >
           <span className="relative z-10">Agendar Reunión</span>

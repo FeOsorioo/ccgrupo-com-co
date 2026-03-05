@@ -18,6 +18,7 @@ import Clients from './components/sections/Clients';
 import CTA from './components/sections/CTA';
 import Footer from './components/layout/Footer';
 import ServiceModule from './components/modules/ServiceModule';
+import ContactModule from './components/modules/ContactModule';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -61,8 +62,8 @@ export default function App() {
           {currentView === 'home' ? (
             <>
               <BackgroundEffects />
-              <Navbar />
-              
+              <Navbar onNavigate={handleNavigate} />
+
               <main className="relative z-10">
                 <Hero />
                 <Marquee />
@@ -70,15 +71,17 @@ export default function App() {
                 <Services onNavigate={handleNavigate} />
                 <Reasons />
                 <Clients />
-                <CTA />
+                <CTA onNavigate={handleNavigate} />
               </main>
 
               <Footer />
             </>
+          ) : currentView === 'contact' ? (
+            <ContactModule onBack={handleBackToHome} />
           ) : (
-            <ServiceModule 
-              serviceId={currentView} 
-              onBack={handleBackToHome} 
+            <ServiceModule
+              serviceId={currentView}
+              onBack={handleBackToHome}
             />
           )}
         </>

@@ -11,7 +11,11 @@ const navLinks = [
   { name: 'Clientes', href: '#clients' },
 ];
 
-export default function Navbar() {
+interface Props {
+  onNavigate?: (view: string) => void;
+}
+
+export default function Navbar({ onNavigate }: Props) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
@@ -89,7 +93,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <button
-            onClick={() => window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+            onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
             className="font-mono text-[0.6rem] uppercase tracking-[0.2em] px-7 py-2.5 border border-teal/40 text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
           >
             Contacto
@@ -157,7 +161,7 @@ export default function Navbar() {
               className="mt-12"
             >
               <button
-                onClick={() => window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+                onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
                 className="font-mono text-xs tracking-[0.25em] uppercase px-10 py-4 bg-gradient-to-br from-teal-dark to-teal text-white hover:shadow-[0_8px_40px_rgba(0,180,216,0.35)] transition-all duration-300"
               >
                 Contacto
