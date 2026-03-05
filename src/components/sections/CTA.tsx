@@ -69,7 +69,7 @@ export default function CTA({ onNavigate }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+          onClick={() => onNavigate?.('contact')}
           className="group relative inline-flex items-center gap-4 font-mono text-[0.7rem] tracking-[0.25em] uppercase px-14 py-5 bg-gradient-to-br from-teal-dark to-teal text-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_50px_rgba(0,180,216,0.4)]"
         >
           <span className="relative z-10">Agendar Reunión</span>

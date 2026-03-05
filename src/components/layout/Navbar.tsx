@@ -93,7 +93,7 @@ export default function Navbar({ onNavigate }: Props) {
 
           {/* CTA */}
           <button
-            onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+            onClick={() => onNavigate?.('contact')}
             className="font-mono text-[0.6rem] uppercase tracking-[0.2em] px-7 py-2.5 border border-teal/40 text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
           >
             Contacto
@@ -161,7 +161,7 @@ export default function Navbar({ onNavigate }: Props) {
               className="mt-12"
             >
               <button
-                onClick={() => onNavigate ? onNavigate('contact') : window.open('https://ccgrupo.com.co/contacto/', '_blank')}
+                onClick={() => { setIsMobileMenuOpen(false); onNavigate?.('contact'); }}
                 className="font-mono text-xs tracking-[0.25em] uppercase px-10 py-4 bg-gradient-to-br from-teal-dark to-teal text-white hover:shadow-[0_8px_40px_rgba(0,180,216,0.35)] transition-all duration-300"
               >
                 Contacto
