@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import Preloader from './components/ui/Preloader';
@@ -41,7 +36,7 @@ export default function App() {
           <CustomCursor />
           <BackgroundEffects />
           <Navbar />
-          
+
           <main className="relative z-10">
             <Hero />
             <Marquee />

@@ -57,7 +57,7 @@ export default function Footer() {
 
       <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
         <span className="font-mono text-[0.5rem] tracking-[0.15em] uppercase text-gray-300">
-          © 2025 Contact Center Grupo S.A.S.
+          © 2026 Contact Center Grupo S.A.S.
         </span>
 
         <div className="flex gap-4">
@@ -66,7 +66,7 @@ export default function Footer() {
             { Icon: Instagram, href: 'https://www.instagram.com/contact_center_grupo/' },
             { Icon: Facebook, href: 'https://www.facebook.com/CONTACTCENTERGROUP' },
             { Icon: Youtube, href: 'https://www.youtube.com/channel/UCK1VihHdl_RjnuLkG5rhopQ' },
-            { Icon: Twitter, href: 'https://twitter.com' } // Placeholder for TikTok/X
+            { Icon: Twitter, href: 'https://twitter.com' }
           ].map(({ Icon, href }, i) => (
             <a 
               key={i} 
