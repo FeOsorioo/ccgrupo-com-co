@@ -1,14 +1,32 @@
+import { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import SplitText from '../ui/SplitText';
 import { useLang } from '../../i18n';
 
-const clients = [
-  'Salud Total', 'Compensar', 'Colsubsidio', 'Famisanar', 'Sanitas',
-  'Keralty', 'Cafam', 'Sura', 'Comfenalco', 'Medimás',
+const CLIENTS = [
+  { name: 'Salud Total',  logo: '/clients/salud-total.svg'  },
+  { name: 'Compensar',   logo: '/clients/compensar.svg'    },
+  { name: 'Colsubsidio', logo: '/clients/colsubsidio.svg'  },
+  { name: 'Famisanar',   logo: '/clients/famisanar.svg'    },
+  { name: 'Sanitas',     logo: '/clients/sanitas.svg'      },
+  { name: 'Keralty',     logo: '/clients/keralty.svg'      },
+  { name: 'Cafam',       logo: '/clients/cafam.svg'        },
+  { name: 'Sura',        logo: '/clients/sura.svg'         },
+  { name: 'Comfenalco',  logo: '/clients/comfenalco.svg'   },
+  { name: 'Medimás',     logo: '/clients/medimas.svg'      },
 ];
 
 export default function Clients() {
   const { t } = useLang();
+  // Per-slot error state stored by index
+  const errRef = useRef<Record<number, boolean>>({});
+  const [, forceRender] = useState(0);
+  const track = [...CLIENTS, ...CLIENTS, ...CLIENTS];
+
+  const handleErr = (i: number) => {
+    errRef.current[i] = true;
+    forceRender(n => n + 1);
+  };
 
   return (
     <section id="clients" className="py-24 border-t border-white/10 overflow-hidden">
@@ -47,15 +65,24 @@ export default function Clients() {
           animate={{ x: '-50%' }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         >
-          {[...clients, ...clients, ...clients].map((client, i) => (
+          {track.map(({ name, logo }, i) => (
             <div
-              key={i}
-              className="w-[200px] h-[100px] border border-white/10 flex items-center justify-center -mr-px relative group hover:border-teal/30 hover:z-10 transition-all duration-300 bg-navy-deep"
+              key={`${name}-${i}`}
+              className="w-[200px] h-[100px] border border-white/10 flex items-center justify-center -mr-px relative group hover:border-teal/30 hover:z-10 transition-all duration-300 bg-navy-deep shrink-0"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative z-10 font-body font-medium text-gray-200 group-hover:text-white transition-colors">
-                {client}
-              </span>
+              {!errRef.current[i] ? (
+                <img
+                  src={logo}
+                  alt={name}
+                  onError={() => handleErr(i)}
+                  className="relative z-10 h-10 w-auto max-w-[140px] object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 brightness-0 invert"
+                />
+              ) : (
+                <span className="relative z-10 font-body font-medium text-gray-200 group-hover:text-white transition-colors text-sm px-4 text-center leading-tight">
+                  {name}
+                </span>
+              )}
             </div>
           ))}
         </motion.div>
