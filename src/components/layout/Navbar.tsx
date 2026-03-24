@@ -41,8 +41,10 @@ export default function Navbar({ onNavigate }: Props) {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         {/* Logo */}
-        <div
-          className="flex items-center gap-3 cursor-pointer min-h-[3rem]"
+        <button
+          type="button"
+          aria-label="Ir al inicio"
+          className="flex items-center gap-3 cursor-pointer min-h-[3rem] bg-transparent border-0 p-0"
           onClick={() => scrollToSection('#hero')}
           onMouseEnter={() => setIsLogoHovered(true)}
           onMouseLeave={() => setIsLogoHovered(false)}
@@ -78,7 +80,7 @@ export default function Navbar({ onNavigate }: Props) {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </button>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -97,16 +99,18 @@ export default function Navbar({ onNavigate }: Props) {
           </ul>
 
           {/* Language toggle */}
-          <div className="flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.1em] select-none">
+          <div className="flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.1em] select-none" role="group" aria-label="Seleccionar idioma">
             <button
               onClick={() => lang !== 'es' && toggleLang()}
+              aria-label="Español" aria-pressed={lang === 'es'}
               className={`transition-colors ${lang === 'es' ? 'text-teal font-semibold' : 'text-gray-300 hover:text-gray-100'}`}
             >
               ES
             </button>
-            <span className="text-gray-400">|</span>
+            <span aria-hidden="true" className="text-gray-400">|</span>
             <button
               onClick={() => lang !== 'en' && toggleLang()}
+              aria-label="English" aria-pressed={lang === 'en'}
               className={`transition-colors ${lang === 'en' ? 'text-teal font-semibold' : 'text-gray-300 hover:text-gray-100'}`}
             >
               EN
@@ -134,16 +138,18 @@ export default function Navbar({ onNavigate }: Props) {
         {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
           {/* Mobile lang toggle */}
-          <div className="flex items-center gap-1 font-mono text-[0.55rem] tracking-[0.1em]">
+          <div className="flex items-center gap-1 font-mono text-[0.55rem] tracking-[0.1em]" role="group" aria-label="Seleccionar idioma">
             <button
               onClick={() => lang !== 'es' && toggleLang()}
+              aria-label="Español" aria-pressed={lang === 'es'}
               className={`transition-colors ${lang === 'es' ? 'text-teal' : 'text-gray-300'}`}
             >
               ES
             </button>
-            <span className="text-gray-400">|</span>
+            <span aria-hidden="true" className="text-gray-400">|</span>
             <button
               onClick={() => lang !== 'en' && toggleLang()}
+              aria-label="English" aria-pressed={lang === 'en'}
               className={`transition-colors ${lang === 'en' ? 'text-teal' : 'text-gray-300'}`}
             >
               EN
@@ -157,6 +163,8 @@ export default function Navbar({ onNavigate }: Props) {
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
           <button
+            aria-label="Abrir menú de navegación"
+            aria-expanded={isMobileMenuOpen}
             className="text-white p-1"
             onClick={() => setMobileOpen(true)}
           >
@@ -169,12 +177,16 @@ export default function Navbar({ onNavigate }: Props) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[10001] bg-navy-deep/95 backdrop-blur-2xl flex flex-col items-center justify-center p-8"
           >
             <button
+              aria-label="Cerrar menú de navegación"
               className="absolute top-6 right-6 text-white p-2"
               onClick={() => setMobileOpen(false)}
             >

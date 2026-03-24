@@ -75,6 +75,7 @@ export default function Clients() {
                 <img
                   src={logo}
                   alt={name}
+                  loading="lazy"
                   onError={() => handleErr(i)}
                   className="relative z-10 h-10 w-auto max-w-[140px] object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 brightness-0 invert"
                 />

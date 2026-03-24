@@ -36,6 +36,44 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
     return () => { document.title = prev; };
   }, [title]);
 
+  // ── SEO: dynamic OG / Twitter / description meta ─────────────────────────
+  useEffect(() => {
+    const BASE = 'https://ccgrupo.com.co';
+    const path = `/servicio/${serviceId}`;
+    const desc = (sd?.longDesc ?? service.details.longDesc).slice(0, 160);
+    const fullTitle = `${title} | CCGrupo`;
+
+    const selectors: Record<string, [string, string]> = {
+      ogTitle:  ['meta[property="og:title"]',          'content'],
+      ogDesc:   ['meta[property="og:description"]',    'content'],
+      ogUrl:    ['meta[property="og:url"]',            'content'],
+      twTitle:  ['meta[name="twitter:title"]',         'content'],
+      twDesc:   ['meta[name="twitter:description"]',   'content'],
+      metaDesc: ['meta[name="description"]',           'content'],
+    };
+
+    const prev: Record<string, string> = {};
+    const updates: Record<string, string> = {
+      ogTitle: fullTitle, ogDesc: desc, ogUrl: `${BASE}${path}`,
+      twTitle: fullTitle, twDesc: desc, metaDesc: desc,
+    };
+
+    Object.entries(selectors).forEach(([key, [sel, attr]]) => {
+      const el = document.querySelector(sel);
+      if (el) {
+        prev[key] = el.getAttribute(attr) ?? '';
+        el.setAttribute(attr, updates[key]);
+      }
+    });
+
+    return () => {
+      Object.entries(selectors).forEach(([key, [sel, attr]]) => {
+        const el = document.querySelector(sel);
+        if (el && prev[key] !== undefined) el.setAttribute(attr, prev[key]);
+      });
+    };
+  }, [serviceId, title, sd?.longDesc]);
+
   // ── SEO: BreadcrumbList + hreflang per service page ──────────────────────
   useEffect(() => {
     const BASE = 'https://ccgrupo.com.co';
@@ -82,13 +120,18 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
 
       {/* Custom Navbar for Module */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-14 py-6 flex justify-between items-center bg-navy-deep/85 backdrop-blur-xl border-b border-white/5">
-        <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
+        <button
+          type="button"
+          aria-label="Volver al inicio"
+          className="flex items-center gap-3 cursor-pointer bg-transparent border-0 p-0"
+          onClick={onBack}
+        >
           <img
             src="https://www.ccgrupo.com.co/wp-content/uploads/2025/03/logo-original-b-.webp"
             alt="CCGrupo Logo"
             className="h-10 w-auto object-contain logo-auto"
           />
-        </div>
+        </button>
         <button
           onClick={onBack}
           className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-teal hover:text-white transition-colors"
@@ -166,6 +209,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                 <img
                   src={service.details.heroImage}
                   alt={title}
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   onError={() => setImageError(true)}
                 />
@@ -297,6 +341,8 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    aria-expanded={openFaq === i}
+                    aria-controls={`faq-answer-${i}`}
                     className="w-full flex items-center justify-between p-6 text-left hover:bg-white/[0.03] transition-colors"
                   >
                     <span className="font-body font-medium text-white pr-4">{item.question}</span>
@@ -308,6 +354,9 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                   <AnimatePresence>
                     {openFaq === i && (
                       <motion.div
+                        id={`faq-answer-${i}`}
+                        role="region"
+                        aria-label={item.question}
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
