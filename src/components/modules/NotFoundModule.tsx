@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useLang } from '../../i18n';
@@ -8,6 +9,12 @@ interface Props {
 
 export default function NotFoundModule({ onBack }: Props) {
   const { t } = useLang();
+
+  useEffect(() => {
+    const prev = document.title;
+    document.title = '404 — Página no encontrada | CCGrupo';
+    return () => { document.title = prev; };
+  }, []);
 
   return (
     <div className="min-h-screen bg-navy-deep text-white flex flex-col items-center justify-center px-6 relative overflow-hidden">

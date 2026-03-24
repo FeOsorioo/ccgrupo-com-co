@@ -59,7 +59,7 @@
         "width": 400,
         "height": 120
       },
-      "image": "https://ccgrupo.com.co/og-image.jpg",
+      "image": "https://ccgrupo.com.co/og-image.png",
       "description": "CCGrupo transforma los procesos de las empresas con CX, Leads & Ventas, Agentes Autónomos con IA y Digital Studio. BPO de nueva generación con +15 años de experiencia en Colombia.",
       "foundingDate": "2010",
       "slogan": "Tecnología para crecer, experiencias que conectan.",
@@ -154,7 +154,7 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "CCGrupo — Contact Center Grupo",
-      "image": "https://ccgrupo.com.co/og-image.jpg",
+      "image": "https://ccgrupo.com.co/og-image.png",
       "url": "https://ccgrupo.com.co",
       "telephone": "+576017443732",
       "email": "info@ccgrupo.com.co",
@@ -262,6 +262,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="CCGrupo" />
 
+    <!-- ─── Google Consent Mode v2 (must run before GA loads) ──────────────── -->
+    <script>
+      window.dataLayer=window.dataLayer||[];
+      function gtag(){window.dataLayer.push(arguments);}
+      window.gtag=gtag;
+      // Default: deny until user consents (Ley 1581 CO / GDPR)
+      gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',wait_for_update:500});
+      // Restore consent if already given
+      var _c=localStorage.getItem('ccg_cookie_consent');
+      if(_c==='accepted') gtag('consent','update',{analytics_storage:'granted'});
+    </script>
+
     <!-- ─── Google Analytics 4 (loads only when VITE_GA_ID is set) ─────────── -->
     <script>
       (function(){
@@ -270,9 +282,6 @@
         var s=document.createElement('script');
         s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+id;
         document.head.appendChild(s);
-        window.dataLayer=window.dataLayer||[];
-        function gtag(){window.dataLayer.push(arguments);}
-        window.gtag=gtag;
         gtag('js',new Date());gtag('config',id,{anonymize_ip:true});
       })();
     </script>

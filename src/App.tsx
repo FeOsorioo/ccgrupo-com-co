@@ -23,6 +23,8 @@ import Footer from './components/layout/Footer';
 import FloatingCTA from './components/ui/FloatingCTA';
 import ScrollTracker from './components/ui/ScrollTracker';
 import CornerLabels from './components/ui/CornerLabels';
+import CookieBanner from './components/ui/CookieBanner';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 
 const ServiceModule  = lazy(() => import('./components/modules/ServiceModule'));
 const ContactModule  = lazy(() => import('./components/modules/ContactModule'));
@@ -49,72 +51,68 @@ export default function App() {
 
   const handleBackToHome = () => {
     setCurrentView('home');
-    // Optional: scroll to services section after a small delay
+    document.title = 'CCGrupo | BPO Colombia — CX, Ventas, IA y Digital Studio';
     setTimeout(() => {
       const element = document.getElementById('services');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
 
   return (
     <LangProvider>
-    <>
-      <AnimatePresence mode="wait">
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
-      </AnimatePresence>
+      <ErrorBoundary>
+        <AnimatePresence mode="wait">
+          {loading && <Preloader onComplete={() => setLoading(false)} />}
+        </AnimatePresence>
 
-      {!loading && (
-        <>
-          <CustomCursor />
-          
-          {currentView === 'home' ? (
-            <>
-              <BackgroundEffects />
-              <Navbar onNavigate={handleNavigate} />
+        {!loading && (
+          <>
+            <CustomCursor />
+            <CookieBanner onNavigate={handleNavigate} />
 
-              <ScrollTracker />
-              <CornerLabels />
-              <FloatingCTA onNavigate={handleNavigate} />
-
-              <main className="relative z-10">
-                <Hero onNavigate={handleNavigate} />
-                <Marquee />
-                <About />
-                <Services onNavigate={handleNavigate} />
-                <Reasons />
-                <Sectors />
-                <Clients />
-                <CTA onNavigate={handleNavigate} />
-              </main>
-
-              <Footer onNavigate={handleNavigate} />
-            </>
-          ) : currentView === 'contact' ? (
-            <Suspense fallback={<PageLoader />}>
-              <ContactModule onBack={handleBackToHome} />
-            </Suspense>
-          ) : currentView === 'privacy' ? (
-            <Suspense fallback={<PageLoader />}>
-              <PrivacyModule onBack={handleBackToHome} />
-            </Suspense>
-          ) : ['01','02','03','04'].includes(currentView) ? (
-            <Suspense fallback={<PageLoader />}>
-              <ServiceModule
-                serviceId={currentView}
-                onBack={handleBackToHome}
-                onNavigate={handleNavigate}
-              />
-            </Suspense>
-          ) : (
-            <Suspense fallback={<PageLoader />}>
-              <NotFoundModule onBack={handleBackToHome} />
-            </Suspense>
-          )}
-        </>
-      )}
-    </>
+            {currentView === 'home' ? (
+              <>
+                <BackgroundEffects />
+                <Navbar onNavigate={handleNavigate} />
+                <ScrollTracker />
+                <CornerLabels />
+                <FloatingCTA onNavigate={handleNavigate} />
+                <main className="relative z-10">
+                  <Hero onNavigate={handleNavigate} />
+                  <Marquee />
+                  <About />
+                  <Services onNavigate={handleNavigate} />
+                  <Reasons />
+                  <Sectors />
+                  <Clients />
+                  <CTA onNavigate={handleNavigate} />
+                </main>
+                <Footer onNavigate={handleNavigate} />
+              </>
+            ) : currentView === 'contact' ? (
+              <Suspense fallback={<PageLoader />}>
+                <ContactModule onBack={handleBackToHome} />
+              </Suspense>
+            ) : currentView === 'privacy' ? (
+              <Suspense fallback={<PageLoader />}>
+                <PrivacyModule onBack={handleBackToHome} />
+              </Suspense>
+            ) : ['01','02','03','04'].includes(currentView) ? (
+              <Suspense fallback={<PageLoader />}>
+                <ServiceModule
+                  serviceId={currentView}
+                  onBack={handleBackToHome}
+                  onNavigate={handleNavigate}
+                />
+              </Suspense>
+            ) : (
+              <Suspense fallback={<PageLoader />}>
+                <NotFoundModule onBack={handleBackToHome} />
+              </Suspense>
+            )}
+          </>
+        )}
+      </ErrorBoundary>
     </LangProvider>
   );
 }

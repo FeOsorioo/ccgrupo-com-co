@@ -29,6 +29,13 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
 
   const showIconPlaceholder = !service.details.heroImage || imageError;
 
+  // ── SEO: dynamic page title ───────────────────────────────────────────────
+  useEffect(() => {
+    const prev = document.title;
+    document.title = `${title} | CCGrupo`;
+    return () => { document.title = prev; };
+  }, [title]);
+
   // ── SEO: BreadcrumbList + hreflang per service page ──────────────────────
   useEffect(() => {
     const BASE = 'https://ccgrupo.com.co';

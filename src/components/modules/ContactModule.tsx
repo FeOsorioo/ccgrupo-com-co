@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, MapPin, Mail, Phone, Clock, Send, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
@@ -29,6 +29,12 @@ interface Props { onBack: () => void; }
 export default function ContactModule({ onBack }: Props) {
   const { t } = useLang();
   const ct = t.contact;
+
+  useEffect(() => {
+    const prev = document.title;
+    document.title = `Contacto | CCGrupo`;
+    return () => { document.title = prev; };
+  }, []);
 
   const [form, setForm]           = useState<FormState>(empty);
   const [errors, setErrors]       = useState<Partial<FormState>>({});

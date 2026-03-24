@@ -142,6 +142,12 @@ const translations = {
       desc:        'Descubre cómo nuestro ecosistema de CX, Ventas, IA y tecnología a medida puede impulsar tu productividad y resultados.',
       button:      'Agendar Reunión',
     },
+    cookie: {
+      message: 'Usamos cookies para mejorar tu experiencia y analizar el tráfico del sitio (Google Analytics). Puedes aceptar o rechazar su uso.',
+      accept:  'Aceptar',
+      reject:  'Rechazar',
+      policy:  'Ver política de privacidad',
+    },
     footer: {
       desc:          'BPO de nueva generación. Transformamos procesos con CX, Leads & Ventas, Agentes Autónomos con IA y Digital Studio. +15 años de experiencia.',
       servicesTitle: 'Servicios',
@@ -407,6 +413,12 @@ const translations = {
       headingPost: 'of your company',
       desc:        'Discover how our ecosystem of CX, Sales, AI and custom technology can boost your productivity and results.',
       button:      'Schedule a Meeting',
+    },
+    cookie: {
+      message: 'We use cookies to improve your experience and analyze site traffic (Google Analytics). You can accept or reject their use.',
+      accept:  'Accept',
+      reject:  'Reject',
+      policy:  'View privacy policy',
     },
     footer: {
       desc:          'Next-generation BPO. We transform processes with CX, Leads & Sales, Autonomous AI Agents and Digital Studio. Over 15 years of experience.',
