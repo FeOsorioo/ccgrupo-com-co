@@ -4,11 +4,31 @@ import { Cookie, X } from 'lucide-react';
 import { useLang } from '../../i18n';
 
 const CONSENT_KEY = 'ccg_cookie_consent';
+const CONSENT_TTL_MS = 180 * 24 * 60 * 60 * 1000; // 6 months
 
 type ConsentValue = 'accepted' | 'rejected';
+interface StoredConsent { value: ConsentValue; ts: number; }
+
+function readConsent(): StoredConsent | null {
+  try {
+    const raw = localStorage.getItem(CONSENT_KEY);
+    if (!raw) return null;
+    // Legacy: plain string (old format before expiry was added)
+    if (raw === 'accepted' || raw === 'rejected') return { value: raw, ts: Date.now() };
+    const parsed: StoredConsent = JSON.parse(raw);
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function isExpired(stored: StoredConsent): boolean {
+  return Date.now() - stored.ts > CONSENT_TTL_MS;
+}
 
 function grantConsent(value: ConsentValue) {
-  localStorage.setItem(CONSENT_KEY, value);
+  const payload: StoredConsent = { value, ts: Date.now() };
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(payload));
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('consent', 'update', {
       analytics_storage: value === 'accepted' ? 'granted' : 'denied',
@@ -23,11 +43,18 @@ export default function CookieBanner({ onNavigate }: { onNavigate?: (view: strin
   const ck = t.cookie;
 
   useEffect(() => {
-    const stored = localStorage.getItem(CONSENT_KEY);
-    if (!stored) {
+    const stored = readConsent();
+    if (!stored || isExpired(stored)) {
       // Show after a short delay so it doesn't clash with preloader
       const timer = setTimeout(() => setVisible(true), 2000);
       return () => clearTimeout(timer);
+    }
+    // Re-apply consent to gtag on page load (consent mode requires this each session)
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: stored.value === 'accepted' ? 'granted' : 'denied',
+        ad_storage: 'denied',
+      });
     }
   }, []);
 
