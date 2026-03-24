@@ -1,0 +1,218 @@
+# CCGrupo — Contact Center Grupo S.A.S.
+
+> BPO de nueva generación. Transformamos los procesos de las empresas para que sean más productivas, mejoren su atención y generen más ventas.
+
+## Información General
+
+- **Nombre legal:** Contact Center Grupo S.A.S.
+- **Marca comercial:** CCGrupo
+- **Sitio web:** https://ccgrupo.com.co
+- **Sede principal:** Cra. 20 #133 – 74, La Calleja, Bogotá, Colombia
+- **Presencia:** Bogotá, Medellín, Cali — con capacidad nearshore para EE.UU. y mercados internacionales
+- **Fundación:** 2010 (+15 años de experiencia)
+- **Email:** info@ccgrupo.com.co
+- **Teléfono:** (601) 7443732
+- **Idiomas de operación:** Español, Inglés, Italiano, Francés
+
+## Propuesta de Valor
+
+Transformamos los procesos de las empresas para que sean más productivas, mejoren su atención y generen más ventas. Integramos experiencia, automatización y tecnología para hacer a nuestros clientes más ágiles, más eficientes y más rentables.
+
+**Mensajes clave de marca:**
+- Tecnología para crecer, experiencias que conectan.
+- +15 años transformando empresas.
+- Optimizamos procesos, aumentamos ventas y mejoramos cada interacción.
+
+## Posicionamiento
+
+CCGrupo es una empresa que integra experiencia, automatización y tecnología para transformar procesos, optimizar la productividad y hacer a sus clientes más ágiles, eficientes y rentables.
+
+### Frente a los call centers tradicionales
+No nos limitamos a atender contactos. Transformamos procesos, integramos tecnología, automatizamos tareas clave y entregamos visibilidad gerencial para una mejor toma de decisiones.
+
+### Frente a las agencias de automatización
+No nos quedamos en campañas o flujos aislados. Operamos procesos reales de servicio, ventas y experiencia, con foco en la ejecución, la productividad y los resultados.
+
+### Frente a empresas de software o desarrollo
+No solo implementamos herramientas. Conectamos la tecnología con la operación, impulsamos la adopción y generamos impacto real en el negocio.
+
+### Frente a proveedores de bots
+No solo automatizamos conversaciones. Integramos IA, operación, omnicanalidad y objetivos comerciales o de servicio dentro de un mismo ecosistema.
+
+## Base Unificada de Servicios
+
+Todos nuestros servicios se apoyan en una base unificada de omnicanalidad, automatización inteligente y visibilidad de informes en tiempo real.
+
+Esta base garantiza productividad, trazabilidad, control y visibilidad ejecutiva en cada servicio.
+
+1. **Omnicanalidad Total** — Integración de todos los canales de comunicación (voz, WhatsApp, email, chat, redes sociales y más) en una sola operación cohesionada.
+2. **Automatización Inteligente** — Flujos automatizados con IA que optimizan cada proceso, reducen la carga operativa y escalan sin fricción.
+3. **Dashboard Ejecutivo en Tiempo Real** — Visibilidad completa de la operación con Looker Studio y Power BI para toma de decisiones basada en datos reales.
+
+## Servicios
+
+### 01 — CX – Experiencia del Cliente
+**Subtítulo:** Experiencias que escalan negocios
+
+**Propósito:** Operamos y optimizamos la atención al cliente en todos los puntos de contacto para mejorar satisfacción, continuidad y fidelización.
+
+**Problema que resuelve:** Empresas con atención fragmentada, tiempos lentos, baja trazabilidad, mala gestión de PQR o experiencia inconsistente entre canales.
+
+**Clientes ideales:** Empresas con alto volumen de atención, marcas con postventa crítica, organizaciones que necesitan escalar servicio sin deteriorar experiencia.
+
+**Casos de uso:** Servicio al cliente, PQR, reservas, gestión de pedidos, mesa de ayuda, soporte omnicanal.
+
+**Resultados de negocio:**
+- Mejor experiencia del cliente
+- Menor tiempo de respuesta
+- Mayor retención y recompra
+- Menos reprocesos
+- Mayor cumplimiento de SLA
+- Más control operativo
+
+**Diferenciales:**
+- Atención omnicanal integrada en una sola operación
+- Combinación de talento humano + IA para escalar con calidad
+- Gestión orientada a experiencia, no solo a respuesta operativa
+- Trazabilidad y visibilidad en tiempo real sobre niveles de servicio
+- Adaptación al proceso, tono y estándar de cada cliente
+
+**Frase clave:** Gestionamos la experiencia del cliente con omnicanalidad, IA y operación especializada para responder mejor, más rápido y con mayor control.
+
+---
+
+### 02 — Leads & Ventas
+**Subtítulo:** Conversión con Método
+
+**Propósito:** Diseñar y operar procesos comerciales que conviertan oportunidades en ventas reales, con más velocidad, seguimiento y trazabilidad.
+
+**Problema que resuelve:** Empresas con leads sin seguimiento, baja velocidad comercial, CRM desaprovechado y oportunidades que se pierden por falta de método.
+
+**Clientes ideales:** Empresas B2B y B2C con foco en crecimiento, negocios que generan leads pero convierten poco, equipos comerciales que necesitan orden y trazabilidad.
+
+**Casos de uso:** Captación y calificación de leads, seguimiento comercial multicanal, WhatsApp ventas, gestión CRM, reactivación de clientes, seguimiento y cierre de oportunidades.
+
+**Resultados de negocio:**
+- Mayor conversión
+- Menor fuga de oportunidades
+- Más velocidad comercial
+- Pipeline visible y gestionable
+- Más ventas e ingresos directos
+
+**Diferenciales:**
+- Integración entre captación, WhatsApp y CRM en un solo flujo
+- Reactivación inteligente de bases comerciales ya existentes
+- Velocidad de respuesta como palanca de cierre
+- Trazabilidad completa del embudo y desempeño comercial
+- Combinación de ejecución humana con automatización inteligente
+
+**Frase clave:** Transformamos el interés en ingresos con una operación comercial más inteligente, ágil y conectada.
+
+---
+
+### 03 — Agentes Autónomos
+**Subtítulo:** Operación 24/7 sin Límites
+
+**Propósito:** Automatizamos interacciones con IA para escalar atención, captación y respuesta 24/7.
+
+**Problema que resuelve:** Empresas que no pueden responder todo a tiempo, saturan su operación o pierden oportunidades fuera del horario laboral por depender de intervención humana en cada interacción repetitiva.
+
+**Clientes ideales:** Empresas con alto volumen de consultas repetitivas, negocios que requieren disponibilidad continua, compañías que buscan eficiencia, escalabilidad y automatización real.
+
+**Suite de productos AVA:**
+- **AVA Asistente** (Producto Estrella) — Asistente personal autónomo 24/7 por WhatsApp, Signal y Telegram.
+- **AVA Chat** — Atención inteligente en WebChat, WhatsApp y canales chat con IA.
+- **AVA Bot** — Agente de voz con IA para llamadas entrantes y salientes con entonación natural.
+- **AVA Leads** — Calificación, nutrición y seguimiento automático de prospectos hasta el cierre.
+- **AVA Social** — Community manager digital 24/7 para redes sociales.
+- **WhatsApp IA** — Canal de atención y ventas potenciado con IA en WhatsApp Business.
+
+**Resultados de negocio:**
+- Atención inmediata 24/7
+- Preclasificación de solicitudes
+- Agendamiento y seguimiento automatizado
+- Menor carga operativa
+- Más oportunidades atendidas
+- Menor costo por interacción
+
+**Diferenciales:**
+- Operación continua 24/7 con capacidad de respuesta inmediata
+- Automatización conectada a procesos reales del negocio, no bots aislados
+- Escalabilidad sin crecer estructura humana al mismo ritmo
+- Arquitectura modular con subsoluciones según necesidad
+
+**Frase clave:** Implementamos agentes autónomos con IA para automatizar atención, captación y gestión operativa en tiempo real.
+
+---
+
+### 04 — Digital Studio
+**Subtítulo:** Tecnología que Impulsa Resultados
+
+**Propósito:** Creamos soluciones digitales a medida para conectar tecnología, operación y resultados.
+
+**Problema que resuelve:** Empresas con herramientas desconectadas, procesos manuales, baja madurez digital o sistemas que no acompañan sus objetivos de crecimiento.
+
+**Clientes ideales:** Empresas en transformación digital, organizaciones que necesitan soluciones a medida, compañías que buscan integrar operación, ventas y analítica.
+
+**Casos de uso:** CRM personalizados, aplicaciones web y móviles, páginas web corporativas, e-commerce y soluciones de pago, sistemas de agendamiento, portales de clientes y proveedores, dashboards ejecutivos y analítica en tiempo real, plataformas e-learning, avatares digitales con IA.
+
+**Resultados de negocio:**
+- Procesos más eficientes y ágiles
+- Ecosistema digital más integrado
+- Mejor toma de decisiones
+- Mayor adopción tecnológica
+- Soporte al crecimiento
+- Mayor trazabilidad del negocio
+
+**Diferenciales:**
+- Soluciones diseñadas desde la necesidad del negocio, no desde la herramienta
+- Integración entre operación, comercial, servicio y analítica
+- Desarrollo funcional orientado a resultados
+- Personalización según industria, proceso y madurez digital
+- Enfoque en adopción tecnológica, no solo implementación
+
+**Frase clave:** Creamos soluciones digitales a medida que conectan sistemas, personas y procesos para impulsar la eficiencia y crecimiento.
+
+---
+
+## Diferenciadores Clave
+
+1. **Más que un Contact Center** — Transformamos procesos, integramos tecnología y entregamos visibilidad gerencial para una mejor toma de decisiones.
+2. **IA + Talento Humano** — Fusionamos agentes virtuales autónomos con talento humano capacitado para máxima eficiencia y empatía.
+3. **Ecosistema Integrado** — CX, Ventas, Automatización y Tecnología en una sola operación coherente.
+4. **Omnicanalidad Real** — WhatsApp, email, SMS, chatbots y voz unificados en una sola plataforma.
+5. **Visibilidad Ejecutiva en Tiempo Real** — Dashboards con Looker Studio y Power BI para decisiones basadas en datos.
+6. **Orientados a Resultados** — Medimos el impacto real en productividad, ventas y experiencia del cliente.
+
+## Estadísticas Clave
+
+- +15 años de experiencia en el sector BPO
+- +40% más productividad en agentes
+- 4 idiomas de operación: español, inglés, italiano, francés
+- 92% de consultas resueltas en primera llamada
+
+## Contacto
+
+- **Dirección:** Cra. 20 #133 – 74, La Calleja, Bogotá, Colombia
+- **Email:** info@ccgrupo.com.co
+- **Teléfono:** (601) 7443732
+- **Horario comercial:** Lunes a viernes, 8 am – 6 pm (COT)
+- **Operación IA:** 24/7/365
+
+## Redes Sociales
+
+- LinkedIn: https://www.linkedin.com/company/contact-center-grupo-sas
+- Instagram: https://www.instagram.com/contact_center_grupo/
+- Facebook: https://www.facebook.com/CONTACTCENTERGROUP
+- YouTube: https://www.youtube.com/channel/UCK1VihHdl_RjnuLkG5rhopQ
+
+## Políticas de Privacidad
+
+CCGrupo publica las siguientes políticas laborales para transparencia y cumplimiento normativo:
+- Política de Acoso Laboral
+- Política SG-SST (Seguridad y Salud en el Trabajo)
+- Política de Alcohol y Otras Sustancias
+- Política de Acoso Sexual
+- Política de Teletrabajo
+- Política de Igualdad y Equidad Laboral con Enfoque de Género
+- Política de Desconexión Laboral

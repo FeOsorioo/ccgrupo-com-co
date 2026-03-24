@@ -4,12 +4,10 @@ import { ArrowLeft, MapPin, Mail, Phone, Clock, Send, CheckCircle, AlertCircle }
 import { useLang } from '../../i18n';
 
 const services = [
-  '01 — Customer Experience',
+  '01 — CX – Experiencia del Cliente',
   '02 — Leads & Ventas',
-  '03 — Omnicanalidad',
-  '04 — Agentes Autónomos (AVA Suite)',
-  '05 — Digital Studio',
-  '06 — Analítica Avanzada',
+  '03 — Agentes Autónomos',
+  '04 — Digital Studio',
 ];
 
 interface FormState {

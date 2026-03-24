@@ -279,6 +279,50 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
           </div>
         )}
 
+        {/* Base Unificada */}
+        <div className="mt-24 border-t border-white/10 pt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-10"
+          >
+            <div className="flex items-center gap-4 font-mono text-xs tracking-[0.35em] uppercase text-teal mb-4">
+              <div className="w-8 h-px bg-teal" />
+              {sm.baseBlock.label}
+            </div>
+            <p className="font-display text-2xl md:text-3xl leading-snug max-w-3xl text-white">
+              {sm.baseBlock.title}
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-3 gap-6 mb-8">
+            {sm.baseBlock.pillars.map((pillar, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-8 border border-teal/20 bg-teal/5 rounded-2xl"
+              >
+                <div className="font-mono text-[0.5rem] tracking-[0.25em] uppercase text-teal mb-3">0{i + 1}</div>
+                <h4 className="font-mono text-sm uppercase tracking-widest text-white mb-3">{pillar.title}</h4>
+                <p className="text-gray-300 font-light text-sm leading-relaxed">{pillar.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-gray-400 border-l-2 border-teal/40 pl-4"
+          >
+            {sm.baseBlock.guarantee}
+          </motion.p>
+        </div>
+
         {/* CTA */}
         <div className="mt-24 p-12 md:p-20 border border-white/10 rounded-3xl bg-gradient-to-br from-teal/10 to-transparent text-center relative overflow-hidden">
           <div className="relative z-10">
