@@ -8,6 +8,8 @@ const icons = [Globe2, Settings, BarChart3, Link2, Brain, BarChart3];
 
 export default function Reasons() {
   const { t, lang } = useLang();
+  const reasonsHeadingPre = t.reasons.headingPre.replace(/^¿/, '').trim();
+  const reasonsHeadingEm = t.reasons.headingEm.replace(/\?$/, '').trim();
   const reasonsEs = [
     {
       title: 'Omnicanalidad como pilar del exito:',
@@ -55,7 +57,7 @@ export default function Reasons() {
             from={{ opacity: 0, y: 20 }}
             to={{ opacity: 1, y: 0 }}
           >
-            {t.reasons.headingPre} <em className="italic text-gradient">{t.reasons.headingEm}</em>
+            {lang === 'es' ? '¿' : ''}{reasonsHeadingPre} <em className="italic text-gradient">{reasonsHeadingEm}</em>?
           </SplitText>
         </div>
       </div>
