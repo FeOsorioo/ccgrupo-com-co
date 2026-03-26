@@ -11,7 +11,17 @@ interface Props {
 }
 
 export default function CTA({ onNavigate }: Props) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const ctaCopy = lang === 'en'
+    ? t.cta
+    : {
+        ...t.cta,
+        label: '¿Listo para tomar decisiones que impulsen tu crecimiento?',
+        headingPre: 'Hablemos del',
+        headingEm: 'futuro',
+        headingPost: 'de tu empresa',
+        desc: 'Integramos tecnologia, procesos y conocimiento para construir soluciones que hacen tu negocio mas agil, eficiente y rentable.',
+      };
 
   return (
     <section className="py-56 px-6 relative overflow-hidden text-center">
@@ -32,14 +42,14 @@ export default function CTA({ onNavigate }: Props) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-mono text-xs tracking-[0.35em] uppercase text-teal mb-8"
+          className="font-body text-sm text-teal mb-8"
         >
-          {t.cta.label}
+          {ctaCopy.label}
         </motion.div>
 
         <div className="font-display text-[clamp(3rem,7vw,6.5rem)] leading-[1.1] mb-8">
           <SplitText className="inline-block" delay={40} duration={1} splitType="words" from={{ opacity: 0, y: 30 }} to={{ opacity: 1, y: 0 }} textAlign="center">
-            {t.cta.headingPre} <em className="italic font-bold text-teal-bright animate-pulse inline-block drop-shadow-[0_0_25px_rgba(0,229,255,0.8)]">{t.cta.headingEm}</em> {t.cta.headingPost}
+            {ctaCopy.headingPre} <em className="italic font-bold text-teal-bright animate-pulse inline-block drop-shadow-[0_0_25px_rgba(0,229,255,0.8)]">{ctaCopy.headingEm}</em> {ctaCopy.headingPost}
           </SplitText>
         </div>
 
@@ -50,7 +60,7 @@ export default function CTA({ onNavigate }: Props) {
           transition={{ delay: 0.2 }}
           className="text-lg font-light leading-relaxed text-gray-200 max-w-lg mx-auto mb-12"
         >
-          {t.cta.desc}
+          {ctaCopy.desc}
         </motion.p>
 
         <motion.button

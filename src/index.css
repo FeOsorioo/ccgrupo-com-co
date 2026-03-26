@@ -202,6 +202,7 @@ html.light {
 
   /* ── Logo ── */
   & .logo-auto { filter: brightness(0) saturate(100%); }
+  & .hero-mark { filter: brightness(0.62) contrast(1.18) saturate(0.9); }
 
   /* ── Cursor ── */
   & .mix-blend-screen { mix-blend-mode: multiply; }

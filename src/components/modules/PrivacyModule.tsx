@@ -32,7 +32,7 @@ export default function PrivacyModule({ onBack }: Props) {
         <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
           <ThemedLogo
             alt="CCGrupo Logo"
-            className="h-10 w-auto object-contain"
+            className="h-12 w-auto object-contain"
             fallback={(
               <div className="w-8 h-8 border-2 border-teal rounded-md flex items-center justify-center font-mono text-[0.55rem] font-bold text-teal">
                 CCG

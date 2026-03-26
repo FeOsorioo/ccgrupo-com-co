@@ -38,7 +38,7 @@ export default function Footer({ onNavigate }: Props) {
                 >
                   <ThemedLogo
                     alt="CCGrupo Logo"
-                    className="h-10 w-auto object-contain"
+                    className="h-12 w-auto object-contain"
                     fallback={logoFallback}
                   />
                 </motion.div>

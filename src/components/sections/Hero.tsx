@@ -9,12 +9,27 @@ interface Props {
 }
 
 export default function Hero({ onNavigate }: Props) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showHeroMarkImage, setShowHeroMarkImage] = useState(true);
   const { scrollY } = useScroll();
   const y1      = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const heroCopy = lang === 'en'
+    ? {
+        line1: 'Technology drives us,',
+        line2: 'people',
+        line3a: 'inspire',
+        line3b: 'us.',
+        desc: 'We integrate technology, processes and knowledge to build solutions that make your business more agile, efficient and profitable.',
+      }
+    : {
+        line1: 'La tecnologia nos impulsa,',
+        line2: 'las personas',
+        line3a: 'nos',
+        line3b: 'inspiran.',
+        desc: 'Integramos tecnologia, procesos y conocimiento para construir soluciones que hacen tu negocio mas agil, eficiente y rentable.',
+      };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -95,7 +110,7 @@ export default function Hero({ onNavigate }: Props) {
           <img
             src={BRAND_ASSETS.heroMark}
             alt="CCGrupo mark"
-            className="w-[clamp(18rem,52vw,56rem)] h-auto object-contain"
+            className="hero-mark w-[clamp(18rem,52vw,56rem)] h-auto object-contain"
             onError={() => setShowHeroMarkImage(false)}
           />
         ) : (
@@ -106,32 +121,20 @@ export default function Hero({ onNavigate }: Props) {
       </motion.div>
 
       <div className="relative z-10 flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.8 }}
-          className="inline-flex items-center gap-3 px-6 py-2 border border-white/10 rounded-full bg-white/5 mb-10"
-        >
-          <div className="w-1.5 h-1.5 bg-teal rounded-full animate-pulse" />
-          <span className="font-mono text-[0.6rem] tracking-[0.25em] uppercase text-gray-200">
-            {t.hero.badge}
-          </span>
-        </motion.div>
-
         <h1 className="font-display text-[clamp(3.2rem,8.5vw,8.5rem)] leading-[1.05] tracking-tight font-normal">
           <div className="overflow-hidden">
             <motion.div initial={{ y: '115%' }} animate={{ y: 0 }} transition={{ delay: 2.1, duration: 1.3, ease: [0.16, 1, 0.3, 1] }}>
-              {t.hero.line1}
+              {heroCopy.line1}
             </motion.div>
           </div>
           <div className="overflow-hidden">
             <motion.div initial={{ y: '115%' }} animate={{ y: 0 }} transition={{ delay: 2.3, duration: 1.3, ease: [0.16, 1, 0.3, 1] }} className="italic text-gradient">
-              {t.hero.line2}
+              {heroCopy.line2}
             </motion.div>
           </div>
           <div className="overflow-hidden">
             <motion.div initial={{ y: '115%' }} animate={{ y: 0 }} transition={{ delay: 2.5, duration: 1.3, ease: [0.16, 1, 0.3, 1] }}>
-              {t.hero.line3a} <span className="italic text-gradient">{t.hero.line3b}</span>
+              {heroCopy.line3a} <span className="italic text-gradient">{heroCopy.line3b}</span>
             </motion.div>
           </div>
         </h1>
@@ -142,7 +145,7 @@ export default function Hero({ onNavigate }: Props) {
           transition={{ delay: 2.8, duration: 0.9 }}
           className="max-w-xl mt-10 text-lg font-light leading-relaxed text-gray-200"
         >
-          {t.hero.desc}
+          {heroCopy.desc}
         </motion.p>
 
         <motion.div

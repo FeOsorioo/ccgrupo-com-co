@@ -35,7 +35,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         <motion.img
           src={logoSrc}
           alt="CCGrupo"
-          className="h-14 w-auto object-contain"
+          className="h-20 w-auto object-contain"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
