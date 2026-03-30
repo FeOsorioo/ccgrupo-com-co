@@ -175,7 +175,7 @@ export default function Hero({ onNavigate }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 3.5, duration: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
         <span className="font-mono text-[0.5rem] tracking-[0.35em] uppercase text-gray-300">{t.hero.scroll}</span>
         <div className="w-px h-12 bg-gradient-to-b from-teal to-transparent animate-pulse" />

@@ -302,6 +302,44 @@ html.light {
     border-color: rgba(0, 100, 180, 0.3) !important;
     background-color: rgba(0, 100, 180, 0.05) !important;
   }
+
+  /* ── Hexagon panels: visible contrast on light gradient backgrounds ── */
+  & .service-panel-bg ~ [data-slot="hexagon-background"] > div > div > div::before {
+    background-color: rgba(0, 80, 160, 0.14) !important;
+  }
+  & .service-panel-bg ~ [data-slot="hexagon-background"] > div > div > div::after {
+    background-color: rgba(215, 235, 255, 0.88) !important;
+  }
+  & .service-panel-bg ~ [data-slot="hexagon-background"] > div > div > div:hover::before {
+    background-color: rgba(0, 120, 210, 0.30) !important;
+    transition-duration: 0ms !important;
+  }
+  & .service-panel-bg ~ [data-slot="hexagon-background"] > div > div > div:hover::after {
+    background-color: rgba(190, 225, 255, 0.82) !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+/* ─── Focus rings (keyboard navigation) ─────────── */
+
+:focus-visible {
+  outline: 2px solid #00b4d8;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+html.light :focus-visible {
+  outline-color: #0077b6;
+}
+
+/* ─── Reduced motion ─────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce {
+    animation: none !important;
+  }
 }
 
 /* ─── Custom Scrollbar ───────────────────────────── */

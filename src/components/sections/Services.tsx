@@ -12,6 +12,7 @@ interface ServicesProps {
 
 export default function Services({ onNavigate }: ServicesProps) {
   const { t, lang } = useLang();
+  const tapHint = lang === 'en' ? 'Tap card to view details' : 'Toca la tarjeta para ver detalles';
   const customServicesEs: Record<string, { title: string; subtitle?: string; desc: string; tags: string[] }> = {
     '01': {
       title: 'Experiencia del Cliente',
@@ -100,31 +101,52 @@ export default function Services({ onNavigate }: ServicesProps) {
           const tags  = customEs?.tags  ?? svcDetailT?.tags ?? svc.tags;
 
           const textCol = (
-            <div key="text" className="p-10 lg:p-20 flex flex-col justify-center">
-              <div className="font-mono text-6xl font-light text-navy-light mb-8 text-stroke-teal">
+            <div
+              key="text"
+              className={`order-1 ${isReversed ? 'lg:order-2' : 'lg:order-1'} p-6 sm:p-10 lg:p-20 flex flex-col justify-center`}
+            >
+              <div className="font-mono text-4xl sm:text-6xl font-light text-navy-light mb-6 sm:mb-8 text-stroke-teal">
                 {svc.id}
               </div>
-              <h3 className="font-display text-[clamp(2.5rem,4vw,3.8rem)] leading-tight mb-6">
+              <h3 className="font-display text-[clamp(2rem,8vw,3.8rem)] leading-tight mb-5 sm:mb-6">
                 {title}
               </h3>
               {subtitle && (
-                <p className="font-mono text-[0.58rem] tracking-[0.18em] uppercase text-teal mb-5">
+                <p className="font-mono text-[0.52rem] sm:text-[0.58rem] tracking-[0.18em] uppercase text-teal mb-4 sm:mb-5">
                   {subtitle}
                 </p>
               )}
-              <p className="text-lg font-light leading-relaxed text-gray-200 max-w-md mb-8">
+              <p className="text-base sm:text-lg font-light leading-relaxed text-gray-200 max-w-xl mb-6 sm:mb-8">
                 {desc}
               </p>
-              <div className="flex flex-wrap gap-2 mb-10">
+
+              <div className="sm:hidden flex gap-2 mb-5 overflow-x-auto pb-1 pr-2">
+                {tags.map(tag => (
+                  <span
+                    key={`mobile-${tag}`}
+                    className="shrink-0 font-mono text-[0.48rem] tracking-[0.12em] uppercase px-3 py-1.5 border border-white/10 text-gray-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="hidden sm:flex flex-wrap gap-2 mb-10">
                 {tags.map(tag => (
                   <span key={tag} className="font-mono text-[0.5rem] tracking-[0.15em] uppercase px-4 py-2 border border-white/10 text-gray-200 transition-all duration-300 hover:border-teal hover:text-teal hover:bg-teal/10">
                     {tag}
                   </span>
                 ))}
               </div>
+
+              <p className="sm:hidden font-mono text-[0.5rem] tracking-[0.18em] uppercase text-teal/80 mb-5">
+                {tapHint}
+              </p>
               <button
-                onClick={() => onNavigate?.(svc.id)}
-                className="inline-flex items-center gap-4 font-mono text-xs tracking-[0.2em] uppercase text-teal group/link hover:text-white transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onNavigate?.(svc.id);
+                }}
+                className="inline-flex items-center gap-4 font-mono text-[0.65rem] sm:text-xs tracking-[0.2em] uppercase text-teal group/link hover:text-white transition-colors"
               >
                 {t.services.explore}
                 <span className="w-8 h-px bg-teal relative transition-all duration-300 group-hover/link:w-12 after:content-[''] after:absolute after:right-0 after:-top-[3px] after:w-2 after:h-2 after:border-r after:border-t after:border-teal after:rotate-45" />
@@ -133,7 +155,10 @@ export default function Services({ onNavigate }: ServicesProps) {
           );
 
           const iconCol = (
-            <div key="icon" className="relative min-h-[40vh] lg:min-h-auto overflow-hidden flex items-center justify-center">
+            <div
+              key="icon"
+              className={`order-2 ${isReversed ? 'lg:order-1' : 'lg:order-2'} relative min-h-[30vh] sm:min-h-[40vh] lg:min-h-auto overflow-hidden flex items-center justify-center`}
+            >
               <div className={`service-panel-bg absolute inset-0 bg-gradient-to-br ${svc.gradient} transition-transform duration-1000 ease-out group-hover:scale-105`} />
               <HexagonBackground
                 className="absolute inset-0 bg-transparent"
@@ -163,9 +188,12 @@ export default function Services({ onNavigate }: ServicesProps) {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-10%' }}
-              className="group grid lg:grid-cols-2 min-h-[75vh] border-b border-white/10 overflow-hidden relative transition-colors duration-500 hover:bg-white/[0.02]"
+              onClick={() => {
+                if (window.matchMedia('(max-width: 1023px)').matches) onNavigate?.(svc.id);
+              }}
+              className="group grid lg:grid-cols-2 min-h-[auto] sm:min-h-[60vh] lg:min-h-[75vh] border-b border-white/10 overflow-hidden relative transition-colors duration-500 hover:bg-white/[0.02] cursor-pointer lg:cursor-default"
             >
-              {isReversed ? [iconCol, textCol] : [textCol, iconCol]}
+              {[textCol, iconCol]}
             </motion.div>
           );
         })}

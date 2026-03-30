@@ -16,9 +16,12 @@ const pdfUrls: Record<number, string> = {
   6: '/policies/PAGINA-WEB-POLITICA-DESCONEXION-LABORAL.pdf',
 };
 
-interface Props { onBack: () => void; }
+interface Props {
+  onBack: () => void;
+  onNavigate?: (view: string) => void;
+}
 
-export default function PrivacyModule({ onBack }: Props) {
+export default function PrivacyModule({ onBack, onNavigate }: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { t } = useLang();
   const pt = t.privacy;
@@ -81,7 +84,7 @@ export default function PrivacyModule({ onBack }: Props) {
         </div>
       </main>
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
 
       {/* PDF viewer modal */}
       <AnimatePresence>

@@ -221,7 +221,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
           >
             {showIconPlaceholder ? (
               <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-teal/20 relative">
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient}`} />
+                <div className={`service-panel-bg absolute inset-0 bg-gradient-to-br ${service.gradient}`} />
                 <HexagonBackground
                   className="absolute inset-0 bg-transparent"
                   hexagonSize={40}
@@ -293,7 +293,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + i * 0.1 }}
-                  className="p-8 border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] transition-colors rounded-xl"
+                  className="p-8 border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:-translate-y-1 transition-all duration-300 rounded-xl"
                 >
                   <h4 className="font-mono text-sm uppercase tracking-widest text-teal mb-4">{benefit.title}</h4>
                   <p className="text-gray-300 font-light leading-relaxed">{benefit.desc}</p>
@@ -327,7 +327,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-8 border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-teal/30 transition-all duration-300 rounded-2xl group"
+                  className="p-8 border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-teal/30 hover:-translate-y-1 transition-all duration-300 rounded-2xl group"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-xl border border-teal/20 bg-teal/5 flex items-center justify-center shrink-0 group-hover:border-teal/50 transition-colors">
@@ -445,7 +445,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex flex-col items-center text-center p-8 border border-teal/20 bg-teal/5 rounded-2xl"
+                      className="flex flex-col items-center text-center p-8 border border-teal/20 bg-teal/5 rounded-2xl hover:-translate-y-1 hover:border-teal/40 transition-all duration-300"
                     >
                       <div className="w-14 h-14 rounded-xl border border-teal/30 bg-teal/10 flex items-center justify-center mb-5">
                         <PillarIcon size={24} className="text-teal" strokeWidth={1.5} />
@@ -487,7 +487,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
         </div>
       </main>
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 }

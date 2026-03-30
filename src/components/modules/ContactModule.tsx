@@ -27,7 +27,7 @@ export default function ContactModule({ onBack }: Props) {
   const { t, lang } = useLang();
   const ct = t.contact;
 
-  const serviceOrder: Array<keyof typeof t.services.items> = ['01', '02', '03', '04'];
+  const serviceOrder = ['01', '02', '03', '04'] as const;
   const serviceOptions = serviceOrder.map((id) => `${id} - ${t.services.items[id].title}`);
 
   useEffect(() => {

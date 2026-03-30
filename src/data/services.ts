@@ -26,6 +26,7 @@ export const servicesData: ServiceData[] = [
         { title: 'Mejor Experiencia del Cliente', desc: 'Satisfacción mejorada en cada punto de contacto con protocolos estructurados y atención omnicanal.' },
         { title: 'Mayor Retención', desc: 'Reducción de churn y mayor fidelización mediante gestión proactiva de cada interacción.' },
         { title: 'Control Operativo Total', desc: 'Trazabilidad y visibilidad en tiempo real sobre SLAs, tiempos de respuesta y calidad del servicio.' },
+        { title: 'Eficiencia Operativa', desc: 'Reducción del costo por interacción mediante automatización selectiva y protocolos optimizados sin sacrificar calidad.' },
       ],
       faq: [
         { question: '¿Qué tipos de empresas se benefician más?', answer: 'Empresas con alto volumen de atención, marcas con postventa crítica y organizaciones que necesitan escalar sin deteriorar la experiencia.' },
@@ -59,6 +60,7 @@ export const servicesData: ServiceData[] = [
         { title: 'Mayor Conversión', desc: 'Proceso estructurado que reduce la fuga de oportunidades y aumenta el porcentaje de cierre.' },
         { title: 'Pipeline Visible', desc: 'Trazabilidad completa del embudo comercial con métricas de desempeño en tiempo real.' },
         { title: 'Velocidad Comercial', desc: 'Respuesta rápida como palanca de cierre: cada lead atendido en el momento de mayor intención.' },
+        { title: 'ROI Medible', desc: 'Cada gestión comercial tiene trazabilidad: desde el primer contacto hasta el cierre, con métricas que justifican la inversión.' },
       ],
       faq: [
         { question: '¿Qué diferencia su proceso del comercial tradicional?', answer: 'Integramos captación, WhatsApp y CRM en un solo flujo automatizado, con velocidad de respuesta y trazabilidad completa del embudo.' },
@@ -131,6 +133,7 @@ export const servicesData: ServiceData[] = [
         { title: 'Disponibilidad Total', desc: 'Atiende miles de conversaciones simultáneas sin tiempos de espera, los 365 días del año.' },
         { title: 'Escalabilidad sin Estructura', desc: 'Crece tu capacidad de atención sin incrementar proporcionalmente tu equipo humano.' },
         { title: 'Menor Costo por Interacción', desc: 'Automatiza hasta el 80% de las interacciones repetitivas, liberando al equipo para tareas de alto valor.' },
+        { title: 'Mejora Continua con IA', desc: 'Los agentes aprenden con cada interacción, afinando respuestas y expandiendo cobertura con supervisión del equipo CCGrupo.' },
       ],
       faq: [
         { question: '¿Qué tan autónomo es realmente el agente?', answer: 'Ejecuta flujos completos: responder, calificar, agendar, notificar y registrar, sin intervención humana. Solo escala cuando detecta situaciones que requieren criterio humano.' },
@@ -167,6 +170,7 @@ export const servicesData: ServiceData[] = [
         { title: 'Tecnología desde el Negocio', desc: 'Soluciones diseñadas desde la necesidad del proceso, no adaptaciones de software genérico.' },
         { title: 'Ecosistema Integrado', desc: 'Conectamos operación, comercial, servicio y analítica en una arquitectura digital coherente.' },
         { title: 'Adopción Real', desc: 'Foco en transferencia tecnológica y adopción efectiva, no solo en implementación técnica.' },
+        { title: 'Evolución sin Fricción', desc: 'Arquitectura diseñada para crecer: cada solución se actualiza, escala e integra sin necesidad de reescribir desde cero.' },
       ],
       faq: [
         { question: '¿Con qué tecnologías trabajan?', answer: 'React, Next.js, Node.js, Python, React Native para móvil, y bases de datos relacionales y NoSQL según el proyecto.' },

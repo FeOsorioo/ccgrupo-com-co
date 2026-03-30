@@ -31,9 +31,58 @@ const ContactModule  = lazy(() => import('./components/modules/ContactModule'));
 const PrivacyModule  = lazy(() => import('./components/modules/PrivacyModule'));
 const NotFoundModule = lazy(() => import('./components/modules/NotFoundModule'));
 
+const SERVICE_VIEWS = ['01', '02', '03', '04'] as const;
+const SERVICE_VIEW_SET = new Set<string>(SERVICE_VIEWS);
+
+function normalizePath(pathname: string): string {
+  const trimmed = pathname.replace(/\/+$/, '');
+  return trimmed === '' ? '/' : trimmed;
+}
+
+function stripLocalePrefix(pathname: string): string {
+  const normalized = normalizePath(pathname);
+  const parts = normalized.split('/').filter(Boolean);
+  if (parts[0] === 'en' || parts[0] === 'es') {
+    const rest = parts.slice(1).join('/');
+    return rest ? `/${rest}` : '/';
+  }
+  return normalized;
+}
+
+function getViewFromPath(pathname: string): string {
+  const path = stripLocalePrefix(pathname);
+
+  if (path === '/') return 'home';
+  if (path === '/contacto' || path === '/contact') return 'contact';
+  if (path === '/politicas-privacidad' || path === '/privacy-policies' || path === '/privacy') return 'privacy';
+
+  const serviceMatch = path.match(/^\/servicio\/(01|02|03|04)$/);
+  if (serviceMatch) return serviceMatch[1];
+
+  return 'not-found';
+}
+
+function getPathForView(view: string): string {
+  if (SERVICE_VIEW_SET.has(view)) return `/servicio/${view}`;
+
+  switch (view) {
+    case 'home':
+      return '/';
+    case 'contact':
+      return '/contacto';
+    case 'privacy':
+      return '/politicas-privacidad';
+    default:
+      return '/404';
+  }
+}
+
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState<'home' | string>('home');
+  const [currentView, setCurrentView] = useState<'home' | string>(() => {
+    if (typeof window === 'undefined') return 'home';
+    return getViewFromPath(window.location.pathname);
+  });
 
   useEffect(() => {
     if (loading) {
@@ -43,13 +92,35 @@ export default function App() {
     }
   }, [loading]);
 
+  useEffect(() => {
+    const syncViewWithUrl = () => setCurrentView(getViewFromPath(window.location.pathname));
+    window.addEventListener('popstate', syncViewWithUrl);
+    return () => window.removeEventListener('popstate', syncViewWithUrl);
+  }, []);
+
+  const syncUrlWithView = (view: string, mode: 'push' | 'replace' = 'push') => {
+    if (typeof window === 'undefined') return;
+    const targetPath = getPathForView(view);
+    const currentPath = normalizePath(window.location.pathname);
+    if (targetPath === currentPath) return;
+
+    if (mode === 'replace') {
+      window.history.replaceState({ view }, '', targetPath);
+      return;
+    }
+
+    window.history.pushState({ view }, '', targetPath);
+  };
+
   const handleNavigate = (view: string) => {
     setCurrentView(view);
+    syncUrlWithView(view);
     window.scrollTo(0, 0);
   };
 
   const handleBackToHome = () => {
     setCurrentView('home');
+    syncUrlWithView('home');
     const lang = (typeof window !== 'undefined' ? localStorage.getItem('lang') : 'es') === 'en' ? 'en' : 'es';
     document.title =
       lang === 'en'
@@ -99,9 +170,9 @@ export default function App() {
               </Suspense>
             ) : currentView === 'privacy' ? (
               <Suspense fallback={<PageLoader />}>
-                <PrivacyModule onBack={handleBackToHome} />
+                <PrivacyModule onBack={handleBackToHome} onNavigate={handleNavigate} />
               </Suspense>
-            ) : ['01', '02', '03', '04'].includes(currentView) ? (
+            ) : SERVICE_VIEW_SET.has(currentView) ? (
               <Suspense fallback={<PageLoader />}>
                 <ServiceModule
                   serviceId={currentView}

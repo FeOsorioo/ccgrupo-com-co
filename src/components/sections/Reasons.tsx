@@ -17,24 +17,24 @@ export default function Reasons() {
 
   const reasonsEs = [
     {
-      title: 'Omnicanalidad como pilar del exito:',
-      desc: 'Unificamos todos tus canales (WhatsApp, voz, chat, redes y CRM) en una sola operacion donde cada conversacion tiene contexto y continuidad. Asi logramos que la experiencia del cliente sea fluida y que cada interaccion avance hacia un resultado.',
+      title: 'Omnicanalidad como pilar del éxito',
+      desc: 'Unificamos todos tus canales (WhatsApp, voz, chat, redes y CRM) en una sola operación donde cada conversación tiene contexto y continuidad. Así logramos que la experiencia del cliente sea fluida y que cada interacción avance hacia un resultado.',
     },
     {
-      title: 'Automatizacion que si resuelve:',
-      desc: 'Deja que los humanos hagan lo importante y automatiza los procesos operativos. La automatizacion escala, optimiza tiempos y multiplica oportunidades reales para responder, calificar, agendar y ejecutar sin sacrificar tiempo.',
+      title: 'Automatización que sí resuelve',
+      desc: 'Deja que los humanos hagan lo importante y automatiza los procesos operativos. La automatización escala, optimiza tiempos y multiplica oportunidades reales para responder, calificar, agendar y ejecutar sin sacrificar tiempo.',
     },
     {
-      title: 'Decisiones basadas en datos:',
-      desc: 'Convertimos la operacion en informacion accionable con dashboards en tiempo real (Looker Studio y Power BI). Cada dato cuenta una historia clara: que esta pasando, donde mejorar y como crecer con control.',
+      title: 'Decisiones basadas en datos',
+      desc: 'Convertimos la operación en información accionable con dashboards en tiempo real (Looker Studio y Power BI). Cada dato cuenta una historia clara: qué está pasando, dónde mejorar y cómo crecer con control.',
     },
     {
-      title: 'Soluciones disenadas para ti:',
-      desc: 'Entendemos como funciona tu operacion y construimos soluciones a la medida de tus procesos, objetivos y clientes. No adaptamos tu negocio a la tecnologia: adaptamos la tecnologia para que tu negocio funcione mejor.',
+      title: 'Soluciones diseñadas para ti',
+      desc: 'Entendemos cómo funciona tu operación y construimos soluciones a la medida de tus procesos, objetivos y clientes. No adaptamos tu negocio a la tecnología: adaptamos la tecnología para que tu negocio funcione mejor.',
     },
     {
-      title: 'La tecnologia potencia el talento humano',
-      desc: 'Combinamos IA con equipos humanos para lograr soluciones agiles, cercanas y escalables. La tecnologia nos impulsa, pero las personas nos inspiran.',
+      title: 'La tecnología potencia el talento humano',
+      desc: 'Combinamos IA con equipos humanos para lograr soluciones ágiles, cercanas y escalables. La tecnología nos impulsa, pero las personas nos inspiran.',
     },
   ];
 

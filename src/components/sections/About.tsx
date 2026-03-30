@@ -123,7 +123,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="p-10 border border-white/10 relative overflow-hidden group hover:border-teal/30 transition-colors duration-500"
+            className="p-10 border border-white/10 relative overflow-hidden group hover:border-teal/30 hover:-translate-y-1 transition-all duration-300"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-teal/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative z-10">
