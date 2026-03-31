@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, FileText, X } from 'lucide-react';
+import { ArrowLeft, FileText, X, ExternalLink } from 'lucide-react';
 import BackgroundEffects from '../ui/BackgroundEffects';
 import Footer from '../layout/Footer';
 import ThemedLogo from '../ui/ThemedLogo';
@@ -23,7 +23,7 @@ interface Props {
 
 export default function PrivacyModule({ onBack, onNavigate }: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const pt = t.privacy;
 
   return (
@@ -97,23 +97,57 @@ export default function PrivacyModule({ onBack, onNavigate }: Props) {
             className="fixed inset-0 z-[10002] bg-navy-deep/95 backdrop-blur-2xl flex flex-col"
           >
             <div className="flex items-center justify-between px-6 md:px-14 py-5 border-b border-white/10 shrink-0">
-              <div>
+              <div className="min-w-0 mr-4">
                 <span className="font-mono text-[0.55rem] tracking-[0.25em] uppercase text-teal block mb-1">{pt.modalLabel}</span>
-                <h2 className="text-lg md:text-xl font-medium text-white">{pt.policies[activeIndex].title}</h2>
+                <h2 className="text-base md:text-xl font-medium text-white leading-snug">{pt.policies[activeIndex].title}</h2>
               </div>
-              <button
-                onClick={() => setActiveIndex(null)}
-                className="w-10 h-10 flex items-center justify-center border border-white/10 text-gray-200 hover:border-teal hover:text-teal transition-all duration-300"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-3 shrink-0">
+                <a
+                  href={pdfUrls[activeIndex]}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 font-mono text-[0.55rem] tracking-[0.15em] uppercase px-4 py-2.5 border border-teal/50 text-teal hover:bg-teal hover:text-navy-deep transition-all duration-300"
+                >
+                  <ExternalLink size={12} />
+                  {lang === 'en' ? 'Open PDF' : 'Abrir PDF'}
+                </a>
+                <button
+                  onClick={() => setActiveIndex(null)}
+                  className="w-10 h-10 flex items-center justify-center border border-white/10 text-gray-200 hover:border-teal hover:text-teal transition-all duration-300"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
-            <div className="flex-1 relative">
-              <iframe
-                src={`${pdfUrls[activeIndex]}#toolbar=1&navpanes=0`}
+            <div className="flex-1 relative bg-gray-900/30">
+              <object
+                data={`${pdfUrls[activeIndex]}#toolbar=1&navpanes=0`}
+                type="application/pdf"
                 className="absolute inset-0 w-full h-full"
-                title={pt.policies[activeIndex].title}
-              />
+                aria-label={pt.policies[activeIndex].title}
+              >
+                {/* Fallback for browsers/devices that can't embed PDFs */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 p-8 text-center">
+                  <FileText size={56} className="text-teal/40" />
+                  <div>
+                    <p className="text-white font-medium mb-2">{pt.policies[activeIndex].title}</p>
+                    <p className="text-gray-400 text-sm mb-6">
+                      {lang === 'en'
+                        ? 'Your browser cannot display this PDF inline.'
+                        : 'Tu navegador no puede mostrar este PDF en línea.'}
+                    </p>
+                    <a
+                      href={pdfUrls[activeIndex]}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.2em] uppercase px-8 py-3 bg-teal text-navy-deep font-semibold hover:bg-teal-bright transition-colors duration-300"
+                    >
+                      <ExternalLink size={14} />
+                      {lang === 'en' ? 'Open PDF in new tab' : 'Abrir PDF en nueva pestaña'}
+                    </a>
+                  </div>
+                </div>
+              </object>
             </div>
           </motion.div>
         )}

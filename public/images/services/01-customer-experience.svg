@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" fill="none">
+  <rect width="1200" height="800" fill="#0b1628"/>
+  <rect width="1200" height="800" fill="url(#g1)"/>
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f1d35"/>
+      <stop offset="100%" stop-color="#00b4d8" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+  <circle cx="600" cy="400" r="280" stroke="#00b4d8" stroke-opacity="0.08" stroke-width="1"/>
+  <circle cx="600" cy="400" r="180" stroke="#00b4d8" stroke-opacity="0.12" stroke-width="1"/>
+  <circle cx="600" cy="400" r="80" stroke="#00b4d8" stroke-opacity="0.2" stroke-width="1"/>
+  <!-- Headset icon -->
+  <path d="M520 360 C520 316 556 280 600 280 C644 280 680 316 680 360" stroke="#00b4d8" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <rect x="508" y="356" width="28" height="52" rx="14" fill="#00b4d8" opacity="0.6"/>
+  <rect x="664" y="356" width="28" height="52" rx="14" fill="#00b4d8" opacity="0.6"/>
+  <path d="M680 400 C680 436 644 460 622 460 L600 460" stroke="#00b4d8" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <rect x="578" y="452" width="44" height="16" rx="8" fill="#00b4d8" opacity="0.4"/>
+  <!-- Text -->
+  <text x="600" y="560" text-anchor="middle" font-family="monospace" font-size="13" fill="#00b4d8" opacity="0.5" letter-spacing="6">CX — EXPERIENCIA DEL CLIENTE</text>
+</svg>

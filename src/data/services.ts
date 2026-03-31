@@ -12,7 +12,7 @@ export const servicesData: ServiceData[] = [
     icon: Users,
     gradient: 'from-[#071a2c] via-navy-deep to-[#0a1e30]',
     details: {
-      heroImage: '/images/services/01-customer-experience.jpg',
+      heroImage: '/images/services/01-customer-experience.svg',
       longDesc: 'Gestionamos la experiencia del cliente con omnicanalidad, IA y operación especializada para responder mejor, más rápido y con mayor control. Convertimos cada interacción en una oportunidad para fortalecer la marca, fidelizar clientes y escalar confianza.',
       features: [
         'Servicio al cliente multicanal (voz, chat, email)',
@@ -46,7 +46,7 @@ export const servicesData: ServiceData[] = [
     icon: TrendingUp,
     gradient: 'from-[#1a0d07] via-navy-deep to-[#2a1408]',
     details: {
-      heroImage: '/images/services/02-leads-ventas.jpg',
+      heroImage: '/images/services/02-leads-ventas.svg',
       longDesc: 'Transformamos el interés en ingresos con una operación comercial más inteligente, ágil y conectada. Integramos captación, WhatsApp y CRM en un solo flujo para que ninguna oportunidad se pierda y cada contacto se convierta en valor estratégico.',
       features: [
         'Captación y calificación de leads',
@@ -119,7 +119,7 @@ export const servicesData: ServiceData[] = [
       },
     ],
     details: {
-      heroImage: '/images/services/03-agentes-autonomos.jpg',
+      heroImage: '/images/services/03-agentes-autonomos.svg',
       longDesc: 'Implementamos agentes autónomos con IA para automatizar atención, captación y gestión operativa en tiempo real. Operación continua 24/7 que responde, filtra y escala sin fricción, reduciendo la carga operativa y ampliando la capacidad de respuesta sin crecer la estructura humana.',
       features: [
         'Operación continua 24/7/365 sin pausas',
@@ -153,7 +153,7 @@ export const servicesData: ServiceData[] = [
     icon: Code2,
     gradient: 'from-[#091a0e] via-navy-deep to-[#0e2416]',
     details: {
-      heroImage: '/images/services/04-digital-studio.jpg',
+      heroImage: '/images/services/04-digital-studio.svg',
       longDesc: 'Creamos soluciones digitales a medida que conectan sistemas, personas y procesos para impulsar la eficiencia y el crecimiento. Tecnología diseñada desde la necesidad del negocio, no desde la herramienta, con foco en adopción, integración y resultados medibles.',
       features: [
         'CRM personalizados a medida',
