@@ -127,6 +127,23 @@ const en = {
       legal: 'Legal',
       connect: 'Connect',
     },
+    serviceLinks: [
+      { name: 'Customer Experience', id: '01' },
+      { name: 'Leads & Sales', id: '02' },
+      { name: 'Autonomous Agents', id: '03' },
+      { name: 'Digital Studio', id: '04' },
+    ],
+    companyLinks: [
+      { name: 'About', href: '#about' },
+      { name: 'Contact', href: 'contact' },
+      { name: 'Posting', href: 'https://posting.com.co' },
+    ],
+    servicesTitle: 'Services',
+    companyTitle: 'Company',
+    contactTitle: 'Contact',
+    copyright: '© 2025 CCGrupo. All rights reserved.',
+    privacy: 'Privacy Policy',
+    location: 'Medellín, Colombia',
     contact: {
       title: 'Contact',
       address: 'Cra 43A #1-50, Of 818',
