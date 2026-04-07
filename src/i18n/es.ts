@@ -193,6 +193,41 @@ const es = {
       },
     ],
     contact: 'Para preguntas sobre esta política, contacte: contacto@ccgrupo.com.co',
+    label: 'Políticas y Cumplimiento',
+    heading: 'Políticas Corporativas',
+    desc: 'Consulta nuestras políticas corporativas. Estos documentos reflejan nuestro compromiso con el bienestar laboral, la seguridad y la igualdad de oportunidades.',
+    viewDoc: 'Ver documento',
+    modalLabel: 'Política corporativa',
+    policies: [
+      {
+        title: 'Política de Prevención del Acoso Laboral',
+        desc: 'Marco de prevención, detección y gestión de situaciones de acoso en el entorno laboral.',
+      },
+      {
+        title: 'Sistema de Gestión de Seguridad y Salud en el Trabajo',
+        desc: 'Lineamientos y estándares del sistema de gestión de seguridad y salud ocupacional.',
+      },
+      {
+        title: 'Política de Alcohol y Otras Sustancias',
+        desc: 'Normas para la prevención y manejo del consumo de alcohol y drogas en el trabajo.',
+      },
+      {
+        title: 'Política de Prevención contra el Acoso Sexual',
+        desc: 'Medidas para prevenir y atender el acoso sexual en el entorno laboral.',
+      },
+      {
+        title: 'Política de Teletrabajo',
+        desc: 'Reglamentación y lineamientos para las modalidades de teletrabajo y trabajo híbrido.',
+      },
+      {
+        title: 'Política de Igualdad y Equidad Laboral con Enfoque de Género',
+        desc: 'Compromiso con la igualdad de oportunidades y la equidad laboral con perspectiva de género.',
+      },
+      {
+        title: 'Política de Desconexión Laboral',
+        desc: 'Garantía del derecho de los colaboradores a desconectarse fuera del horario laboral.',
+      },
+    ],
   },
   service: {
     label: 'Servicio',

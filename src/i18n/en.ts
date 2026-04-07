@@ -193,6 +193,41 @@ const en = {
       },
     ],
     contact: 'For questions about this policy, contact: contacto@ccgrupo.com.co',
+    label: 'Policies & Compliance',
+    heading: 'Corporate Policies',
+    desc: 'Consult our corporate policies. These documents reflect our commitment to labor well-being, safety and equal opportunities.',
+    viewDoc: 'View document',
+    modalLabel: 'Corporate policy',
+    policies: [
+      {
+        title: 'Workplace Harassment Prevention Policy',
+        desc: 'Framework for preventing, detecting and managing workplace harassment situations.',
+      },
+      {
+        title: 'Occupational Health & Safety Management System',
+        desc: 'Guidelines and standards for the health and safety management system.',
+      },
+      {
+        title: 'Alcohol and Other Substances Policy',
+        desc: 'Standards for preventing and managing alcohol and drug use in the workplace.',
+      },
+      {
+        title: 'Sexual Harassment Prevention Policy',
+        desc: 'Measures to prevent and address sexual harassment in the work environment.',
+      },
+      {
+        title: 'Remote Work Policy',
+        desc: 'Regulations and guidelines for telework and hybrid work modalities.',
+      },
+      {
+        title: 'Gender Equality & Labor Equity Policy',
+        desc: 'Commitment to equal opportunities and labor equity with a gender perspective.',
+      },
+      {
+        title: 'Right to Disconnect Policy',
+        desc: 'Guarantee of employees\' right to disconnect outside working hours.',
+      },
+    ],
   },
   service: {
     label: 'Service',
