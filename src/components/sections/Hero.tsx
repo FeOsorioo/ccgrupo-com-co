@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import CircularText from '../ui/CircularText';
 import { useLang } from '../../i18n';
-import { BRAND_ASSETS } from '../../config/branding';
 
 interface Props {
   onNavigate?: (view: string) => void;
@@ -11,7 +10,6 @@ interface Props {
 export default function Hero({ onNavigate }: Props) {
   const { t, lang } = useLang();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [showHeroMarkImage, setShowHeroMarkImage] = useState(true);
   const { scrollY } = useScroll();
   const y1      = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -102,23 +100,6 @@ export default function Hero({ onNavigate }: Props) {
     <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-6 pt-32 pb-24">
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
-      <motion.div
-        style={{ y: y1, opacity }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0 opacity-20"
-      >
-        {showHeroMarkImage ? (
-          <img
-            src={BRAND_ASSETS.heroMark}
-            alt="CCGrupo mark"
-            className="hero-mark w-[clamp(18rem,52vw,56rem)] h-auto object-contain"
-            onError={() => setShowHeroMarkImage(false)}
-          />
-        ) : (
-          <span className="font-display text-[clamp(10rem,25vw,28rem)] font-bold text-transparent whitespace-nowrap text-stroke">
-            CCG
-          </span>
-        )}
-      </motion.div>
 
       <div className="relative z-10 flex flex-col items-center text-center">
         <h1 className="font-display text-[clamp(3.2rem,8.5vw,8.5rem)] leading-[1.05] tracking-tight font-normal">
