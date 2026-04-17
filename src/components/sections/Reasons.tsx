@@ -21,16 +21,16 @@ const ANIM_S  = 32;  // seconds for one full pass (desktop speed)
 const ANIM_CSS = `
   :root {
     --ccg-cw: 240px;
-    --ccg-ch: 220px;
+    --ccg-ch: 245px;
   }
   @media (min-width: 480px) {
-    :root { --ccg-cw: 290px; --ccg-ch: 240px; }
+    :root { --ccg-cw: 290px; --ccg-ch: 265px; }
   }
   @media (min-width: 768px) {
-    :root { --ccg-cw: 330px; --ccg-ch: 255px; }
+    :root { --ccg-cw: 335px; --ccg-ch: 300px; }
   }
   @media (min-width: 1024px) {
-    :root { --ccg-cw: 380px; --ccg-ch: 270px; }
+    :root { --ccg-cw: 385px; --ccg-ch: 320px; }
   }
 
   @keyframes ccg-slide-fwd {
@@ -111,7 +111,7 @@ export default function Reasons() {
       <div
         className="relative overflow-hidden"
         style={{
-          height: 'calc(var(--ccg-ch) + 24px)',
+          height: 'calc(var(--ccg-ch) + 36px)',
           maskImage: 'linear-gradient(to right, transparent, #000 5% 95%, transparent)',
           WebkitMaskImage: 'linear-gradient(to right, transparent, #000 5% 95%, transparent)',
         }}
@@ -141,14 +141,13 @@ export default function Reasons() {
                   }}
                 >
                   <div
-                    className={`w-full h-full rounded-2xl border ${BORDERS[i % BORDERS.length]} bg-navy-deep/90 backdrop-blur-sm p-4 md:p-6 flex flex-col gap-3 md:gap-4 hover:border-teal/60 hover:bg-navy-deep transition-all duration-300 group overflow-hidden`}
+                    className={`w-full h-full rounded-2xl border ${BORDERS[i % BORDERS.length]} bg-navy-deep/90 backdrop-blur-sm p-4 md:p-5 flex flex-col gap-3 hover:border-teal/60 hover:bg-navy-deep transition-all duration-300 group overflow-hidden`}
                     style={{ boxSizing: 'border-box' }}
                   >
                     {/* Top row */}
                     <div className="flex items-center justify-between shrink-0">
                       <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center group-hover:bg-teal/20 group-hover:border-teal/40 transition-all duration-300">
-                        <Icon size={16} className="text-teal md:hidden" strokeWidth={1.5} />
-                        <Icon size={20} className="text-teal hidden md:block" strokeWidth={1.5} />
+                        <Icon size={17} className="text-teal" strokeWidth={1.5} />
                       </div>
                       <span className="font-mono text-[0.55rem] tracking-[0.25em] text-teal/40">
                         {String(i + 1).padStart(2, '0')}
@@ -161,7 +160,7 @@ export default function Reasons() {
                     </h4>
 
                     {/* Desc */}
-                    <p className="text-gray-400 font-light text-xs md:text-sm leading-relaxed flex-1 overflow-hidden line-clamp-3 md:line-clamp-4">
+                    <p className="text-gray-400 font-light text-xs md:text-sm leading-relaxed flex-1 overflow-hidden line-clamp-4">
                       {reason.desc}
                     </p>
 

@@ -372,6 +372,15 @@ html.light {
   /* ── Modal/overlay backgrounds ── */
   & .bg-navy-deep\/85  { background-color: rgba(255, 255, 255, 0.9) !important; }
   & .bg-navy-deep\/95  { background-color: rgba(248, 252, 255, 0.97) !important; }
+  /* Carousel cards (Reasons) and TiltCard backdrop */
+  & .bg-navy-deep\/90 {
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(11, 22, 40, 0.07), 0 0 0 1px rgba(11, 22, 40, 0.06) !important;
+  }
+  & .bg-navy-deep\/80 {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 2px 12px rgba(11, 22, 40, 0.06) !important;
+  }
   & .bg-navy-mid\/40   { background-color: rgba(0, 100, 180, 0.06) !important; }
 
   /* ── Tag pills in service cards ── */
