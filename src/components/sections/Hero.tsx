@@ -156,7 +156,7 @@ export default function Hero({ onNavigate }: Props) {
         >
           <button
             onClick={() => onNavigate?.('contact')}
-            className="group relative font-mono text-[0.65rem] tracking-[0.2em] uppercase px-10 py-4 bg-gradient-to-br from-teal-dark to-teal text-white overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(0,180,216,0.35)]"
+            className="group relative font-mono text-label tracking-[0.2em] uppercase px-10 py-4 bg-gradient-to-br from-teal-dark to-teal text-white overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(0,180,216,0.35)]"
           >
             <span className="relative z-10">{t.hero.cta1}</span>
             <div className="absolute inset-0 bg-gradient-to-br from-teal to-teal-bright opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -164,7 +164,7 @@ export default function Hero({ onNavigate }: Props) {
 
           <button
             onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-            className="font-mono text-[0.65rem] tracking-[0.2em] uppercase px-10 py-4 bg-transparent border border-white/10 text-gray-100 hover:border-teal hover:text-teal hover:bg-teal/10 transition-all duration-300"
+            className="font-mono text-label tracking-[0.2em] uppercase px-10 py-4 bg-transparent border border-white/10 text-gray-100 hover:border-teal hover:text-teal hover:bg-teal/10 transition-all duration-300"
           >
             {t.hero.cta2}
           </button>
@@ -178,7 +178,7 @@ export default function Hero({ onNavigate }: Props) {
         transition={{ delay: 3.5, duration: 0.8 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
       >
-        <span className="font-mono text-[0.5rem] tracking-[0.35em] uppercase text-gray-300">{t.hero.scroll}</span>
+        <span className="font-mono text-label tracking-[0.35em] uppercase text-gray-300">{t.hero.scroll}</span>
         <div className="w-px h-12 bg-gradient-to-b from-teal to-transparent animate-pulse" />
       </motion.div>
 

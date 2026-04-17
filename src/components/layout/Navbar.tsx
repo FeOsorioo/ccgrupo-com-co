@@ -38,7 +38,7 @@ export default function Navbar({ onNavigate }: Props) {
   };
 
   const logoFallback = (
-    <div className="w-8 h-8 border-2 border-teal rounded-md flex items-center justify-center font-mono text-[0.55rem] font-bold text-teal">
+    <div className="w-8 h-8 border-2 border-teal rounded-md flex items-center justify-center font-mono text-label font-bold text-teal">
       CCG
     </div>
   );
@@ -88,10 +88,10 @@ export default function Navbar({ onNavigate }: Props) {
                 transition={{ duration: 0.3 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-8 h-8 border-2 border-teal rounded-md flex items-center justify-center font-mono text-[0.55rem] font-bold text-teal">
+                <div className="w-8 h-8 border-2 border-teal rounded-md flex items-center justify-center font-mono text-label font-bold text-teal">
                   CCG
                 </div>
-                <div className="font-mono text-[0.65rem] tracking-[0.25em] uppercase font-normal hidden sm:block">
+                <div className="font-mono text-label tracking-[0.25em] uppercase font-normal hidden sm:block">
                   Contact Center <span className="text-teal font-semibold">Grupo</span>
                 </div>
               </motion.div>
@@ -106,7 +106,7 @@ export default function Navbar({ onNavigate }: Props) {
               <li key={link.name}>
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-gray-200 hover:text-teal transition-colors relative group pb-1"
+                  className="font-mono text-label uppercase tracking-[0.2em] text-gray-200 hover:text-teal transition-colors relative group pb-1"
                 >
                   {link.name}
                   <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-teal transition-all duration-300 group-hover:w-full" />
@@ -116,7 +116,7 @@ export default function Navbar({ onNavigate }: Props) {
           </ul>
 
           {/* Language toggle */}
-          <div className="flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.1em] select-none" role="group" aria-label={labels.languageGroup}>
+          <div className="flex items-center gap-1.5 font-mono text-label tracking-[0.1em] select-none" role="group" aria-label={labels.languageGroup}>
             <button
               onClick={() => lang !== 'es' && toggleLang()}
               aria-label="Español"
@@ -148,7 +148,7 @@ export default function Navbar({ onNavigate }: Props) {
           {/* CTA */}
           <button
             onClick={() => onNavigate?.('contact')}
-            className="font-mono text-[0.6rem] uppercase tracking-[0.2em] px-7 py-2.5 border border-teal/40 text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
+            className="font-mono text-label uppercase tracking-[0.2em] px-7 py-2.5 border border-teal/40 text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
           >
             {t.nav.contact}
           </button>
@@ -157,7 +157,7 @@ export default function Navbar({ onNavigate }: Props) {
         {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
           {/* Mobile lang toggle */}
-          <div className="flex items-center gap-1 font-mono text-[0.55rem] tracking-[0.1em]" role="group" aria-label={labels.languageGroup}>
+          <div className="flex items-center gap-1 font-mono text-label tracking-[0.1em]" role="group" aria-label={labels.languageGroup}>
             <button
               onClick={() => lang !== 'es' && toggleLang()}
               aria-label="Español"

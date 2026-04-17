@@ -111,6 +111,29 @@
   --c-g400:     #2d3748;
   --c-fg:       #ffffff;
   --c-border:   rgba(255, 255, 255, 0.1);
+
+  /* ─── Fluid type scale ───────────────────────────
+     Todos los valores escalan suavemente entre móvil
+     y desktop usando clamp(mín, fluido, máx).
+     Base: 16px (1rem). Ratio ≈ 1.25–1.33.
+  ──────────────────────────────────────────────── */
+  --fs-label:   clamp(0.6875rem, 0.65rem  + 0.15vw, 0.8125rem); /* 11→13px  labels/chips/nav */
+  --fs-xs:      clamp(0.75rem,   0.72rem  + 0.13vw, 0.8125rem); /* 12→13px  notas/secundario */
+  --fs-sm:      clamp(0.8125rem, 0.775rem + 0.17vw, 0.9375rem); /* 13→15px  texto pequeño   */
+  --fs-base:    clamp(1rem,      0.95rem  + 0.22vw, 1.125rem);  /* 16→18px  cuerpo          */
+  --fs-lg:      clamp(1.125rem,  1.025rem + 0.45vw, 1.375rem);  /* 18→22px  cuerpo grande   */
+  --fs-h5:      clamp(1.125rem,  1rem     + 0.55vw, 1.5rem);    /* 18→24px  H5 / H6         */
+  --fs-h4:      clamp(1.25rem,   1.075rem + 0.8vw,  1.75rem);   /* 20→28px  H4              */
+  --fs-h3:      clamp(1.5rem,    1.225rem + 1.25vw, 2.25rem);   /* 24→36px  H3              */
+  --fs-h2:      clamp(1.75rem,   1.35rem  + 1.8vw,  2.875rem);  /* 28→46px  H2              */
+  --fs-h1:      clamp(2.25rem,   1.6rem   + 2.9vw,  4rem);      /* 36→64px  H1              */
+  --fs-display: clamp(3rem,      2rem     + 4.5vw,  5.5rem);    /* 48→88px  Display hero    */
+
+  /* ─── Line heights ───────────────────────────── */
+  --lh-body:    1.6;
+  --lh-lg:      1.4;
+  --lh-heading: 1.15;
+  --lh-tight:   1.05;
 }
 
 html.light {
@@ -128,10 +151,25 @@ html.light {
 }
 
 @theme {
-  --font-display:      "Share", Georgia, serif;
-  --font-subheading:   "Share Tech", "JetBrains Mono", monospace;
-  --font-body:         "Fira Sans", system-ui, sans-serif;
-  --font-mono:         "JetBrains Mono", "Courier New", monospace;
+  /* ─── Familias (solo fuentes locales) ─────────── */
+  --font-display:    "Share", Georgia, serif;
+  --font-subheading: "Share Tech", monospace;
+  --font-body:       "Fira Sans", system-ui, sans-serif;
+  --font-mono:       "Share Tech", monospace;
+
+  /* ─── Escala tipográfica fluida → text-{name} ── */
+  --font-size-label:   var(--fs-label);   /* text-label   */
+  --font-size-xs:      var(--fs-xs);      /* text-xs  (override) */
+  --font-size-sm:      var(--fs-sm);      /* text-sm  (override) */
+  --font-size-base:    var(--fs-base);    /* text-base (override) */
+  --font-size-lg:      var(--fs-lg);      /* text-lg  (override) */
+  --font-size-body-lg: var(--fs-lg);      /* text-body-lg */
+  --font-size-h5:      var(--fs-h5);      /* text-h5  */
+  --font-size-h4:      var(--fs-h4);      /* text-h4  */
+  --font-size-h3:      var(--fs-h3);      /* text-h3  */
+  --font-size-h2:      var(--fs-h2);      /* text-h2  */
+  --font-size-h1:      var(--fs-h1);      /* text-h1  */
+  --font-size-display: var(--fs-display); /* text-display */
 
   --color-navy-deep:   var(--c-bg-deep);
   --color-navy:        var(--c-bg);
@@ -150,18 +188,57 @@ html.light {
 
 @layer base {
   html {
+    font-size: 100%; /* 16px base — respeta zoom del navegador */
     scroll-behavior: smooth;
   }
+
   body {
     background-color: var(--c-bg-deep);
     color: var(--c-fg);
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
     @apply font-body antialiased overflow-x-hidden;
   }
+
+  /* ─── Encabezados semánticos ─────────────────── */
   h1 {
     @apply font-display;
+    font-size: var(--fs-h1);
+    line-height: var(--lh-heading);
   }
   h2 {
     font-family: var(--font-subheading);
+    font-size: var(--fs-h2);
+    line-height: var(--lh-heading);
+  }
+  h3 {
+    font-size: var(--fs-h3);
+    line-height: 1.2;
+  }
+  h4 {
+    font-size: var(--fs-h4);
+    line-height: 1.25;
+  }
+  h5, h6 {
+    font-size: var(--fs-h5);
+    line-height: 1.3;
+  }
+
+  /* ─── Cuerpo de texto ────────────────────────── */
+  p {
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
+  }
+
+  /* ─── Controles de formulario ────────────────── */
+  input, select, textarea {
+    font-size: var(--fs-base); /* ≥16px evita zoom automático en móvil */
+    line-height: var(--lh-lg);
+  }
+
+  /* ─── Texto pequeño ──────────────────────────── */
+  small {
+    font-size: var(--fs-xs);
   }
 }
 
