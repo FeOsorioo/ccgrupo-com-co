@@ -50,7 +50,7 @@ export default function About() {
         </Suspense>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-20 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-20 items-start lg:items-center">
         <div className="space-y-8 max-w-2xl lg:pr-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -118,7 +118,7 @@ export default function About() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 self-start justify-self-center lg:justify-self-end w-full max-w-[34rem]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 self-center justify-self-center lg:justify-self-end w-full max-w-[34rem]">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
