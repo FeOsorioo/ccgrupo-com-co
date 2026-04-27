@@ -150,8 +150,8 @@ export default function Reasons() {
                     </h4>
 
                     {/* Desc — full text, no clamp, card grows to fit */}
-                    <p className="text-gray-400 font-light text-xs md:text-sm leading-relaxed">
-                      {reason.desc}
+                    <p className="text-white font-light text-xs md:text-sm leading-relaxed">
+                      {item.desc}
                     </p>
 
                     {/* Bottom accent */}

@@ -561,7 +561,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                           <h4 className="font-mono text-sm uppercase tracking-wide text-white leading-snug">
                             {item.title}
                           </h4>
-                          <p className="text-gray-400 font-light text-sm leading-relaxed">
+                          <p className="text-white/70 font-light text-sm leading-relaxed">
                             {item.desc}
                           </p>
                         </div>

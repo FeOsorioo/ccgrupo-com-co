@@ -72,7 +72,7 @@ export default function Clients() {
           {track.map(({ name, logo }, i) => (
             <div
               key={`${name}-${i}`}
-              className="w-[220px] sm:w-[280px] md:w-[300px] h-[130px] sm:h-[150px] border border-white/10 flex items-center justify-center -mr-px relative group hover:border-teal/30 hover:z-10 transition-all duration-300 bg-navy-deep shrink-0"
+              className="w-[220px] sm:w-[280px] md:w-[320px] h-[130px] sm:h-[180px] border border-white/10 flex items-center justify-center -mr-px relative group hover:border-teal/30 hover:z-10 transition-all duration-300 bg-navy-deep shrink-0"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               {!errRef.current[i] ? (
@@ -81,10 +81,10 @@ export default function Clients() {
                   alt={name}
                   loading="lazy"
                   onError={() => handleErr(i)}
-                  className="relative z-10 h-14 sm:h-20 w-auto max-w-[180px] sm:max-w-[240px] object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                  className="relative z-10 h-14 sm:h-24 w-auto max-w-[180px] sm:max-w-[260px] object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
                 />
               ) : (
-                <span className="relative z-10 font-body font-medium text-gray-200 group-hover:text-white transition-colors text-base px-4 text-center leading-tight">
+                <span className="relative z-10 font-body font-medium text-white group-hover:text-white transition-colors text-base px-4 text-center leading-tight">
                   {name}
                 </span>
               )}
