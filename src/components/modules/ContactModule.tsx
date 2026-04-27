@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, MapPin, Mail, Phone, Clock, Send, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { useLang } from '../../i18n';
+
+const EJ_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EJ_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EJ_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const EMAILJS_CONFIGURED = !!(EJ_SERVICE && EJ_TEMPLATE && EJ_KEY &&
+  !EJ_SERVICE.includes('xxxxxxx'));
 
 interface FormState {
   nombre: string;
@@ -67,23 +74,42 @@ export default function ContactModule({ onBack }: Props) {
     setSending(true);
     setSendError(false);
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-
-      if (response.ok) {
+    if (EMAILJS_CONFIGURED) {
+      try {
+        await emailjs.send(
+          EJ_SERVICE!,
+          EJ_TEMPLATE!,
+          {
+            from_name:  form.nombre,
+            company:    form.empresa,
+            from_email: form.email,
+            phone:      form.telefono,
+            service:    form.servicio,
+            message:    form.mensaje,
+            reply_to:   form.email,
+          },
+          EJ_KEY!
+        );
         setSubmitted(true);
-      } else {
+      } catch {
         setSendError(true);
+      } finally {
+        setSending(false);
       }
-    } catch (error) {
-      console.error('Contact Error:', error);
-      setSendError(true);
-    } finally {
+    } else {
+      const subjectPrefix = lang === 'en' ? 'CCGrupo Contact' : 'Contacto CCGrupo';
+      const nameLabel = lang === 'en' ? 'Name' : 'Nombre';
+      const companyLabel = lang === 'en' ? 'Company' : 'Empresa';
+      const phoneLabel = lang === 'en' ? 'Phone' : 'Teléfono';
+      const serviceLabel = lang === 'en' ? 'Service' : 'Servicio';
+
+      const subject = encodeURIComponent(`${subjectPrefix} - ${form.servicio}`);
+      const body    = encodeURIComponent(
+        `${nameLabel}: ${form.nombre}\n${companyLabel}: ${form.empresa}\nEmail: ${form.email}\n${phoneLabel}: ${form.telefono}\n${serviceLabel}: ${form.servicio}\n\n${form.mensaje}`
+      );
+      window.location.href = `mailto:info@ccgrupo.com.co?subject=${subject}&body=${body}`;
       setSending(false);
+      setSubmitted(true);
     }
   };
 
