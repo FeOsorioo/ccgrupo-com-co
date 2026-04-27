@@ -118,7 +118,7 @@ export default function About() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 self-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 self-start justify-self-center lg:justify-self-end w-full max-w-[34rem]">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
@@ -126,14 +126,14 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-8 md:p-10 border border-white/10 rounded-2xl relative overflow-hidden group hover:border-teal/30 hover:-translate-y-1 transition-all duration-300 bg-navy-deep/30"
+              className="p-8 md:p-10 border border-white/10 rounded-2xl relative overflow-hidden group hover:border-teal/30 hover:-translate-y-1 transition-all duration-300 bg-navy-deep/30 flex flex-col items-center text-center"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-teal/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
-                <div className="font-display text-6xl leading-none text-gradient mb-2">
+                <div className="font-display text-6xl leading-none text-gradient mb-2 text-center">
                   <Counter target={stat.val} suffix={stat.suffix} />
                 </div>
-                <div className="font-mono text-xs tracking-[0.15em] uppercase text-white mt-4 leading-relaxed">
+                <div className="font-mono text-xs tracking-[0.15em] uppercase text-white mt-4 leading-relaxed text-center">
                   {stat.label}
                 </div>
               </div>

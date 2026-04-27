@@ -7,9 +7,10 @@ import ThemedLogo from '../ui/ThemedLogo';
 
 interface Props {
   onNavigate?: (view: string) => void;
+  hidden?: boolean;
 }
 
-export default function Navbar({ onNavigate }: Props) {
+export default function Navbar({ onNavigate, hidden = false }: Props) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setMobileOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
@@ -69,6 +70,8 @@ export default function Navbar({ onNavigate }: Props) {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
           className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-14 py-5 flex items-center justify-between ${
+          hidden ? 'pointer-events-none -translate-y-4 opacity-0' : 'opacity-100'
+        } ${
           isScrolled ? 'bg-navy-deep/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
         }`}
       >

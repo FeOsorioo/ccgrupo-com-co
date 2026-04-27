@@ -100,6 +100,7 @@ export default function App({ initialPath }: AppProps) {
   const pathForInit = initialPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
   const initialLang = getLangFromPath(pathForInit) ?? 'es';
   const [loading, setLoading] = useState(true);
+  const [isSectorModalOpen, setIsSectorModalOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | string>(() => {
     if (typeof window === 'undefined') return getViewFromPath(pathForInit);
     return getViewFromPath(window.location.pathname);
@@ -172,7 +173,7 @@ export default function App({ initialPath }: AppProps) {
             {currentView === 'home' ? (
               <>
                 <BackgroundEffects />
-                <Navbar onNavigate={handleNavigate} />
+                <Navbar onNavigate={handleNavigate} hidden={isSectorModalOpen} />
                 <ScrollTracker />
                 <CornerLabels />
                 <FloatingCTA onNavigate={handleNavigate} />
@@ -182,7 +183,7 @@ export default function App({ initialPath }: AppProps) {
                   <About />
                   <Services onNavigate={handleNavigate} />
                   <Reasons />
-                  <Sectors />
+                  <Sectors onModalOpenChange={setIsSectorModalOpen} />
                   <Clients />
                   <CTA onNavigate={handleNavigate} />
                 </main>

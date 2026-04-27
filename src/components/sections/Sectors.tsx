@@ -17,7 +17,11 @@ type SectorItem = {
   kpis: { label: string; value: string }[];
 };
 
-export default function Sectors() {
+interface Props {
+  onModalOpenChange?: (open: boolean) => void;
+}
+
+export default function Sectors({ onModalOpenChange }: Props) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const { t, lang } = useLang();
@@ -28,6 +32,10 @@ export default function Sectors() {
 
   const open = (item: SectorItem, index: number) => setActive({ ...item, index });
   const close = () => setActive(null);
+
+  useEffect(() => {
+    onModalOpenChange?.(!!active);
+  }, [active, onModalOpenChange]);
 
   useEffect(() => {
     if (!active) return;
