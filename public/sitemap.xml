@@ -15,7 +15,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ccgrupo.com.co/" />
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <image:image>
       <image:loc>https://ccgrupo.com.co/og-image.png</image:loc>
       <image:title>CCGrupo — BPO de Nueva Generación en Colombia</image:title>
@@ -30,7 +30,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/01" />
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/servicio/02</loc>
@@ -38,7 +38,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/02" />
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/servicio/03</loc>
@@ -46,7 +46,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/03" />
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/servicio/04</loc>
@@ -54,15 +54,31 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/04" />
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
+  </url>
+  <url>
+    <loc>https://ccgrupo.com.co/servicio/05</loc>
+    <xhtml:link rel="alternate" hreflang="es-co" href="https://ccgrupo.com.co/servicio/05" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/05" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-05-06</lastmod>
+  </url>
+  <url>
+    <loc>https://ccgrupo.com.co/servicio/06</loc>
+    <xhtml:link rel="alternate" hreflang="es-co" href="https://ccgrupo.com.co/servicio/06" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ccgrupo.com.co/en/servicio/06" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-05-06</lastmod>
   </url>
 
   <!-- ─── Contacto ─────────────────────────────────────────────────────── -->
   <url>
-    <loc>https://ccgrupo.com.co/contacto/</loc>
+    <loc>https://ccgrupo.com.co/contacto</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
 
   <!-- ─── Políticas de Privacidad ──────────────────────────────────────── -->
@@ -70,7 +86,7 @@
     <loc>https://ccgrupo.com.co/politicas-privacidad/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
 
   <!-- ─── PDFs de Políticas Laborales ──────────────────────────────────── -->
@@ -78,43 +94,43 @@
     <loc>https://ccgrupo.com.co/policies/acoso_laboral.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/POLITICA-SG-SST.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/Politica-de-alcohol-y-otros.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/pag.web-REV-JURIDICA-POLITICA-DE-PREVENCION-CONTRA-EL-ACOSO-SEXUAL-EN-EL-ENTORNO-LABORAL-CONTACT-CENTER-GRUPO-S.A.S.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/PAGINA-WEB-POLITICA-TELETRABAJO.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/PAGINA-WEB-POLITICA-IGUALDAD-Y-EQUIDAD-LABORAL-CON-ENFOQUE-DE-GENERO.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
   <url>
     <loc>https://ccgrupo.com.co/policies/PAGINA-WEB-POLITICA-DESCONEXION-LABORAL.pdf</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <lastmod>2026-03-23</lastmod>
+    <lastmod>2026-05-06</lastmod>
   </url>
 
 </urlset>

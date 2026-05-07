@@ -27,7 +27,7 @@ export default function ContactModule({ onBack }: Props) {
   const { t, lang } = useLang();
   const ct = t.contact;
 
-  const serviceOrder = ['01', '02', '03', '04'] as const;
+  const serviceOrder = ['01', '02', '03', '04', '05', '06'] as const;
   const serviceOptions = serviceOrder.map((id) => `${id} - ${t.services.items[id].title}`);
 
   useEffect(() => {
@@ -45,8 +45,8 @@ export default function ContactModule({ onBack }: Props) {
   const scheduleValue = lang === 'en' ? 'Mon - Fri · 8:00 - 18:00' : 'Lun - Vie · 8:00 - 18:00';
   const contactInfo = [
     { icon: MapPin, label: ct.infoLabels.location, value: 'Cra. 20 #133 - 74, La Calleja', sub: ct.infoSubs.location },
-    { icon: Mail,   label: ct.infoLabels.email,    value: 'commercial@ccgrupo.com.co',      sub: ct.infoSubs.email   },
-    { icon: Phone,  label: ct.infoLabels.phone,    value: '(601) 7443732',                  sub: ct.infoSubs.phone   },
+    { icon: Mail,   label: ct.infoLabels.email,    value: 'Comercial@ccgrupo.com.co',        sub: ct.infoSubs.email   },
+    { icon: Phone,  label: ct.infoLabels.phone,    value: '301 612 5291',                   sub: ct.infoSubs.phone   },
     { icon: Clock,  label: ct.infoLabels.schedule, value: scheduleValue,                     sub: ct.infoSubs.schedule },
   ];
 
