@@ -275,8 +275,9 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
 
     const linkDefs = [
       { rel: 'canonical',  href: `${BASE}${path}` },
-      { rel: 'alternate',  href: `${BASE}${path}`,     hreflang: 'es-co' },
-      { rel: 'alternate',  href: `${BASE}/en${path}`,  hreflang: 'en'    },
+      { rel: 'alternate',  href: `${BASE}${path}`,     hreflang: 'es-co'     },
+      { rel: 'alternate',  href: `${BASE}/en${path}`,  hreflang: 'en'        },
+      { rel: 'alternate',  href: `${BASE}/pt${path}`,  hreflang: 'pt'        },
       { rel: 'alternate',  href: `${BASE}${path}`,     hreflang: 'x-default' },
     ];
     const linkEls = linkDefs.map(attrs => {

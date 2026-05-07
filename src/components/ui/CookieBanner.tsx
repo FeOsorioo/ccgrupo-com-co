@@ -93,7 +93,7 @@ export default function CookieBanner({ onNavigate }: { onNavigate?: (view: strin
               <span>{ck.message}{' '}</span>
               {onNavigate && (
                 <button
-                  onClick={() => { handle('accepted'); onNavigate('privacy'); }}
+                  onClick={() => { if (onNavigate) onNavigate('privacy'); }}
                   className="text-teal hover:underline"
                 >
                   {ck.policy}

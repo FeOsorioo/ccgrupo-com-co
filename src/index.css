@@ -280,12 +280,20 @@ html.light {
   & .text-gray-400 { color: #5b7898; }
   & .text-gray-500 { color: #45607f; }
   & .text-gray-600 { color: #30465f; }
+  & .text-red-400 { color: #c0392b !important; } /* 5.9:1 on white */
+  & .text-red-500 { color: #a93226 !important; }
   & [class*="text-white/9"] { color: var(--c-g200) !important; }
   & [class*="text-white/8"] { color: var(--c-g200) !important; }
+  & [class*="text-white/85"] { color: var(--c-g200) !important; }
   & [class*="text-white/7"] { color: var(--c-g300) !important; }
   & [class*="text-white/6"] { color: var(--c-g300) !important; }
   & [class*="text-white/5"] { color: var(--c-g300) !important; }
   & [class*="text-white/4"] { color: var(--c-g300) !important; }
+
+  /* ── Teal fractional opacity: boost visibility on light backgrounds ── */
+  & [class*="text-teal/5"] { color: rgba(10, 117, 154, 0.85) !important; }
+  & [class*="text-teal/4"] { color: rgba(10, 117, 154, 0.75) !important; }
+  & [class*="text-teal/3"] { color: rgba(10, 117, 154, 0.65) !important; }
 
   /* ── navy-deep as TEXT: var flips to #f0f4f8 in light → force dark ── */
   & .text-navy-deep              { color: #0b1628 !important; }
@@ -454,6 +462,14 @@ html.light {
   & .service-module-tile {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 252, 0.96)) !important;
   }
+  /* ── Service module: deepen text inside white card surfaces ── */
+  & .service-module-tile [class*="text-white/7"],
+  & .service-module-tile [class*="text-white/6"],
+  & .service-module-tile [class*="text-gray-3"],
+  & .service-module-accordion [class*="text-gray-3"],
+  & .service-module-achievement [class*="text-gray-3"] {
+    color: var(--c-g100) !important; /* #0b1f38 — ~10:1 on white */
+  }
   & .service-module-card:hover,
   & .service-module-feature:hover,
   & .service-module-accordion:hover,
@@ -568,6 +584,17 @@ html.light {
   & .service-panel-bg ~ [data-slot="hexagon-background"] > div > div > div:hover::after {
     background-color: rgba(190, 225, 255, 0.82) !important;
     transition-duration: 0ms !important;
+  }
+
+  /* ── Teal background buttons: white text for sufficient contrast ── */
+  & button.bg-teal,
+  & a.bg-teal {
+    color: #ffffff !important;
+  }
+
+  /* ── White/30 used as separator line: give it visible contrast ── */
+  & .h-px[class*="bg-white/3"] {
+    background-color: rgba(11, 22, 40, 0.15) !important;
   }
 }
 
@@ -764,7 +791,14 @@ html.theme-premium-fade::before {
   .clients-marquee { animation: none; }
 }
 
-/* light-mode: swap the hard-coded dark edge-fade color */
+/* light-mode: swap the hard-coded dark edge-fade color (semantic classes) */
+html.light .clients-marquee-fade-l {
+  background: linear-gradient(to right, #f5f9fd, transparent) !important;
+}
+html.light .clients-marquee-fade-r {
+  background: linear-gradient(to left, #f5f9fd, transparent) !important;
+}
+/* Legacy positional selectors kept as fallback */
 html.light .clients-marquee-wrap > div:first-child {
   background: linear-gradient(to right, #f5f9fd, transparent) !important;
 }

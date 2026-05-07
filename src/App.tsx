@@ -188,7 +188,7 @@ export default function App({ initialPath }: AppProps) {
                 <ScrollTracker />
                 <CornerLabels />
                 <FloatingCTA onNavigate={handleNavigate} />
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                   <Hero onNavigate={handleNavigate} />
                   <Marquee />
                   <Suspense fallback={null}>

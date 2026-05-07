@@ -2,17 +2,19 @@ import { motion } from 'motion/react';
 import { Building2, ArrowLeftRight, Wifi } from 'lucide-react';
 import { HexagonBackground } from '../ui/hexagon-background';
 import { useLang } from '../../i18n';
+import { useTheme } from '../../hooks/useTheme';
 
 const modalityIcons = [Building2, ArrowLeftRight, Wifi];
 
 export default function Talento() {
   const { t } = useLang();
   const ta = t.talento;
+  const { isDark } = useTheme();
 
   return (
     <section
       id="talento"
-      className="bg-white py-16 sm:py-20 px-5 sm:px-6 md:px-14 lg:px-28 overflow-hidden"
+      className={`${isDark ? 'bg-navy-deep' : 'bg-white'} py-16 sm:py-20 px-5 sm:px-6 md:px-14 lg:px-28 overflow-hidden`}
     >
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
         {/* ── LEFT COLUMN ── */}
@@ -35,7 +37,7 @@ export default function Talento() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.1] tracking-[-0.02em] text-navy-deep"
+            className={`font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.1] tracking-[-0.02em] ${isDark ? 'text-white' : 'text-navy-deep'}`}
           >
             <span className="block">{ta.heading}</span>
             <span className="block text-teal">{ta.headingEnd}</span>
@@ -47,7 +49,7 @@ export default function Talento() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-base md:text-lg font-light leading-relaxed text-gray-600 max-w-xl"
+            className={`text-base md:text-lg font-light leading-relaxed max-w-xl ${isDark ? 'text-white/70' : 'text-gray-600'}`}
           >
             {ta.sub}
           </motion.p>
@@ -60,14 +62,14 @@ export default function Talento() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="space-y-3"
           >
-            <p className="font-mono text-[0.6rem] tracking-[0.3em] uppercase text-gray-400">
+            <p className={`font-mono text-[0.6rem] tracking-[0.3em] uppercase ${isDark ? 'text-white/50' : 'text-gray-400'}`}>
               {ta.langsLabel}
             </p>
             <div className="flex flex-wrap gap-2">
               {ta.langs.map((lang, i) => (
                 <span
                   key={lang}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-teal/30 bg-teal/5 text-sm font-medium text-navy-deep"
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-teal/30 bg-teal/5 text-sm font-medium ${isDark ? 'text-white' : 'text-navy-deep'}`}
                 >
                   <span className="text-base leading-none" aria-hidden="true">
                     {ta.langFlags[i]}
@@ -91,17 +93,17 @@ export default function Talento() {
               return (
                 <div
                   key={mod.title}
-                  className="border border-gray-200 rounded-xl p-4 text-center hover:border-teal/40 hover:-translate-y-1 transition-all duration-300 bg-white"
+                  className={`border rounded-xl p-4 text-center hover:border-teal/40 hover:-translate-y-1 transition-all duration-300 ${isDark ? 'border-white/10 bg-white/[0.03]' : 'border-gray-200 bg-white'}`}
                 >
                   <Icon
                     size={22}
                     strokeWidth={1.5}
                     className="mx-auto mb-2 text-teal"
                   />
-                  <p className="font-semibold text-xs text-navy-deep mb-1">
+                  <p className={`font-semibold text-xs mb-1 ${isDark ? 'text-white' : 'text-navy-deep'}`}>
                     {mod.title}
                   </p>
-                  <p className="text-[0.65rem] leading-snug text-gray-500">
+                  <p className={`text-[0.65rem] leading-snug ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     {mod.desc}
                   </p>
                 </div>
@@ -118,7 +120,7 @@ export default function Talento() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="relative rounded-2xl overflow-hidden border border-gray-100"
+            className={`relative rounded-2xl overflow-hidden ${isDark ? 'border border-white/10' : 'border border-gray-100'}`}
           >
             <HexagonBackground
               className="absolute inset-0 bg-transparent"
@@ -133,7 +135,7 @@ export default function Talento() {
                 <p className="font-mono text-[0.6rem] tracking-[0.3em] uppercase text-teal mb-1">
                   {ta.label}
                 </p>
-                <p className="text-sm font-semibold text-navy-deep leading-snug">
+                <p className={`text-sm font-semibold leading-snug ${isDark ? 'text-white' : 'text-navy-deep'}`}>
                   {ta.geoTitle}
                 </p>
               </div>
@@ -152,17 +154,17 @@ export default function Talento() {
                 className={`flex items-center gap-3 border rounded-xl p-3 ${
                   country.active
                     ? 'border-teal/40 bg-teal/5'
-                    : 'border-gray-200 bg-white'
+                    : isDark ? 'border-white/10 bg-white/[0.03]' : 'border-gray-200 bg-white'
                 }`}
               >
                 <span className="text-2xl leading-none flex-shrink-0" aria-hidden="true">
                   {ta.countryFlags[i]}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-sm text-navy-deep leading-tight truncate">
+                  <p className={`font-semibold text-sm leading-tight truncate ${isDark ? 'text-white' : 'text-navy-deep'}`}>
                     {country.name}
                   </p>
-                  <p className="text-xs text-gray-500 leading-tight truncate">
+                  <p className={`text-xs leading-tight truncate ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
                     {country.region}
                   </p>
                 </div>
@@ -183,11 +185,11 @@ export default function Talento() {
             transition={{ duration: 0.4, delay: 0.55 }}
             className="flex items-center gap-5"
           >
-            <span className="flex items-center gap-1.5 text-xs text-gray-500">
+            <span className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
               <span className="w-2.5 h-2.5 rounded-full bg-teal flex-shrink-0" />
               {ta.legendActive}
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-gray-500">
+            <span className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
               <span className="w-2.5 h-2.5 rounded-full bg-gray-300 flex-shrink-0" />
               {ta.legendExplored}
             </span>

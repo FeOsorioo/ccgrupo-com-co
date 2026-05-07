@@ -18,9 +18,19 @@ function initGoogleAnalytics() {
     wait_for_update: 500,
   });
 
-  const consent = localStorage.getItem('ccg_cookie_consent');
-  if (consent === 'accepted') {
-    window.gtag('consent', 'update', { analytics_storage: 'granted' });
+  const CONSENT_TTL_MS = 180 * 24 * 60 * 60 * 1000;
+  const raw = localStorage.getItem('ccg_cookie_consent');
+  if (raw) {
+    try {
+      const stored = raw === 'accepted' || raw === 'rejected'
+        ? { value: raw as 'accepted' | 'rejected', ts: Date.now() }
+        : (JSON.parse(raw) as { value: 'accepted' | 'rejected'; ts: number });
+      if (stored.value === 'accepted' && (Date.now() - stored.ts) < CONSENT_TTL_MS) {
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+    } catch {
+      // malformed consent data — leave as denied
+    }
   }
 
   const script = document.createElement('script');

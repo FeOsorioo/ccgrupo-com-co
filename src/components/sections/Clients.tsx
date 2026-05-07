@@ -72,8 +72,8 @@ export default function Clients() {
       {/* Marquee track */}
       <div className="clients-marquee-wrap relative overflow-hidden">
         {/* Fade edges */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[#060d1f] to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[#060d1f] to-transparent" />
+        <div className="clients-marquee-fade clients-marquee-fade-l pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[#060d1f] to-transparent" />
+        <div className="clients-marquee-fade clients-marquee-fade-r pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[#060d1f] to-transparent" />
 
         {/* clients-marquee-item width set via CSS so each breakpoint shows N logos in 100vw */}
         <div className="clients-marquee flex">

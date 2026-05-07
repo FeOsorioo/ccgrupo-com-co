@@ -195,6 +195,7 @@ export default function Sectors({ onModalOpenChange }: Props) {
                   <button
                     type="button"
                     onClick={close}
+                    aria-label={lang === 'en' ? 'Close' : lang === 'pt' ? 'Fechar' : 'Cerrar'}
                     className="absolute top-5 right-5 sm:top-6 sm:right-6 w-10 h-10 rounded-xl border border-white/10 bg-white/[0.08] backdrop-blur-md flex items-center justify-center text-white hover:text-teal hover:border-teal/30 transition-all duration-200 z-20"
                   >
                     <X size={20} />
