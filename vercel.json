@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/((?!_next|favicon|og-image|site.webmanifest|robots.txt|sitemap.xml|llms.txt|clients|policies|images|fonts|en|pt|servicio|contacto|politicas-privacidad|privacy-policies|contact|privacy).*)", "destination": "/" }
+    { "source": "/((?!_next|favicon|og-image|site.webmanifest|robots.txt|sitemap.xml|llms.txt|policies|images|fonts|en|pt|servicio|contacto|politicas-privacidad|privacy-policies|contact|privacy).*)", "destination": "/" }
   ],
   "headers": [
     {
@@ -25,12 +25,6 @@
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/clients/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]

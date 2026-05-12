@@ -13,11 +13,12 @@ const CLIENTS = Object.entries(logoModules)
     logo: mod.default,
   }));
 
+const TRACK = [...CLIENTS, ...CLIENTS, ...CLIENTS];
+
 export default function Clients() {
   const { t, lang } = useLang();
   const errRef = useRef<Record<number, boolean>>({});
   const [, forceRender] = useState(0);
-  const track = [...CLIENTS, ...CLIENTS, ...CLIENTS];
 
   const handleErr = (i: number) => {
     errRef.current[i] = true;
@@ -77,7 +78,7 @@ export default function Clients() {
 
         {/* clients-marquee-item width set via CSS so each breakpoint shows N logos in 100vw */}
         <div className="clients-marquee flex">
-          {track.map(({ name, logo }, i) => (
+          {TRACK.map(({ name, logo }, i) => (
             <div
               key={`${name}-${i}`}
               className="clients-marquee-item shrink-0 flex items-center justify-center px-6 py-8 group"
@@ -87,6 +88,7 @@ export default function Clients() {
                 src={logo}
                 alt={name}
                 loading="lazy"
+                decoding="async"
                 onError={() => handleErr(i)}
                 className="object-contain h-14 sm:h-16 w-full max-w-[8.125rem] sm:max-w-[10rem]
                            grayscale opacity-50

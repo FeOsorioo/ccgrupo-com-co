@@ -39,7 +39,7 @@ export function useTheme() {
       const html = document.documentElement;
       html.classList.toggle('light', !newIsDark);
       html.style.colorScheme = newIsDark ? 'dark' : 'light';
-      try { localStorage.setItem('theme', newIsDark ? 'dark' : 'light'); } catch {}
+      try { localStorage.setItem('theme', newIsDark ? 'dark' : 'light'); } catch { /* storage unavailable */ }
       // update theme-color meta
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', newIsDark ? '#00b4d8' : '#f0f4f8');

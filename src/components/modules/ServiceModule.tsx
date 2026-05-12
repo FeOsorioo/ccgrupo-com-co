@@ -206,8 +206,23 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
 
   if (!service) return null;
 
+  type ServiceDetailsContent = {
+    longDesc?: string;
+    tags?: string[];
+    features?: string[];
+    benefits?: { title: string; desc: string }[];
+    faq?: { question: string; answer: string }[];
+    ctaTitle?: string;
+    ctaDesc?: string;
+    whatWeDoDesc?: string;
+    whatWeDoBoxes?: { title: string; desc: string }[];
+    whyYouNeedUsItems?: { title: string; desc: string }[];
+    whatYouCanAchieveItems?: string[];
+    midBanner?: { title?: string; desc?: string; buttonLabel?: string };
+  };
+
   const sm       = t.serviceModule;
-  const sd       = t.serviceDetails[serviceId as keyof typeof t.serviceDetails];
+  const sd       = (t.serviceDetails[serviceId as keyof typeof t.serviceDetails] ?? {}) as ServiceDetailsContent;
   const si       = t.services.items[serviceId as keyof typeof t.services.items];
   const title    = si?.title    ?? service.title;
   const subtitle = si?.subtitle ?? service.subtitle;

@@ -172,23 +172,33 @@ export default function LiquidEther({
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Animation loop
-    let animationId: number;
+    // Animation loop with offscreen suspension
+    let animationId = 0;
+    let isVisible = true;
     const animate = () => {
       uniforms.uTime.value += 0.01;
       renderer.render(scene, camera);
       animationId = requestAnimationFrame(animate);
     };
-    animate();
+    const startRAF = () => {
+      if (!animationId) animationId = requestAnimationFrame(animate);
+    };
+    const stopRAF = () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = 0;
+      }
+    };
 
     // Mouse interaction
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isVisible) return;
       const rect = container.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
       uniforms.uMouse.value.set(x, y);
     };
-    
+
     // Resize handler
     const handleResize = () => {
       if (!container) return;
@@ -198,14 +208,32 @@ export default function LiquidEther({
       uniforms.uResolution.value.set(width, height);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
+    const io = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries.some((e) => e.isIntersecting);
+        if (isVisible) startRAF();
+        else stopRAF();
+      },
+      { rootMargin: '200px' }
+    );
+    io.observe(container);
+
+    const onVisibility = () => {
+      if (document.hidden) stopRAF();
+      else if (isVisible) startRAF();
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
+    document.addEventListener('visibilitychange', onVisibility);
 
     return () => {
+      io.disconnect();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
-      if (container && renderer.domElement) {
+      document.removeEventListener('visibilitychange', onVisibility);
+      stopRAF();
+      if (container && renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
       geometry.dispose();

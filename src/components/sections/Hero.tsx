@@ -47,6 +47,7 @@ export default function Hero({ onNavigate }: Props) {
             noise={0}
             glow={0.6}
             transparent
+            suspendWhenOffscreen
           />
         </Suspense>
       </div>

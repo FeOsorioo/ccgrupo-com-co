@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { servicesData, getServiceById } from '../data/services';
 
 describe('servicesData', () => {
-  it('exports 4 services', () => {
-    expect(servicesData).toHaveLength(4);
+  it('exports 6 services', () => {
+    expect(servicesData).toHaveLength(6);
   });
 
   it('each service has the required fields', () => {
