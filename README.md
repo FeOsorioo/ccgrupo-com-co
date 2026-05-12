@@ -152,6 +152,13 @@ npm run build
 
 The project includes a Vercel-compatible build pipeline. The `server.js` Express server can serve the production build (static or SSR). Vite `manualChunks` split vendors into separate bundles (React, Motion, GSAP, Three.js, Lucide, Lenis) for optimized loading.
 
+## Screenshots
+
+![Hero](docs/assets/hero.png)
+![Services](docs/assets/services.png)
+![Clients Carousel](docs/assets/clients.png)
+![Footer](docs/assets/footer.png)
+
 ## License
 
 Proprietary — All rights reserved. Contact Center Grupo S.A.S.
