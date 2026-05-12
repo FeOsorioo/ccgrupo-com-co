@@ -476,7 +476,11 @@ interface Props { onNavigate?: (view: string) => void }
 - 6 íconos de Lucide + texto por cada diferencial
 
 #### `Clients`
-- Carrusel CSS infinito (10 clientes × 2 duplicados)
+- Carrusel CSS infinito (56 logos en webp × 3 sets)
+- Breakpoints responsivos: 2 (mobile), 4 (sm), 6 (lg), 8 (xl) logos visibles
+- Logos: `max-w-[8.125rem] sm:max-w-[10rem]`, `h-14 sm:h-16` con object-contain
+- Efectos: grises → color al hover con transición 300ms
+- Bordes con fade gradient a los costados (claro/oscuro según tema)
 
 #### `CTA`
 - `LiquidEther` de fondo (lazy, opacity 20%)
