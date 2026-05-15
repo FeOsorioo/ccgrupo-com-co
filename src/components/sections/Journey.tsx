@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { Paintbrush, Megaphone, Layers, MessageSquare, BarChart3, Code2 } from 'lucide-react';
 import { useLang } from '../../i18n';
-import { useTheme } from '../../hooks/useTheme';
 
 const STEP_ICONS = [Paintbrush, Megaphone, Layers, MessageSquare, BarChart3, Code2];
 
@@ -18,63 +17,40 @@ interface ZoneStyles {
   badge: string;
   iconBox: string;
   iconColor: string;
-  connector: string;
 }
 
+/**
+ * Zone styles are theme-agnostic: same classes in both modes, with
+ * light-mode contrast tweaks handled by the `journey-zone-*` rules in
+ * index.css. This avoids React state vs. `html.light` class desync that
+ * could render light-theme white surfaces on a dark page.
+ */
 const ZONE_STYLES: Record<ZoneType, ZoneStyles> = {
   posting: {
     accentBar: 'bg-violet-500',
-    badge: 'bg-violet-500/15 text-violet-300 border border-violet-500/25',
-    iconBox: 'bg-violet-500/15',
+    badge: 'journey-zone-posting font-mono text-[0.6rem] tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap',
+    iconBox: 'journey-zone-posting-icon',
     iconColor: 'text-violet-300',
-    connector: 'bg-violet-500/40',
   },
   joint: {
     accentBar: 'bg-gradient-to-r from-violet-500 to-teal',
-    badge: 'bg-gradient-to-r from-violet-500/15 to-teal/15 text-violet-200 border border-violet-400/25',
-    iconBox: 'bg-gradient-to-br from-violet-500/15 to-teal/15',
+    badge: 'journey-zone-joint font-mono text-[0.6rem] tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap',
+    iconBox: 'journey-zone-joint-icon',
     iconColor: 'text-violet-200',
-    connector: 'bg-gradient-to-r from-violet-500/40 to-teal/40',
   },
   ccg: {
     accentBar: 'bg-teal',
-    badge: 'bg-teal/15 text-teal border border-teal/25',
-    iconBox: 'bg-teal/15',
+    badge: 'journey-zone-ccg font-mono text-[0.6rem] tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap',
+    iconBox: 'journey-zone-ccg-icon',
     iconColor: 'text-teal',
-    connector: 'bg-teal/40',
-  },
-};
-
-const LIGHT_ZONE_STYLES: Record<ZoneType, ZoneStyles> = {
-  posting: {
-    accentBar: 'bg-violet-500',
-    badge: 'bg-violet-50 text-violet-700 border border-violet-200',
-    iconBox: 'bg-violet-50',
-    iconColor: 'text-violet-600',
-    connector: 'bg-violet-300/50',
-  },
-  joint: {
-    accentBar: 'bg-gradient-to-r from-violet-500 to-teal',
-    badge: 'bg-gradient-to-r from-violet-50 to-cyan-50 text-violet-700 border border-violet-200/60',
-    iconBox: 'bg-gradient-to-br from-violet-50 to-cyan-50',
-    iconColor: 'text-violet-600',
-    connector: 'bg-gradient-to-r from-violet-300/50 to-teal/40',
-  },
-  ccg: {
-    accentBar: 'bg-teal',
-    badge: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
-    iconBox: 'bg-cyan-50',
-    iconColor: 'text-teal',
-    connector: 'bg-teal/30',
   },
 };
 
 export default function Journey() {
   const { t } = useLang();
-  const { isDark } = useTheme();
   const s = t.journey;
 
-  const zoneStyles = isDark ? ZONE_STYLES : LIGHT_ZONE_STYLES;
+  const zoneStyles = ZONE_STYLES;
 
   return (
     <section
@@ -145,28 +121,19 @@ export default function Journey() {
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
                 }}
-                className={[
-                  'relative flex flex-col gap-3 p-4 rounded-2xl overflow-hidden',
-                  'transition-all duration-300 group',
-                  isDark
-                    ? 'bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/[0.15]'
-                    : 'bg-white shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200',
-                ].join(' ')}
+                className="journey-card relative flex flex-col gap-3 p-4 rounded-2xl overflow-hidden transition-all duration-300 group"
               >
                 {/* Top accent bar */}
                 <div className={`absolute inset-x-0 top-0 h-[3px] ${styles.accentBar}`} />
 
                 {/* Step number watermark */}
-                <span
-                  className="absolute top-3 right-3 font-mono text-[3.5rem] font-light leading-none select-none pointer-events-none"
-                  style={{ opacity: isDark ? 0.07 : 0.06, color: isDark ? '#fff' : '#060d1f' }}
-                >
+                <span className="journey-watermark absolute top-3 right-3 font-mono text-[3.5rem] font-light leading-none select-none pointer-events-none">
                   {stepNum}
                 </span>
 
                 {/* Brand badge */}
                 <div className="flex items-center gap-2 mt-1">
-                  <span className={`font-mono text-[0.6rem] tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap ${styles.badge}`}>
+                  <span className={styles.badge}>
                     {step.brand}
                   </span>
                 </div>
@@ -177,12 +144,12 @@ export default function Journey() {
                 </div>
 
                 {/* Title */}
-                <p className="font-display text-sm sm:text-base font-semibold text-white leading-snug">
+                <p className="journey-card-title font-display text-sm sm:text-base font-semibold leading-snug">
                   {step.title}
                 </p>
 
                 {/* Desc */}
-                <p className="font-mono text-[0.65rem] tracking-wide text-white/50 leading-relaxed">
+                <p className="journey-card-desc font-mono text-[0.65rem] tracking-wide leading-relaxed">
                   {step.desc}
                 </p>
               </motion.div>
@@ -196,12 +163,7 @@ export default function Journey() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className={[
-            'rounded-2xl px-6 py-5',
-            isDark
-              ? 'bg-gradient-to-r from-teal/10 via-transparent to-violet-500/10 border border-white/[0.08]'
-              : 'bg-gradient-to-r from-cyan-50 via-white to-violet-50 border border-gray-100 shadow-sm',
-          ].join(' ')}
+          className="journey-strip rounded-2xl px-6 py-5"
         >
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             {s.result.map((item, i) => {
@@ -214,7 +176,7 @@ export default function Journey() {
                       'font-display text-base sm:text-lg font-semibold leading-snug',
                       isLast
                         ? 'text-teal drop-shadow-[0_0_8px_rgba(0,180,216,0.5)]'
-                        : 'text-white',
+                        : 'journey-strip-item',
                     ].join(' ')}
                   >
                     {item}

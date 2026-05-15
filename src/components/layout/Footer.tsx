@@ -8,6 +8,23 @@ interface Props {
   onNavigate?: (view: string) => void;
 }
 
+const scrollToService = (id: string, onNavigate?: (view: string) => void) => {
+  const targetId = `service-${id}`;
+  const alreadyOnHome = !!document.getElementById(targetId);
+
+  if (alreadyOnHome) {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  // Not on home: switch view first, then wait for the Services section to mount.
+  onNavigate?.('home');
+  // handleNavigate calls window.scrollTo(0,0); give it a frame, then anchor-scroll.
+  setTimeout(() => {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+};
+
 export default function Footer({ onNavigate }: Props) {
   const [isHovered, setIsHovered] = useState(false);
   const { t } = useLang();
@@ -61,7 +78,7 @@ export default function Footer({ onNavigate }: Props) {
               )}
             </AnimatePresence>
           </div>
-          <p className="text-sm font-light leading-relaxed text-gray-200 max-w-xs mx-auto sm:mx-0 mb-4 sm:mb-5 min-w-0">
+          <p className="font-body text-sm font-light leading-relaxed text-gray-200 max-w-xs mx-auto sm:mx-0 mb-4 sm:mb-5 min-w-0">
             {t.footer.description}
           </p>
           <div className="flex items-center justify-center sm:justify-start gap-3 max-w-xs mx-auto sm:mx-0 min-w-0">
@@ -73,32 +90,33 @@ export default function Footer({ onNavigate }: Props) {
         </div>
 
         <div className="text-center sm:text-left">
-          <h5 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.servicesTitle}</h5>
+          <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.servicesTitle}</h3>
           <ul className="space-y-3 sm:space-y-4">
             {t.footer.serviceLinks.map(item => (
               <li key={item.id}>
-                <button
-                  onClick={() => { onNavigate?.(item.id); window.scrollTo(0, 0); }}
-                  className="text-sm font-light text-gray-200 hover:text-teal transition-colors text-center sm:text-left"
+                <a
+                  href={`#service-${item.id}`}
+                  onClick={(e) => { e.preventDefault(); scrollToService(item.id, onNavigate); }}
+                  className="font-body text-sm font-light text-gray-200 hover:text-teal transition-colors text-center sm:text-left inline-block"
                 >
                   {item.name}
-                </button>
+                </a>
               </li>
             ))}
           </ul>
         </div>
 
         <div className="text-center sm:text-left">
-          <h5 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.companyTitle}</h5>
+          <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.companyTitle}</h3>
           <ul className="space-y-3 sm:space-y-4">
             {t.footer.companyLinks.map(item => (
               <li key={item.name}>
                 {item.href.startsWith('http') ? (
-                  <a href={item.href} target="_blank" rel="noreferrer" className="text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</a>
+                  <a href={item.href} target="_blank" rel="noreferrer" className="font-body text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</a>
                 ) : item.href === 'contact' ? (
-                  <button onClick={() => onNavigate?.('contact')} className="text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</button>
+                  <button onClick={() => onNavigate?.('contact')} className="font-body text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</button>
                 ) : (
-                  <a href={item.href} className="text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</a>
+                  <a href={item.href} className="font-body text-sm font-light text-gray-200 hover:text-teal transition-colors">{item.name}</a>
                 )}
               </li>
             ))}
@@ -106,12 +124,12 @@ export default function Footer({ onNavigate }: Props) {
         </div>
 
         <div className="text-center sm:text-left">
-          <h5 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.contactTitle}</h5>
-          <div className="space-y-3 sm:space-y-4 text-sm font-light text-gray-200">
-            <p>Cra. 20 #133 - 74, La Calleja</p>
-            <p>{t.footer.location}</p>
-            <a href="mailto:info@ccgrupo.com.co" className="block hover:text-teal transition-colors">info@ccgrupo.com.co</a>
-            <a href="tel:+573016125291" className="block hover:text-teal transition-colors">301 612 5291</a>
+          <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-gray-300 mb-4 sm:mb-6">{t.footer.contactTitle}</h3>
+          <div className="space-y-3 sm:space-y-4 font-body text-sm font-light text-gray-200">
+            <p className="font-body font-light">{t.footer.contact.address}</p>
+            <p className="font-body font-light">{t.footer.location}</p>
+            <a href={`mailto:${t.footer.contact.email}`} className="font-body font-light block hover:text-teal transition-colors">{t.footer.contact.email}</a>
+            <a href="tel:+573016125291" className="font-body font-light block hover:text-teal transition-colors">{t.footer.contact.phone}</a>
           </div>
         </div>
       </div>

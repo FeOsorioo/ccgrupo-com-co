@@ -1,4 +1,4 @@
-import { useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Brain, BarChart3, Globe2, Settings, Link2, Zap } from 'lucide-react';
 const SplitText = lazy(() => import('../ui/SplitText'));
@@ -14,7 +14,10 @@ const BORDERS = [
   'border-teal/25',
 ];
 
-const ANIM_S = 32; // seconds per full loop
+// Speed: 32s for a full 50% loop ≈ matches the previous CSS animation cadence.
+// Auto-scroll moves LEFT (negative offset), like a typical marquee.
+const AUTO_SPEED_PCT_PER_SEC = 50 / 32; // ≈ 1.5625 %/s
+const TAP_THRESHOLD = 5;
 
 // Card width scales with breakpoint. Height is UNCONSTRAINED — the card
 // grows to fit its content, so nothing is ever clipped.
@@ -36,24 +39,23 @@ const ANIM_CSS = `
     position: relative;
   }
 
-  @keyframes ccg-marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
+  /* JS drives --ccg-offset (percent of track width).
+     translate3d goes on its own line so transforms compose correctly. */
   .ccg-track {
     display: flex;
     width: max-content;
-    animation: ccg-marquee ${ANIM_S}s linear infinite;
+    transform: translate3d(var(--ccg-offset, 0%), 0, 0);
+    will-change: transform;
+    touch-action: pan-y;
   }
-  .ccg-track:hover {
-    animation-play-state: paused !important;
-  }
-  .ccg-track:hover .ccg-card {
+  .ccg-track-wrap { cursor: grab; }
+  .ccg-track-wrap:active { cursor: grabbing; }
+
+  .ccg-track-wrap:hover .ccg-card {
     filter: brightness(0.65);
     transition: filter 0.2s;
   }
-  .ccg-track:hover .ccg-card:hover {
+  .ccg-track-wrap:hover .ccg-card:hover {
     filter: brightness(1.05);
     z-index: 10;
   }
@@ -62,6 +64,11 @@ const ANIM_CSS = `
 export default function Reasons() {
   const { t, lang } = useLang();
   const sectionRef = useRef<HTMLElement>(null);
+  const trackRef       = useRef<HTMLDivElement>(null);
+  const offsetPctRef   = useRef(0);           // current translateX in %
+  const isDraggingRef  = useRef(false);
+  const isHoveringRef  = useRef(false);
+  const dragStartRef   = useRef<{ x: number; offsetPct: number; trackWidth: number; moved: boolean } | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -70,12 +77,72 @@ export default function Reasons() {
   // Subtle parallax: less shift on mobile so cards stay centred
   const xShift = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
+  // Auto-scroll loop (paused on hover or drag) — drives --ccg-offset.
+  useEffect(() => {
+    let raf = 0;
+    let lastT = performance.now();
+    const tick = (t: number) => {
+      const dt = (t - lastT) / 1000;
+      lastT = t;
+      if (!isDraggingRef.current && !isHoveringRef.current) {
+        offsetPctRef.current -= AUTO_SPEED_PCT_PER_SEC * dt;
+      }
+      // Wrap into [-50, 0]% so the duplicated track loops seamlessly
+      if (offsetPctRef.current <= -50) offsetPctRef.current += 50;
+      if (offsetPctRef.current >    0) offsetPctRef.current -= 50;
+      if (trackRef.current) {
+        trackRef.current.style.setProperty('--ccg-offset', `${offsetPctRef.current}%`);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Global pointermove / pointerup so the drag survives even if the cursor
+  // leaves the wrap. No pointer capture → native clicks on the cards (if we
+  // ever add per-card actions) bubble normally.
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      if (!isDraggingRef.current || !dragStartRef.current) return;
+      const dx = e.clientX - dragStartRef.current.x;
+      if (Math.abs(dx) > TAP_THRESHOLD) dragStartRef.current.moved = true;
+      const { trackWidth, offsetPct } = dragStartRef.current;
+      // px → % of track width
+      const deltaPct = trackWidth > 0 ? (dx / trackWidth) * 100 : 0;
+      offsetPctRef.current = offsetPct + deltaPct;
+    };
+    const onUp = () => {
+      isDraggingRef.current = false;
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+    };
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    const trackWidth = trackRef.current?.getBoundingClientRect().width ?? 0;
+    isDraggingRef.current = true;
+    dragStartRef.current = {
+      x: e.clientX,
+      offsetPct: offsetPctRef.current,
+      trackWidth,
+      moved: false,
+    };
+  };
+
   const normalizeQ = (v: string) =>
-    v.replace(/^(?:\u00C2)?(?:\u00BF)\s*/, '').replace(/\?\s*$/, '').trim();
+    v.replace(/^(?:Â)?(?:¿)\s*/, '').replace(/\?\s*$/, '').trim();
 
   const items  = t.reasons.items;
   const N      = items.length;
-  const prefix = lang === 'es' ? '\u00BF' : '';
+  const prefix = lang === 'es' ? '¿' : '';
 
   // Double the array → translateX(-50%) produces a seamless infinite loop
   const track = [...items, ...items];
@@ -96,7 +163,7 @@ export default function Reasons() {
           {t.reasons.label}
         </motion.div>
 
-        <div className="font-display text-[clamp(2.2rem,4vw,3.8rem)] leading-tight">
+        <h2 className="font-display text-[clamp(2.2rem,4vw,3.8rem)] leading-tight font-normal">
           <Suspense fallback={
             <span className="inline-block opacity-0">
               {prefix}{normalizeQ(t.reasons.headingPre)} {normalizeQ(t.reasons.headingEm)}?
@@ -117,21 +184,24 @@ export default function Reasons() {
               </em>
             </SplitText>
           </Suspense>
-        </div>
+        </h2>
       </div>
 
       {/* ── Carousel track ───────────────────────────── */}
       {/* overflow-hidden clips cards leaving left/right; height = natural card height */}
       <div
-        className="relative overflow-hidden"
+        className="ccg-track-wrap relative overflow-hidden"
         style={{
           maskImage: 'linear-gradient(to right, transparent, #000 5% 95%, transparent)',
           WebkitMaskImage: 'linear-gradient(to right, transparent, #000 5% 95%, transparent)',
         }}
+        onPointerDown={onPointerDown}
+        onMouseEnter={() => { isHoveringRef.current = true; }}
+        onMouseLeave={() => { isHoveringRef.current = false; }}
       >
         {/* Parallax wrapper — in-flow div so the container height follows card height */}
         <motion.div style={{ x: xShift }}>
-          <div className="ccg-track">
+          <div ref={trackRef} className="ccg-track">
             {track.map((reason, i) => {
               const Icon = ICONS[i % ICONS.length];
 
@@ -151,9 +221,9 @@ export default function Reasons() {
                     </div>
 
                     {/* Title */}
-                    <h4 className="font-mono text-xs md:text-sm uppercase tracking-wider text-white leading-snug group-hover:text-teal transition-colors duration-300">
+                    <h3 className="font-mono text-xs md:text-sm uppercase tracking-wider text-white leading-snug group-hover:text-teal transition-colors duration-300">
                       {reason.title}
-                    </h4>
+                    </h3>
 
                     {/* Desc — full text, no clamp, card grows to fit */}
                     <p className="text-white font-light text-xs md:text-sm leading-relaxed">

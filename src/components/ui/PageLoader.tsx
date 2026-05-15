@@ -18,6 +18,9 @@ export default function PageLoader() {
           <img
             src={logoSrc}
             alt="CCGrupo"
+            width={192}
+            height={192}
+            decoding="async"
             className="w-[160px] sm:w-[176px] md:w-[192px] h-auto max-w-none object-contain"
             onError={() => {
               if (logoSrc !== BRAND_ASSETS.legacyLogo) {

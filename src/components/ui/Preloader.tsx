@@ -38,7 +38,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [count, setCount]     = useState(0);
   const [logoSrc, setLogoSrc] = useState(BRAND_ASSETS.loaderLogo);
   const [hideLogo, setHideLogo] = useState(false);
-  const { lang } = useLang();
+  const { t } = useLang();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -144,6 +144,10 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             <img
               src={logoSrc}
               alt="CCGrupo"
+              width={160}
+              height={160}
+              decoding="async"
+              fetchPriority="high"
               className="ccg-loader-logo-img w-[160px] max-w-none h-auto object-contain"
               onError={() => {
                 if (logoSrc !== BRAND_ASSETS.legacyLogo) {
@@ -172,7 +176,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           />
         </div>
         <div className="font-mono text-[0.52rem] tracking-[0.4em] uppercase text-gray-400">
-          {lang === 'en' ? 'Loading experience' : 'Cargando experiencia'}
+          {t.common.loading}
         </div>
       </div>
     </motion.div>

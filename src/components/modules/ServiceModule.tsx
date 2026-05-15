@@ -228,9 +228,9 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
   const subtitle = si?.subtitle ?? service.subtitle;
   const showIconPlaceholder = !service.details.heroImage || imageError;
 
-  const homeCrumb = t.nav.links[0]?.name ?? (lang === 'en' ? 'Home' : 'Inicio');
-  const servicesCrumb = t.nav.links[2]?.name ?? (lang === 'en' ? 'Services' : 'Servicios');
-  const backHomeLabel = lang === 'en' ? 'Back to home' : 'Volver al inicio';
+  const homeCrumb = t.nav.links[0]?.name ?? t.common.home;
+  const servicesCrumb = t.nav.links[2]?.name ?? t.common.services;
+  const backHomeLabel = t.common.backHome;
 
   const localizedSubProducts = service.subProducts?.map((product) => {
     if (lang !== 'en' || service.id !== '03') return product;
@@ -475,7 +475,7 @@ export default function ServiceModule({ serviceId, onBack, onNavigate }: Service
                       onClick={() => onNavigate?.('03')}
                       className="mt-4 font-mono text-xs tracking-wider uppercase text-teal hover:text-white transition-colors cursor-pointer underline underline-offset-4"
                     >
-                      {lang === 'en' ? 'Learn about our Autonomous Agents →' : 'Conoce nuestro servicio de Agentes Autónomos →'}
+                      {t.common.learnAboutAA}
                     </button>
                   )}
                 </motion.div>

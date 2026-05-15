@@ -37,6 +37,7 @@ import type { Lang } from './i18n';
 
 const ServiceModule  = lazy(() => import('./components/modules/ServiceModule'));
 const ContactModule  = lazy(() => import('./components/modules/ContactModule'));
+const CareersModule  = lazy(() => import('./components/modules/CareersModule'));
 const PrivacyModule  = lazy(() => import('./components/modules/PrivacyModule'));
 const NotFoundModule = lazy(() => import('./components/modules/NotFoundModule'));
 
@@ -73,6 +74,7 @@ function getViewFromPath(pathname: string): string {
 
   if (path === '/') return 'home';
   if (path === '/contacto' || path === '/contact') return 'contact';
+  if (path === '/trabajo' || path === '/careers' || path === '/trabalhe-conosco') return 'careers';
   if (path === '/politicas-privacidad' || path === '/privacy-policies' || path === '/privacy') return 'privacy';
 
   const serviceMatch = path.match(/^\/servicio\/(01|02|03|04|05)$/);
@@ -93,6 +95,8 @@ function getPathForView(view: string): string {
       return publicPrefix || '/';
     case 'contact':
       return `${publicPrefix}/contacto`;
+    case 'careers':
+      return `${publicPrefix}/${lang === 'en' ? 'careers' : lang === 'pt' ? 'trabalhe-conosco' : 'trabajo'}`;
     case 'privacy':
       return `${publicPrefix}/politicas-privacidad`;
     default:
@@ -198,7 +202,7 @@ export default function App({ initialPath }: AppProps) {
                     <About />
                     <Services onNavigate={handleNavigate} />
                     <Reasons />
-                    <Sectors onModalOpenChange={setIsSectorModalOpen} />
+                    <Sectors onModalOpenChange={setIsSectorModalOpen} onNavigate={handleNavigate} />
                     <Talento />
                     <Clients />
                     <PostingSection />
@@ -211,6 +215,10 @@ export default function App({ initialPath }: AppProps) {
             ) : currentView === 'contact' ? (
               <Suspense fallback={<PageLoader />}>
                 <ContactModule onBack={handleBackToHome} />
+              </Suspense>
+            ) : currentView === 'careers' ? (
+              <Suspense fallback={<PageLoader />}>
+                <CareersModule onBack={handleBackToHome} />
               </Suspense>
             ) : currentView === 'privacy' ? (
               <Suspense fallback={<PageLoader />}>

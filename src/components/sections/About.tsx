@@ -1,8 +1,7 @@
 import { motion, useInView } from 'motion/react';
-import { useRef, useState, useEffect, lazy, Suspense } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useLang } from '../../i18n';
-
-const LiquidEther = lazy(() => import('../ui/LiquidEther'));
+import FluidBackground from '../ui/FluidBackground';
 
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -28,7 +27,7 @@ function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
 }
 
 export default function About() {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const stats = [
     { val: 15, suffix: '+', label: t.about.stats[0] },
     { val: 40, suffix: '%', label: t.about.stats[1] },
@@ -39,15 +38,7 @@ export default function About() {
   return (
     <section id="about" className="relative overflow-hidden py-24 sm:py-32 px-5 sm:px-6 md:px-14 lg:px-28 bg-navy-deep">
       <div className="absolute inset-0 opacity-20 pointer-events-none -z-10">
-        <Suspense fallback={null}>
-          <LiquidEther
-            colors={['#0f1d35', '#0077b6', '#060d1f']}
-            mouseForce={20} cursorSize={100} isViscous viscous={30}
-            iterationsViscous={32} iterationsPoisson={32} resolution={0.5}
-            isBounce={false} autoDemo autoSpeed={0.5} autoIntensity={2.2}
-            takeoverDuration={0.25} autoResumeDelay={3000} autoRampDuration={0.6}
-          />
-        </Suspense>
+        <FluidBackground colors={['#0f1d35', '#0077b6', '#060d1f']} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-start lg:items-center">
@@ -94,7 +85,7 @@ export default function About() {
             className="grid gap-3"
           >
             <div className="font-mono text-[0.55rem] tracking-[0.3em] uppercase text-teal/70">
-              {lang === 'en' ? 'What we align' : lang === 'pt' ? 'O que alinhamos' : 'Lo que ordenamos'}
+              {t.about.highlightsLabel}
             </div>
             <div className="grid sm:grid-cols-3 gap-3">
               {t.about.highlights.map((item) => (

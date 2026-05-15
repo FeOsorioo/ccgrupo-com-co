@@ -19,12 +19,12 @@ export default function Navbar({ onNavigate, hidden = false }: Props) {
   const langRef = useRef<HTMLDivElement>(null);
 
   const labels = {
-    goHome: lang === 'en' ? 'Go home' : lang === 'es' ? 'Ir al inicio' : 'Ir para o início',
-    languageGroup: lang === 'en' ? 'Select language' : lang === 'es' ? 'Seleccionar idioma' : 'Selecionar idioma',
-    themeToggle: lang === 'en' ? 'Toggle theme' : lang === 'es' ? 'Cambiar tema' : 'Mudar tema',
-    openMenu: lang === 'en' ? 'Open navigation menu' : lang === 'es' ? 'Abrir menú de navegación' : 'Abrir menu de navegação',
-    closeMenu: lang === 'en' ? 'Close navigation menu' : lang === 'es' ? 'Cerrar menú de navegación' : 'Fechar menu de navegação',
-    menuDialog: lang === 'en' ? 'Navigation menu' : lang === 'es' ? 'Menú de navegación' : 'Menu de navegação',
+    goHome: t.common.goHome,
+    languageGroup: t.common.selectLanguage,
+    themeToggle: t.common.themeToggle,
+    openMenu: t.common.openMenu,
+    closeMenu: t.common.closeMenu,
+    menuDialog: t.common.menuDialog,
   };
 
   const languages: { code: Lang; label: string }[] = [
@@ -69,10 +69,10 @@ export default function Navbar({ onNavigate, hidden = false }: Props) {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-          className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 sm:px-6 md:px-14 lg:px-28 py-2 sm:py-3 flex items-center justify-between ${
+          className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 sm:px-6 md:px-14 lg:px-28 py-2 sm:py-2.5 flex items-center justify-between ${
           hidden ? 'pointer-events-none -translate-y-4 opacity-0' : 'opacity-100'
         } ${
-          isScrolled ? 'bg-navy-deep/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
+          isScrolled ? 'bg-navy-deep/80 backdrop-blur-xl' : 'bg-transparent'
         }`}
       >
         {/* Logo container */}
@@ -81,7 +81,7 @@ export default function Navbar({ onNavigate, hidden = false }: Props) {
           className="relative z-50 transition-transform duration-300 hover:scale-[1.02]"
           aria-label={labels.goHome}
         >
-          <ThemedLogo width={140} className="h-auto" />
+          <ThemedLogo className="h-10 sm:h-11 w-auto" />
         </button>
 
         {/* Desktop navigation */}
@@ -116,7 +116,7 @@ export default function Navbar({ onNavigate, hidden = false }: Props) {
           <div className="relative" ref={langRef}>
             <button
               onClick={() => setLangOpen(!isLangOpen)}
-              className="flex items-center gap-2 font-mono text-label tracking-[0.15em] text-white hover:text-teal transition-colors px-3 py-1.5 border border-white/10 rounded-lg hover:border-teal/30"
+              className="flex items-center gap-1.5 h-9 font-mono text-label tracking-[0.15em] text-white hover:text-teal transition-colors px-3 border border-white/10 rounded-lg hover:border-teal/30"
               aria-label={labels.languageGroup}
               aria-expanded={isLangOpen}
             >
@@ -219,7 +219,7 @@ export default function Navbar({ onNavigate, hidden = false }: Props) {
           {/* CTA */}
           <button
             onClick={() => onNavigate?.('contact')}
-            className="font-mono text-[0.55rem] uppercase tracking-[0.15em] px-5 py-1.5 border border-teal/40 text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
+            className="inline-flex items-center justify-center h-9 font-mono text-[0.6rem] uppercase tracking-[0.15em] px-5 border border-teal/40 rounded-lg text-teal hover:bg-teal hover:text-navy-deep hover:border-teal hover:shadow-[0_0_30px_rgba(0,180,216,0.25)] transition-all duration-300"
           >
             {t.nav.contact}
           </button>

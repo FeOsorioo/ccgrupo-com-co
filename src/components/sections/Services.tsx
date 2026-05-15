@@ -13,7 +13,7 @@ interface ServicesProps {
 
 export default function Services({ onNavigate }: ServicesProps) {
   const { t, lang } = useLang();
-  const tapHint = lang === 'en' ? 'Tap card to view details' : lang === 'pt' ? 'Toque o cartão para ver detalhes' : 'Toca la tarjeta para ver detalles';
+  const tapHint = t.common.tapHint;
 
   return (
     <section id="services" className="pt-24 relative bg-navy-deep overflow-hidden">
@@ -28,10 +28,10 @@ export default function Services({ onNavigate }: ServicesProps) {
           {t.services.label}
         </motion.div>
 
-        <div className="font-display text-[clamp(2.5rem,10vw,9rem)] leading-[0.95]">
+        <h2 className="font-display text-[clamp(2.5rem,10vw,9rem)] leading-[0.95] font-normal">
           <Suspense fallback={
             <span className="inline-block opacity-0">
-              {lang === 'en' ? 'Our ecosystem' : 'Nuestro ecosistema'}
+              {t.services.heading1} {t.services.heading2}
             </span>
           }>
             <SplitText
@@ -43,12 +43,10 @@ export default function Services({ onNavigate }: ServicesProps) {
               from={{ opacity: 0, y: 40 }}
               to={{ opacity: 1, y: 0 }}
             >
-              {lang === 'en'
-                ? <>Our<br /><span className="text-stroke text-transparent">ecosystem</span></>
-                : <>Nuestro<br /><span className="text-stroke text-transparent">ecosistema</span></>}
+              <>{t.services.heading1}<br /><span className="text-stroke text-transparent">{t.services.heading2}</span></>
             </SplitText>
           </Suspense>
-        </div>
+        </h2>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
@@ -58,9 +56,7 @@ export default function Services({ onNavigate }: ServicesProps) {
           className="absolute top-0 right-6 md:right-14 lg:right-28 hidden lg:block"
         >
           <CircularText
-            text={lang === 'en'
-              ? 'AUTOMATION*OMNICHANNEL*CONTACT*CENTER*'
-              : 'AUTOMATIZACIÓN*OMNICANALIDAD*CONTACT*CENTER*'}
+            text={t.services.circularText}
             onHover="goBonkers"
             spinDuration={25}
             className="text-teal font-mono text-[10px]"
@@ -170,6 +166,7 @@ export default function Services({ onNavigate }: ServicesProps) {
           return (
             <motion.div
               key={svc.id}
+              id={`service-${svc.id}`}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-10%' }}
@@ -182,7 +179,7 @@ export default function Services({ onNavigate }: ServicesProps) {
                   }
                 }
               }}
-              className="group grid lg:grid-cols-2 min-h-[auto] sm:min-h-[50vh] lg:min-h-[55vh] border-b border-white/10 overflow-hidden relative transition-colors duration-500 bg-[#0D1940] hover:bg-[#0D1940] cursor-pointer lg:cursor-default"
+              className="group grid lg:grid-cols-2 min-h-[auto] sm:min-h-[50vh] lg:min-h-[55vh] border-b border-white/10 overflow-hidden relative transition-colors duration-500 bg-[#0D1940] hover:bg-[#0D1940] cursor-pointer lg:cursor-default scroll-mt-20"
             >
               {[textCol, iconCol]}
             </motion.div>

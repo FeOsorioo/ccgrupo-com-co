@@ -39,17 +39,8 @@ function grantConsent(value: ConsentValue) {
 
 export default function CookieBanner({ onNavigate }: { onNavigate?: (view: string) => void }) {
   const [visible, setVisible] = useState(false);
-  const { t, lang } = useLang();
-  const ck = t.cookie ?? {
-    message: lang === 'en'
-      ? 'We use cookies to improve your experience and measure site performance.'
-      : lang === 'pt'
-        ? 'Usamos cookies para melhorar sua experiência e medir o desempenho do site.'
-        : 'Usamos cookies para mejorar tu experiencia y medir el rendimiento del sitio.',
-    policy: lang === 'en' ? 'Privacy policy' : lang === 'pt' ? 'Política de privacidade' : 'Política de privacidad',
-    accept: lang === 'en' ? 'Accept' : lang === 'pt' ? 'Aceitar' : 'Aceptar',
-    reject: lang === 'en' ? 'Reject' : lang === 'pt' ? 'Recusar' : 'Rechazar',
-  };
+  const { t } = useLang();
+  const ck = t.cookie;
 
   useEffect(() => {
     const stored = readConsent();
@@ -121,7 +112,7 @@ export default function CookieBanner({ onNavigate }: { onNavigate?: (view: strin
             <button
               onClick={() => handle('rejected')}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-300 transition-colors sm:hidden"
-              aria-label={lang === 'en' ? 'Close' : 'Cerrar'}
+              aria-label={t.common.close}
             >
               <X size={14} />
             </button>

@@ -251,11 +251,11 @@ html.light {
     @apply bg-gradient-to-br from-teal to-teal-bright bg-clip-text text-transparent;
   }
   .text-stroke {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.32);
     color: transparent;
   }
   .text-stroke-teal {
-    -webkit-text-stroke: 1px rgba(0, 180, 216, 0.3);
+    -webkit-text-stroke: 1.5px rgba(0, 180, 216, 0.55);
     color: transparent;
   }
 }
@@ -327,9 +327,9 @@ html.light {
   /* ── Scrollbar ── */
   scrollbar-color: var(--c-bg-light) var(--c-bg-mid);
 
-  /* ── Nav: clear definition on light bg ── */
+  /* ── Nav: soft elevation on light bg (no hairline) ── */
   & nav {
-    box-shadow: 0 2px 32px rgba(11, 22, 40, 0.1), 0 1px 0 rgba(11, 22, 40, 0.12);
+    box-shadow: 0 4px 24px rgba(11, 22, 40, 0.06);
   }
 
   /* ── All white borders → subtle navy ── */
@@ -381,21 +381,25 @@ html.light {
     background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 55%, #f0f9ff 100%) !important;
   }
 
-  /* ── Dark-bg sections: restore white text (Services text col + PostingSection keep dark bg) ── */
-  & .service-text-col,
-  & #posting-section {
-    & h3                        { color: #ffffff; }
-    & .text-white               { color: #ffffff !important; }
-    & .text-gray-200            { color: rgba(255, 255, 255, 0.75) !important; }
-    & .text-gray-300            { color: rgba(255, 255, 255, 0.65) !important; }
-    & .text-gray-400            { color: rgba(255, 255, 255, 0.50) !important; }
-    & [class*="text-white/9"]   { color: rgba(255, 255, 255, 0.90) !important; }
-    & [class*="text-white/8"]   { color: rgba(255, 255, 255, 0.80) !important; }
-    & [class*="text-white/7"]   { color: rgba(255, 255, 255, 0.70) !important; }
-    & [class*="text-white/6"]   { color: rgba(255, 255, 255, 0.60) !important; }
-    & [class*="text-white/5"]   { color: rgba(255, 255, 255, 0.50) !important; }
-    & [class*="text-white/4"]   { color: rgba(255, 255, 255, 0.40) !important; }
-    & [class*="border-white"]   { border-color: rgba(255, 255, 255, 0.15) !important; }
+  /* ── PostingSection now uses its own always-light surface, so don't
+        override colors here. The .posting-* utilities below define both
+        themes the same way. ── */
+
+  /* ── Services text column: light-mode dark text on light surface ── */
+  & .service-text-col {
+    & h3                        { color: var(--c-fg) !important; }
+    & .text-white               { color: var(--c-fg) !important; }
+    & .text-gray-200            { color: var(--c-g200) !important; }
+    & .text-gray-300            { color: var(--c-g300) !important; }
+    & .text-gray-400            { color: #5b7898 !important; }
+    & [class*="text-white/9"]   { color: rgba(11, 22, 40, 0.90) !important; }
+    & [class*="text-white/8"]   { color: rgba(11, 22, 40, 0.80) !important; }
+    & [class*="text-white/7"]   { color: rgba(11, 22, 40, 0.72) !important; }
+    & [class*="text-white/6"]   { color: rgba(11, 22, 40, 0.62) !important; }
+    & [class*="text-white/5"]   { color: rgba(11, 22, 40, 0.52) !important; }
+    & [class*="text-white/4"]   { color: rgba(11, 22, 40, 0.42) !important; }
+    & [class*="border-white"]   { border-color: rgba(11, 22, 40, 0.15) !important; }
+    & .text-stroke-teal         { -webkit-text-stroke: 1.5px rgba(0, 100, 160, 0.45); color: transparent; }
   }
 
   /* ── Sectors modal: full light surface ── */
@@ -608,7 +612,87 @@ html.light {
   & .h-px[class*="bg-white/3"] {
     background-color: rgba(11, 22, 40, 0.15) !important;
   }
+
+  /* ── Journey: light mode surfaces (cards + result strip) ── */
+  & .journey-card {
+    background-color: #ffffff !important;
+    border-color: rgba(11, 22, 40, 0.08) !important;
+    box-shadow: 0 2px 14px rgba(11, 22, 40, 0.06), 0 0 0 1px rgba(11, 22, 40, 0.04) !important;
+  }
+  & .journey-card:hover {
+    box-shadow: 0 8px 26px rgba(11, 22, 40, 0.09), 0 0 0 1px rgba(11, 22, 40, 0.06) !important;
+    border-color: rgba(11, 22, 40, 0.14) !important;
+  }
+  & .journey-card-title { color: #0b1f38 !important; }
+  & .journey-card-desc  { color: rgba(11, 22, 40, 0.62) !important; }
+  & .journey-watermark  { color: #060d1f !important; opacity: 0.08 !important; }
+
+  & .journey-strip {
+    background: linear-gradient(to right, #ecfeff, #ffffff, #f5f3ff) !important;
+    border: 1px solid rgba(11, 22, 40, 0.08) !important;
+    box-shadow: 0 2px 12px rgba(11, 22, 40, 0.05) !important;
+  }
+  & .journey-strip-item { color: #0b1f38 !important; }
+
+  /* Zone badges/icons: light-mode palettes (text-violet-700 / cyan-700 etc.) */
+  & .journey-zone-posting {
+    background-color: #f5f3ff !important;
+    color: #6d28d9 !important;
+    border: 1px solid rgba(139, 92, 246, 0.25) !important;
+  }
+  & .journey-zone-joint {
+    background: linear-gradient(to right, #f5f3ff, #ecfeff) !important;
+    color: #6d28d9 !important;
+    border: 1px solid rgba(139, 92, 246, 0.25) !important;
+  }
+  & .journey-zone-ccg {
+    background-color: #ecfeff !important;
+    color: #0e7490 !important;
+    border: 1px solid rgba(8, 145, 178, 0.25) !important;
+  }
+  & .journey-zone-posting-icon { background-color: #f5f3ff !important; }
+  & .journey-zone-joint-icon   { background: linear-gradient(135deg, #f5f3ff, #ecfeff) !important; }
+  & .journey-zone-ccg-icon     { background-color: #ecfeff !important; }
 }
+
+/* ─── Journey: dark-mode defaults (apply when html.light is NOT present) ─── */
+.journey-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.journey-card:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.journey-card-title { color: #ffffff; }
+.journey-card-desc  { color: rgba(255, 255, 255, 0.5); }
+.journey-watermark  { color: #ffffff; opacity: 0.07; }
+
+.journey-strip {
+  background: linear-gradient(to right, rgba(0, 180, 216, 0.1), transparent, rgba(139, 92, 246, 0.1));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.journey-strip-item { color: #ffffff; }
+
+.journey-zone-posting {
+  background-color: rgba(139, 92, 246, 0.15);
+  color: rgb(196, 181, 253);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+.journey-zone-joint {
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.15), rgba(0, 180, 216, 0.15));
+  color: rgb(221, 214, 254);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+}
+.journey-zone-ccg {
+  background-color: rgba(0, 180, 216, 0.15);
+  color: rgb(0, 180, 216);
+  border: 1px solid rgba(0, 180, 216, 0.25);
+}
+.journey-zone-posting-icon { background-color: rgba(139, 92, 246, 0.15); }
+.journey-zone-joint-icon   { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(0, 180, 216, 0.15)); }
+.journey-zone-ccg-icon     { background-color: rgba(0, 180, 216, 0.15); }
 
 /* ─── Focus rings (keyboard navigation) ─────────── */
 
@@ -629,6 +713,112 @@ html.light :focus-visible {
   }
 }
 
+/* ─── Posting section (always-light, brand-rainbow accents) ──── */
+
+.posting-section {
+  /* Always-light surface regardless of html.light state. Keeps the
+     Posting section feeling like an embedded piece of posting.com.co
+     against the rest of the (dark-leaning) CCG ecosystem. */
+  color: #0f172a;
+  color-scheme: light;
+}
+.posting-section h2 { color: #0f172a; }
+
+/* `html.light` rewrites `.text-white` to dark navy globally — but inside
+   .posting-section that breaks the CTA pill and the final formula icon
+   (white-on-black turns dark-on-black). Force white back inside. */
+.posting-section .text-white { color: #ffffff !important; }
+
+.posting-rainbow-bar {
+  background: linear-gradient(
+    90deg,
+    #ff5e8a 0%,
+    #ff9a3c 22%,
+    #ffd23f 42%,
+    #4ade80 60%,
+    #38bdf8 78%,
+    #8b5cf6 100%
+  );
+}
+
+.posting-rainbow-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 90deg,
+    #ff5e8a,
+    #ff9a3c,
+    #ffd23f,
+    #4ade80,
+    #38bdf8,
+    #8b5cf6,
+    #ff5e8a
+  );
+  box-shadow: 0 0 0 2px #FAFAF7;
+}
+
+.posting-rainbow-text {
+  background: linear-gradient(
+    90deg,
+    #ff5e8a 0%,
+    #ff9a3c 28%,
+    #ffd23f 48%,
+    #4ade80 65%,
+    #38bdf8 82%,
+    #8b5cf6 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.posting-rainbow-blur {
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 94, 138, 0.25),
+    rgba(255, 154, 60, 0.18) 30%,
+    rgba(74, 222, 128, 0.14) 55%,
+    rgba(139, 92, 246, 0.12) 80%,
+    transparent 100%
+  );
+  filter: blur(80px);
+  opacity: 0.85;
+}
+
+.posting-rainbow-glow {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 94, 138, 0.45),
+    rgba(255, 154, 60, 0.35),
+    rgba(255, 210, 63, 0.28),
+    rgba(74, 222, 128, 0.32),
+    rgba(56, 189, 248, 0.38),
+    rgba(139, 92, 246, 0.45)
+  );
+  filter: blur(28px);
+  opacity: 0.45;
+}
+
+.posting-formula-final {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 94, 138, 0.08),
+    rgba(255, 210, 63, 0.08),
+    rgba(74, 222, 128, 0.08),
+    rgba(56, 189, 248, 0.08),
+    rgba(139, 92, 246, 0.10)
+  );
+}
+
+/* Make sure light-mode global overrides don't repaint Posting surfaces
+   (the section is intentionally light in both themes). */
+html.light .posting-section .bg-white\/5,
+html.light .posting-section [class*="bg-white/"] {
+  background-color: initial !important;
+}
+
 /* ─── Sectors 3D carousel (decorative) ───────────── */
 
 .sectors-carousel-wrap {
@@ -643,23 +833,28 @@ html.light :focus-visible {
 }
 
 .sectors-carousel-inner {
-  --w: 62px;
-  --h: 88px;
+  --w: 150px;
+  --h: 210px;
   --translateZ: calc(var(--w) + var(--h));
-  --rotateX: -14deg;
-  --perspective: 1000px;
+  --rotateX: -12deg;
+  --perspective: 1600px;
+  --rotation: 0deg;
   position: absolute;
   width: var(--w);
   height: var(--h);
-  top: 32%;
+  top: 38%;
   left: calc(50% - (var(--w) / 2) - 2px);
   transform-style: preserve-3d;
-  animation: sectors-spin 28s linear infinite;
+  /* Rotation is now driven by JS via the --rotation custom property,
+     so we can interrupt auto-spin with a click-and-drag gesture. */
+  transform: perspective(var(--perspective))
+             rotateX(var(--rotateX))
+             rotateY(var(--rotation));
 }
 
-.sectors-carousel-wrap:hover .sectors-carousel-inner {
-  animation-play-state: paused;
-}
+/* Drag affordance + global cursor while pressed */
+.sectors-carousel-draggable        { cursor: grab; }
+.sectors-carousel-draggable:active { cursor: grabbing; }
 
 @keyframes sectors-spin {
   from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0); }
@@ -669,11 +864,34 @@ html.light :focus-visible {
 .sectors-carousel-card {
   position: absolute;
   inset: 0;
+  padding: 0;
+  background: transparent;
   border: 1.5px solid rgba(var(--color-card), 0.55);
-  border-radius: 14px;
+  border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
   transform: rotateY(calc((360deg / var(--quantity)) * var(--index)))
              translateZ(var(--translateZ));
+  /* `scale` is a separate transform property so it can animate without
+     fighting the positioning transform above. Springy back-out easing
+     gives the "pop forward" feeling on hover. */
+  scale: 1;
+  transition:
+    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.sectors-carousel-card:hover,
+.sectors-carousel-card:focus-visible {
+  border-color: rgba(var(--color-card), 1);
+  box-shadow:
+    0 0 64px rgba(var(--color-card), 0.7),
+    0 18px 50px rgba(0, 0, 0, 0.55);
+  filter: brightness(1.18) saturate(1.1);
+  scale: 1.18;
+  outline: none;
 }
 
 .sectors-carousel-face {
@@ -683,12 +901,13 @@ html.light :focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 14px;
+  padding: 18px 12px;
   background: radial-gradient(
-    circle,
-    rgba(var(--color-card), 0.12) 0%,
-    rgba(var(--color-card), 0.32) 70%,
-    rgba(var(--color-card), 0.52) 100%
+    circle at 50% 35%,
+    rgba(var(--color-card), 0.18) 0%,
+    rgba(var(--color-card), 0.38) 60%,
+    rgba(var(--color-card), 0.62) 100%
   );
 }
 
@@ -823,3 +1042,28 @@ html.light .clients-marquee-item img {
 ::-webkit-scrollbar-track        { background: var(--c-bg-deep); }
 ::-webkit-scrollbar-thumb        { background: var(--c-bg-light); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover  { background: #00b4d8; }
+
+/* ─── Fluid background (replaces Three.js LiquidEther) ───
+   Pure CSS animated gradient. Fully composited, ~0 main-thread cost. */
+.fluid-bg {
+  background:
+    radial-gradient(60% 80% at 20% 30%, color-mix(in srgb, var(--fb-c1) 55%, transparent) 0%, transparent 70%),
+    radial-gradient(50% 70% at 80% 65%, color-mix(in srgb, var(--fb-c0) 60%, transparent) 0%, transparent 70%),
+    radial-gradient(55% 75% at 50% 90%, color-mix(in srgb, var(--fb-c2) 50%, transparent) 0%, transparent 70%),
+    linear-gradient(135deg, var(--fb-c0), var(--fb-c1) 50%, var(--fb-c2));
+  background-size: 220% 220%, 200% 200%, 240% 240%, 100% 100%;
+  background-position: 0% 0%, 100% 100%, 50% 100%, 0 0;
+  filter: blur(40px) saturate(120%);
+  animation: fluid-drift 28s ease-in-out infinite alternate;
+  will-change: background-position;
+}
+
+@keyframes fluid-drift {
+  0%   { background-position: 0%   0%,   100% 100%, 50% 100%, 0 0; }
+  50%  { background-position: 100% 50%,  0%   50%,  20% 30%,  0 0; }
+  100% { background-position: 50%  100%, 50%  0%,   80% 70%,  0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fluid-bg { animation: none; }
+}

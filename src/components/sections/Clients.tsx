@@ -1,8 +1,9 @@
-import { useRef, useEffect, useState, lazy, Suspense, type MouseEvent } from 'react';
-import { motion } from 'motion/react';
+import { useState, useEffect, lazy, Suspense, type KeyboardEvent } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 const SplitText = lazy(() => import('../ui/SplitText'));
 import { useLang } from '../../i18n';
 
+// Auto-loads every .webp file added to src/assets/clients/webp/
 const logoModules = import.meta.glob('../../assets/clients/webp/*.webp', { eager: true }) as Record<string, { default: string }>;
 
 const CLIENTS = Object.entries(logoModules)
@@ -12,87 +13,139 @@ const CLIENTS = Object.entries(logoModules)
     logo: mod.default,
   }));
 
-const SET_WIDTH = 25;
-const BASE_DURATION = 12;
+interface ClientAvatarsProps {
+  clients: { name: string; logo: string }[];
+  /** Avatar size in px */
+  size: number;
+  /** Max number of visible avatars before showing +X bubble */
+  maxVisible: number;
+  /** Overlap percentage between avatars (0–100) */
+  overlap?: number;
+  /** Hover scale factor */
+  focusScale?: number;
+  /** Suffix for the +X bubble ("más" / "more" / "mais") */
+  moreSuffix: string;
+}
+
+function ClientAvatars({
+  clients,
+  size,
+  maxVisible,
+  overlap = 55,
+  focusScale = 1.25,
+  moreSuffix,
+}: ClientAvatarsProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const exceedMax = clients.length > maxVisible;
+  // Reserve last slot for the "+X" bubble when we overflow
+  const visibleCount = exceedMax ? maxVisible : clients.length;
+  const visible = clients.slice(0, visibleCount);
+
+  const diff = 1 - overlap / 100;
+  const baseGap = size * (overlap / 100);
+  const neededGap = (size * (1 + focusScale)) / 2;
+  const shift = Math.max(0, neededGap - baseGap);
+
+  const handleKey = (e: KeyboardEvent<HTMLDivElement>, index: number) => {
+    if (e.key === 'Enter' || e.key === ' ') setHoveredIndex(index);
+  };
+
+  // Total items in the row = visible avatars + (maybe) the +X bubble
+  const total = visibleCount + (exceedMax ? 1 : 0);
+
+  return (
+    <div className="client-avatars flex items-center justify-center relative">
+      {Array.from({ length: total }).map((_, index) => {
+        const isLengthBubble = exceedMax && index === visibleCount;
+        const client = visible[index];
+        const isHovered = hoveredIndex === index;
+
+        // Length bubble does not scale (it's not a real client)
+        const shouldScale = isHovered && !isLengthBubble;
+        // Siblings to the right shift away to make room for hovered item
+        const shouldShift = hoveredIndex !== null && index > hoveredIndex;
+        const zIndex = isHovered ? total + 1 : index;
+
+        return (
+          <motion.div
+            key={isLengthBubble ? 'more-bubble' : client.name}
+            role="img"
+            aria-label={isLengthBubble ? `+${clients.length - maxVisible} ${moreSuffix}` : client.name}
+            className="relative outline-none rounded-full focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep"
+            style={{
+              width: size,
+              height: size,
+              zIndex,
+              marginLeft: index === 0 ? 0 : -size * diff,
+              cursor: isLengthBubble ? 'default' : 'pointer',
+            }}
+            tabIndex={isLengthBubble ? -1 : 0}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onFocus={() => setHoveredIndex(index)}
+            onBlur={() => setHoveredIndex(null)}
+            onKeyDown={(e) => handleKey(e, index)}
+            animate={{
+              scale: shouldScale ? focusScale : 1,
+              x: shouldShift ? shift : 0,
+            }}
+            transition={{ type: 'spring', stiffness: 220, damping: 22 }}
+          >
+            {/* Bubble */}
+            <div className="client-avatar-bubble w-full h-full rounded-full overflow-hidden border-2 border-white/70 bg-white shadow-[0_6px_20px_rgba(0,0,0,0.18)] flex items-center justify-center">
+              {isLengthBubble ? (
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-teal-dark to-teal text-white font-mono text-sm font-semibold">
+                  +{clients.length - maxVisible}
+                </div>
+              ) : (
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  width={size}
+                  height={size}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-[78%] h-[78%] object-contain transition-all duration-300"
+                />
+              )}
+            </div>
+
+            {/* Tooltip on hover */}
+            <AnimatePresence>
+              {shouldScale && (
+                <motion.div
+                  role="tooltip"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute left-1/2 bottom-full mb-3 z-50 pointer-events-none"
+                >
+                  <div className="transform -translate-x-1/2 whitespace-nowrap rounded-md bg-navy-deep/95 backdrop-blur-md border border-white/15 text-white text-xs font-mono tracking-wider px-3 py-1.5 shadow-xl">
+                    {client.name}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function Clients() {
   const { t, lang } = useLang();
-  const errRef = useRef<Record<number, boolean>>({});
-  const [, forceRender] = useState(0);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef(0);
-  const posRef = useRef(0);
-  const speedRef = useRef(1);
-  const mouseXRef = useRef(0.5);
-  const isMobileRef = useRef(false);
-  const [isLight, setIsLight] = useState(false);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const track = [...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS];
-
-  const handleErr = (i: number) => {
-    errRef.current[i] = true;
-    forceRender(n => n + 1);
-  };
+  // Responsive: show fewer avatars on smaller screens
+  const [{ size, maxVisible }, setConfig] = useState(() => getResponsiveConfig());
 
   useEffect(() => {
-    setIsLight(document.documentElement.classList.contains('light'));
-    isMobileRef.current = window.matchMedia('(pointer: coarse)').matches;
-
-    const obs = new MutationObserver(() => {
-      setIsLight(document.documentElement.classList.contains('light'));
-    });
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => obs.disconnect();
+    const handleResize = () => setConfig(getResponsiveConfig());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    let lastTime = performance.now();
-
-    const animate = (time: number) => {
-      const dt = (time - lastTime) / 1000;
-      lastTime = time;
-
-      const baseSpeed = SET_WIDTH / BASE_DURATION;
-      const speed = baseSpeed * speedRef.current;
-
-      posRef.current += speed * dt;
-      if (posRef.current >= SET_WIDTH) {
-        posRef.current -= SET_WIDTH;
-      } else if (posRef.current < 0) {
-        posRef.current += SET_WIDTH;
-      }
-      if (trackRef.current) {
-        trackRef.current.style.transform = `translateX(-${posRef.current}%)`;
-      }
-
-      animRef.current = requestAnimationFrame(animate);
-    };
-
-    animRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animRef.current);
-  }, []);
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!wrapRef.current || isMobileRef.current) return;
-    const rect = wrapRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    mouseXRef.current = x;
-    speedRef.current = 1 + (x - 0.5) * 4;
-
-    const threshold = 200;
-    for (let i = 0; i < itemRefs.current.length; i++) {
-      const el = itemRefs.current[i];
-      if (!el) continue;
-      const elRect = el.getBoundingClientRect();
-      const elCenterX = elRect.left + elRect.width / 2;
-      const dist = Math.abs(e.clientX - elCenterX);
-      const scale = dist < threshold ? 1 + 0.15 * (1 - dist / threshold) : 1;
-      el.style.setProperty('--logo-scale', String(scale));
-      el.style.transform = `scale(${scale})`;
-    }
-  };
 
   return (
     <section id="clients" className="py-24 border-t border-white/10 overflow-hidden">
@@ -108,7 +161,7 @@ export default function Clients() {
             {t.clients.label}
           </motion.div>
 
-          <div className="font-display text-[clamp(2rem,3.5vw,3rem)]">
+          <h2 className="font-display text-[clamp(2rem,3.5vw,3rem)] font-normal">
             <Suspense fallback={
               <span className="inline-block opacity-0">
                 {t.clients.headingPre} {t.clients.headingEm}
@@ -126,7 +179,7 @@ export default function Clients() {
                 {t.clients.headingPre} <em className="italic text-teal">{t.clients.headingEm}</em>
               </SplitText>
             </Suspense>
-          </div>
+          </h2>
         </div>
 
         <motion.div
@@ -139,33 +192,36 @@ export default function Clients() {
         </motion.div>
       </div>
 
-      <div
-        ref={wrapRef}
-        className="clients-marquee-wrap relative overflow-hidden"
-        onMouseMove={handleMouseMove}
+      {/* Avatar stack — clients with hover-to-reveal name */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col items-center gap-6 px-4 sm:px-6 md:px-14 lg:px-28 pt-8 pb-2"
       >
-        <div className="clients-marquee-fade clients-marquee-fade-l pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10" />
-        <div className="clients-marquee-fade clients-marquee-fade-r pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10" />
+        <ClientAvatars
+          clients={CLIENTS}
+          size={size}
+          maxVisible={maxVisible}
+          moreSuffix={t.clients.moreSuffix}
+        />
 
-        <div ref={trackRef} className="clients-marquee flex">
-          {track.map(({ name, logo }, i) => (
-            <div
-              key={`${name}-${i}`}
-              ref={el => { itemRefs.current[i] = el; }}
-              className="clients-marquee-item shrink-0 flex items-center justify-center px-6 py-8"
-              style={errRef.current[i] ? { display: 'none' } : undefined}
-            >
-              <img
-                src={logo}
-                alt={name}
-                loading="lazy"
-                onError={() => handleErr(i)}
-                className="object-contain h-14 sm:h-16 w-full max-w-[8.125rem] sm:max-w-[10rem] transition-all duration-300"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+        <p className="font-mono text-[0.6rem] sm:text-[0.65rem] tracking-[0.25em] uppercase text-gray-300 mt-6 text-center">
+          <span className="text-teal font-semibold">+{CLIENTS.length}</span>{' '}
+          {t.clients.countLabel}
+        </p>
+      </motion.div>
     </section>
   );
+}
+
+function getResponsiveConfig() {
+  if (typeof window === 'undefined') return { size: 64, maxVisible: 14 };
+  const w = window.innerWidth;
+  if (w >= 1280) return { size: 68, maxVisible: 16 };
+  if (w >= 1024) return { size: 64, maxVisible: 13 };
+  if (w >= 768)  return { size: 58, maxVisible: 11 };
+  if (w >= 480)  return { size: 52, maxVisible: 8 };
+  return { size: 48, maxVisible: 6 };
 }

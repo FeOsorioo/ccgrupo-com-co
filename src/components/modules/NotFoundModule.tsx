@@ -8,21 +8,9 @@ interface Props {
 }
 
 export default function NotFoundModule({ onBack }: Props) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
-  const copy = lang === 'en'
-    ? {
-        pageTitle: '404 - Page not found | CCGrupo',
-        badge: 'Page not found',
-        heading: 'This page does not exist',
-        desc: 'The URL you are looking for does not exist or was moved. Go back home to explore our services.',
-      }
-    : {
-        pageTitle: '404 - Pagina no encontrada | CCGrupo',
-        badge: 'Pagina no encontrada',
-        heading: 'Esta pagina no existe',
-        desc: 'La URL que buscas no existe o fue movida. Vuelve al inicio para explorar nuestros servicios.',
-      };
+  const copy = t.notFound;
 
   useEffect(() => {
     const prev = document.title;
@@ -66,7 +54,7 @@ export default function NotFoundModule({ onBack }: Props) {
             className="flex-1 sm:flex-none flex items-center justify-center gap-2 font-mono text-[0.6rem] tracking-[0.2em] uppercase px-8 py-3.5 bg-teal text-navy-deep hover:bg-teal-bright transition-all duration-300 min-w-[11rem]"
           >
             <Home size={14} />
-            {t.nav.links[0]?.name ?? (lang === 'en' ? 'Home' : 'Inicio')}
+            {t.nav.links[0]?.name ?? t.common.home}
           </button>
           <button
             onClick={onBack}

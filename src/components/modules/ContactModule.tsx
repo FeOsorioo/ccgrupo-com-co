@@ -16,25 +16,31 @@ interface FormState {
   email: string;
   telefono: string;
   servicio: string;
+  sector: string;
   mensaje: string;
 }
 
-const empty: FormState = { nombre: '', empresa: '', email: '', telefono: '', servicio: '', mensaje: '' };
+const empty: FormState = { nombre: '', empresa: '', email: '', telefono: '', servicio: '', sector: '', mensaje: '' };
 
 interface Props { onBack: () => void; }
 
 export default function ContactModule({ onBack }: Props) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const ct = t.contact;
 
   const serviceOrder = ['01', '02', '03', '04', '05', '06'] as const;
   const serviceOptions = serviceOrder.map((id) => `${id} - ${t.services.items[id].title}`);
+  // Sector list comes from the Sectors section data so it always stays in sync.
+  const sectorOptions = [
+    ...t.sectors.items.map((it) => it.name),
+    ct.fields.sectorOther,
+  ];
 
   useEffect(() => {
     const prev = document.title;
-    document.title = lang === 'en' ? 'Contact | CCGrupo' : 'Contacto | CCGrupo';
+    document.title = ct.pageTitle;
     return () => { document.title = prev; };
-  }, [lang]);
+  }, [ct.pageTitle]);
 
   const [form, setForm]           = useState<FormState>(empty);
   const [errors, setErrors]       = useState<Partial<FormState>>({});
@@ -42,12 +48,23 @@ export default function ContactModule({ onBack }: Props) {
   const [sending, setSending]     = useState(false);
   const [sendError, setSendError] = useState(false);
 
-  const scheduleValue = lang === 'en' ? 'Mon - Fri · 8:00 - 18:00' : 'Lun - Vie · 8:00 - 18:00';
+  // If the user landed here from a sector popup CTA, pre-fill the sector
+  // select with the sector they were reading about.
+  useEffect(() => {
+    try {
+      const prefill = sessionStorage.getItem('ccg.prefillSector');
+      if (prefill) {
+        setForm(prev => ({ ...prev, sector: prefill }));
+        sessionStorage.removeItem('ccg.prefillSector');
+      }
+    } catch { /* sessionStorage unavailable — silently skip */ }
+  }, []);
+
   const contactInfo = [
-    { icon: MapPin, label: ct.infoLabels.location, value: 'Cra. 20 #133 - 74, La Calleja', sub: ct.infoSubs.location },
-    { icon: Mail,   label: ct.infoLabels.email,    value: 'Comercial@ccgrupo.com.co',        sub: ct.infoSubs.email   },
-    { icon: Phone,  label: ct.infoLabels.phone,    value: '301 612 5291',                   sub: ct.infoSubs.phone   },
-    { icon: Clock,  label: ct.infoLabels.schedule, value: scheduleValue,                     sub: ct.infoSubs.schedule },
+    { icon: MapPin, label: ct.infoLabels.location, value: ct.info.address, sub: ct.infoSubs.location },
+    { icon: Mail,   label: ct.infoLabels.email,    value: ct.info.email,   sub: ct.infoSubs.email   },
+    { icon: Phone,  label: ct.infoLabels.phone,    value: ct.info.phone,   sub: ct.infoSubs.phone   },
+    { icon: Clock,  label: ct.infoLabels.schedule, value: ct.scheduleValue, sub: ct.infoSubs.schedule },
   ];
 
   const validate = (): boolean => {
@@ -57,6 +74,7 @@ export default function ContactModule({ onBack }: Props) {
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = ct.errors.email;
     if (!form.telefono.trim()) next.telefono = ct.errors.telefono;
     if (!form.servicio)        next.servicio = ct.errors.servicio;
+    if (!form.sector)          next.sector = ct.errors.sector;
     if (!form.mensaje.trim() || form.mensaje.trim().length < 20) next.mensaje = ct.errors.mensaje;
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -85,7 +103,8 @@ export default function ContactModule({ onBack }: Props) {
             from_email: form.email,
             phone:      form.telefono,
             service:    form.servicio,
-            message:    form.mensaje,
+            sector:     form.sector,
+            message:    `[${ct.mailto.sector}: ${form.sector}]\n\n${form.mensaje}`,
             reply_to:   form.email,
           },
           EJ_KEY!
@@ -97,15 +116,9 @@ export default function ContactModule({ onBack }: Props) {
         setSending(false);
       }
     } else {
-      const subjectPrefix = lang === 'en' ? 'CCGrupo Contact' : 'Contacto CCGrupo';
-      const nameLabel = lang === 'en' ? 'Name' : 'Nombre';
-      const companyLabel = lang === 'en' ? 'Company' : 'Empresa';
-      const phoneLabel = lang === 'en' ? 'Phone' : 'Teléfono';
-      const serviceLabel = lang === 'en' ? 'Service' : 'Servicio';
-
-      const subject = encodeURIComponent(`${subjectPrefix} - ${form.servicio}`);
+      const subject = encodeURIComponent(`${ct.mailto.subjectPrefix} - ${form.servicio} (${form.sector})`);
       const body    = encodeURIComponent(
-        `${nameLabel}: ${form.nombre}\n${companyLabel}: ${form.empresa}\nEmail: ${form.email}\n${phoneLabel}: ${form.telefono}\n${serviceLabel}: ${form.servicio}\n\n${form.mensaje}`
+        `${ct.mailto.name}: ${form.nombre}\n${ct.mailto.company}: ${form.empresa}\nEmail: ${form.email}\n${ct.mailto.phone}: ${form.telefono}\n${ct.mailto.service}: ${form.servicio}\n${ct.mailto.sector}: ${form.sector}\n\n${form.mensaje}`
       );
       window.location.href = `mailto:commercial@ccgrupo.com.co?subject=${subject}&body=${body}`;
       setSending(false);
@@ -233,7 +246,7 @@ export default function ContactModule({ onBack }: Props) {
                         name="nombre"
                         value={form.nombre}
                         onChange={handleChange}
-                        placeholder={lang === 'en' ? 'John Doe' : 'Juan Garcia'}
+                        placeholder={ct.placeholders.nombre}
                         className={inputBase}
                       />
                     </Field>
@@ -243,7 +256,7 @@ export default function ContactModule({ onBack }: Props) {
                         name="empresa"
                         value={form.empresa}
                         onChange={handleChange}
-                        placeholder={lang === 'en' ? 'My Company LLC' : 'Mi Empresa S.A.S.'}
+                        placeholder={ct.placeholders.empresa}
                         className={inputBase}
                       />
                     </Field>
@@ -258,12 +271,20 @@ export default function ContactModule({ onBack }: Props) {
                     </Field>
                   </div>
 
-                  <Field label={ct.fields.servicio} error={errors.servicio} htmlFor="f-servicio">
-                    <select id="f-servicio" name="servicio" value={form.servicio} onChange={handleChange} className={`${inputBase} appearance-none cursor-pointer`}>
-                      <option value="" disabled className="bg-navy-deep">{ct.fields.selectPh}</option>
-                      {serviceOptions.map((s) => <option key={s} value={s} className="bg-navy-deep">{s}</option>)}
-                    </select>
-                  </Field>
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                    <Field label={ct.fields.servicio} error={errors.servicio} htmlFor="f-servicio">
+                      <select id="f-servicio" name="servicio" value={form.servicio} onChange={handleChange} className={`${inputBase} appearance-none cursor-pointer`}>
+                        <option value="" disabled className="bg-navy-deep">{ct.fields.selectPh}</option>
+                        {serviceOptions.map((s) => <option key={s} value={s} className="bg-navy-deep">{s}</option>)}
+                      </select>
+                    </Field>
+                    <Field label={ct.fields.sector} error={errors.sector} htmlFor="f-sector">
+                      <select id="f-sector" name="sector" value={form.sector} onChange={handleChange} className={`${inputBase} appearance-none cursor-pointer`}>
+                        <option value="" disabled className="bg-navy-deep">{ct.fields.sectorPh}</option>
+                        {sectorOptions.map((s) => <option key={s} value={s} className="bg-navy-deep">{s}</option>)}
+                      </select>
+                    </Field>
+                  </div>
 
                   <Field label={ct.fields.mensaje} error={errors.mensaje} htmlFor="f-mensaje">
                     <textarea id="f-mensaje" name="mensaje" value={form.mensaje} onChange={handleChange} rows={5} placeholder={ct.fields.messagePh} className={`${inputBase} resize-none`} />
@@ -290,9 +311,7 @@ export default function ContactModule({ onBack }: Props) {
                         className="flex items-center gap-2 font-mono text-[0.55rem] text-red-400 justify-center"
                       >
                         <XCircle size={12} />
-                        {lang === 'en'
-                          ? 'Send failed. Try again or email us at commercial@ccgrupo.com.co'
-                          : 'Error al enviar. Intenta de nuevo o escríbenos a commercial@ccgrupo.com.co'}
+                        {ct.sendError}
                       </motion.div>
                     )}
                   </AnimatePresence>

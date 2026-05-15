@@ -1,9 +1,7 @@
-import { lazy, Suspense } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Briefcase } from 'lucide-react';
 import { useLang } from '../../i18n';
-
-const LiquidEther = lazy(() => import('../ui/LiquidEther'));
+import FluidBackground from '../ui/FluidBackground';
 
 interface Props {
   onNavigate?: (view: string) => void;
@@ -17,15 +15,7 @@ export default function CTA({ onNavigate }: Props) {
     <section className="relative overflow-hidden bg-navy-deep py-20 sm:py-40 lg:py-56 px-5 sm:px-6 text-center">
       <div className="cta-overlay absolute inset-0 pointer-events-none" />
       <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <Suspense fallback={null}>
-          <LiquidEther
-            colors={['#023e8a', '#0077b6', '#0096c7']}
-            mouseForce={20} cursorSize={100} isViscous viscous={30}
-            iterationsViscous={32} iterationsPoisson={32} resolution={0.5}
-            isBounce={false} autoDemo autoSpeed={0.5} autoIntensity={2.2}
-            takeoverDuration={0.25} autoResumeDelay={3000} autoRampDuration={0.6}
-          />
-        </Suspense>
+        <FluidBackground colors={['#023e8a', '#0077b6', '#0096c7']} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
@@ -70,6 +60,25 @@ export default function CTA({ onNavigate }: Props) {
           <ArrowRight size={16} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
           <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-teal to-teal-bright opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </motion.button>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.45 }}
+          className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center gap-x-3 gap-y-2 text-sm"
+        >
+          <span className="text-white/55 font-light">{ctaCopy.workWithUs}</span>
+          <button
+            type="button"
+            onClick={() => onNavigate?.('careers')}
+            className="group inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.22em] uppercase text-teal hover:text-teal-bright transition-colors"
+          >
+            <Briefcase size={14} strokeWidth={1.8} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+            {ctaCopy.workCta}
+            <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </button>
+        </motion.div>
       </div>
     </section>
   );

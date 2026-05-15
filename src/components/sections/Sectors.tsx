@@ -9,6 +9,13 @@ import { useLang } from '../../i18n';
 
 const ICONS = [HeartPulse, Landmark, ShoppingBag, Truck, Building2, GraduationCap, Plane, PawPrint, Utensils, Car, Users, Sparkles];
 
+// 360° / 38s ≈ 9.47 deg/s — matches the previous CSS animation cadence.
+const AUTO_SPEED = 360 / 38;
+// px → deg: tuned so a slow horizontal drag rotates the wheel one step.
+const DRAG_SENSITIVITY = 0.5;
+// Movement above this threshold (px) counts as a drag, not a tap.
+const TAP_THRESHOLD = 5;
+
 type SectorItem = {
   name: string;
   desc: string;
@@ -20,19 +27,87 @@ type SectorItem = {
 
 interface Props {
   onModalOpenChange?: (open: boolean) => void;
+  onNavigate?: (view: string) => void;
 }
 
-export default function Sectors({ onModalOpenChange }: Props) {
+export default function Sectors({ onModalOpenChange, onNavigate }: Props) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const s = t.sectors;
-  const viewMoreLabel = lang === 'pt' ? 'Ver mais' : lang === 'en' ? 'See more' : 'Ver más';
+  const viewMoreLabel = t.common.viewMore;
 
   const [active, setActive] = useState<(SectorItem & { index: number }) | null>(null);
 
   const open = (item: SectorItem, index: number) => setActive({ ...item, index });
   const close = () => setActive(null);
+
+  // ── Carousel rotation (auto-spin + click-and-drag) ───────────────────
+  // We drive the rotation via rAF so users can grab the carousel and
+  // turn it manually. CSS keyframes were too rigid to interrupt cleanly.
+  const innerRef        = useRef<HTMLDivElement>(null);
+  const rotationRef     = useRef(0);
+  const isDraggingRef   = useRef(false);
+  const isHoveringRef   = useRef(false);
+  const dragStartRef    = useRef<{ x: number; rot: number; moved: boolean } | null>(null);
+
+  useEffect(() => {
+    let raf = 0;
+    let lastT = performance.now();
+    const tick = (t: number) => {
+      const dt = (t - lastT) / 1000;
+      lastT = t;
+      if (!isDraggingRef.current && !isHoveringRef.current) {
+        rotationRef.current += AUTO_SPEED * dt;
+      }
+      if (innerRef.current) {
+        innerRef.current.style.setProperty('--rotation', `${rotationRef.current}deg`);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // We attach pointermove/up to `window` (instead of using setPointerCapture
+  // on the wrap) so the native `click` event still bubbles to the card —
+  // pointer capture would redirect events and break the popup.
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      if (!isDraggingRef.current || !dragStartRef.current) return;
+      const dx = e.clientX - dragStartRef.current.x;
+      if (Math.abs(dx) > TAP_THRESHOLD) dragStartRef.current.moved = true;
+      rotationRef.current = dragStartRef.current.rot + dx * DRAG_SENSITIVITY;
+    };
+    const onUp = () => {
+      isDraggingRef.current = false;
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+    };
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Only left button / primary pointer
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    isDraggingRef.current = true;
+    dragStartRef.current = { x: e.clientX, rot: rotationRef.current, moved: false };
+  };
+
+  const handleCardActivate = (item: SectorItem, idx: number) => {
+    // Suppress the click if the user actually dragged the carousel.
+    if (dragStartRef.current?.moved) {
+      dragStartRef.current = null;
+      return;
+    }
+    dragStartRef.current = null;
+    open(item, idx);
+  };
 
   useEffect(() => {
     onModalOpenChange?.(!!active);
@@ -58,7 +133,7 @@ export default function Sectors({ onModalOpenChange }: Props) {
 
   return (
     <>
-      <section id="sectores" ref={ref} className="relative py-24 sm:py-32 px-5 sm:px-6 md:px-14 lg:px-28 overflow-hidden bg-transparent">
+      <section id="sectores" ref={ref} className="relative py-14 sm:py-20 px-5 sm:px-6 md:px-14 lg:px-28 overflow-hidden bg-transparent">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-teal/5 rounded-full blur-[100px]" />
         </div>
@@ -68,7 +143,7 @@ export default function Sectors({ onModalOpenChange }: Props) {
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="mb-12 sm:mb-16"
+            className="mb-6 sm:mb-8"
           >
             <div className="flex items-center gap-4 font-mono text-xs tracking-[0.35em] uppercase text-teal mb-6">
               <div className="w-8 h-px bg-teal" />
@@ -82,38 +157,52 @@ export default function Sectors({ onModalOpenChange }: Props) {
             </p>
           </motion.div>
 
-          {/* ── Decorative 3D carousel (desktop only) ── */}
-          <div className="hidden lg:block h-[340px] w-full mb-6 pointer-events-none select-none overflow-visible">
-            <div className="sectors-carousel-wrap">
+          {/* ── 3D carousel (desktop only) — clickable to open + draggable to spin ── */}
+          <div className="hidden lg:block h-[440px] w-full mb-0 select-none overflow-visible">
+            <div
+              className="sectors-carousel-wrap sectors-carousel-draggable"
+              onPointerDown={onPointerDown}
+            >
               <div
+                ref={innerRef}
                 className="sectors-carousel-inner"
-                style={{ '--quantity': ICONS.length } as React.CSSProperties}
+                style={{ '--quantity': ICONS.length, '--rotation': '0deg' } as React.CSSProperties}
               >
                 {ICONS.map((Icon, i) => {
                   const hue = Math.round((i / ICONS.length) * 60); // 0-60° sweep within teal range
                   const r = Math.round(0   + hue * 0.4);
                   const g = Math.round(180 - hue * 0.8);
                   const b = Math.round(216 + hue * 0.5);
+                  const item = s.items[i % s.items.length];
                   return (
-                    <div
+                    <button
                       key={i}
+                      type="button"
+                      onClick={() => handleCardActivate(item, i % s.items.length)}
+                      onMouseEnter={() => { isHoveringRef.current = true; }}
+                      onMouseLeave={() => { isHoveringRef.current = false; }}
+                      onDragStart={(e) => e.preventDefault()}
+                      aria-label={item?.name}
                       className="sectors-carousel-card"
                       style={{ '--index': i, '--color-card': `${r}, ${g}, ${b}` } as React.CSSProperties}
                     >
                       <div className="sectors-carousel-face">
-                        <Icon size={18} className="text-white/70" strokeWidth={1.5} />
-                        <span className="font-mono text-[0.5rem] tracking-widest text-white/40">
+                        <span className="font-mono text-[0.6rem] tracking-[0.3em] text-white/45">
                           {String(i + 1).padStart(2, '0')}
                         </span>
+                        <Icon size={38} className="text-white/85" strokeWidth={1.4} />
+                        <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white text-center px-2 leading-tight line-clamp-2">
+                          {item?.name}
+                        </span>
                       </div>
-                    </div>
+                    </button>
                   );
                 })}
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:hidden">
             {s.items.map((item, i) => {
               const Icon = ICONS[i % ICONS.length];
               return (
@@ -195,7 +284,7 @@ export default function Sectors({ onModalOpenChange }: Props) {
                   <button
                     type="button"
                     onClick={close}
-                    aria-label={lang === 'en' ? 'Close' : lang === 'pt' ? 'Fechar' : 'Cerrar'}
+                    aria-label={t.common.close}
                     className="absolute top-5 right-5 sm:top-6 sm:right-6 w-10 h-10 rounded-xl border border-white/10 bg-white/[0.08] backdrop-blur-md flex items-center justify-center text-white hover:text-teal hover:border-teal/30 transition-all duration-200 z-20"
                   >
                     <X size={20} />
@@ -263,6 +352,30 @@ export default function Sectors({ onModalOpenChange }: Props) {
                         ))}
                       </ul>
                     </div>
+                  </div>
+
+                  {/* ── CTA: lleva al formulario con el sector pre-seleccionado ── */}
+                  <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+                    <div className="min-w-0">
+                      <p className="font-mono text-[0.6rem] tracking-[0.25em] uppercase text-teal/70 mb-2">
+                        {s.label} — {active.name}
+                      </p>
+                      <p className="font-display text-lg sm:text-xl text-white leading-snug max-w-md">
+                        {s.ctaPrompt}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        try { sessionStorage.setItem('ccg.prefillSector', active.name); } catch { /* ignore */ }
+                        close();
+                        onNavigate?.('contact');
+                      }}
+                      className="group inline-flex items-center justify-center gap-3 font-mono text-[0.65rem] tracking-[0.25em] uppercase px-7 py-4 bg-gradient-to-br from-teal-dark to-teal text-white rounded-xl shadow-[0_8px_30px_rgba(0,180,216,0.25)] hover:shadow-[0_14px_40px_rgba(0,180,216,0.4)] hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
+                    >
+                      <span>{s.cta}</span>
+                      <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </button>
                   </div>
                 </div>
               </div>
