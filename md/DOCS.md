@@ -35,9 +35,9 @@ SPA (*Single-Page Application*) React 19 para **CCGrupo**, empresa colombiana de
 | Característica | Detalle |
 |---|---|
 | Sin router | Navegación por estado en `App.tsx` |
-| Bilingüe | Español / Inglés con Context API |
+| Trilingüe | Español / Inglés / Portugués con Context API |
 | Tema | Oscuro (default) / Claro — persiste en `localStorage` |
-| Animaciones | Motion, GSAP, Three.js, Lenis |
+| Animaciones | Motion, GSAP, Three.js, OGL, Lenis |
 | SEO | Schema.org, FAQPage, hreflang, sitemap, `llms.txt` |
 
 ---
@@ -60,11 +60,13 @@ SPA (*Single-Page Application*) React 19 para **CCGrupo**, empresa colombiana de
 | Three.js | 0.183 | Efecto fluid WebGL (LiquidEther) |
 | Lenis | 1.3 | Smooth scroll (ScrollStack) |
 
-### UI
+### UI y Formularios
 | Librería | Versión | Uso |
 |---|---|---|
 | Lucide React | 0.546 | Iconografía |
 | clsx + tailwind-merge | latest | Composición de clases |
+| react-phone-number-input | 3.x | Selector de teléfono internacional |
+| OGL | 1.x | WebGL alternativo para efectos fluid (LiquidEther) |
 
 ---
 
@@ -91,10 +93,15 @@ npm run dev
 | Script | Descripción |
 |---|---|
 | `npm run dev` | Dev server con HMR en `:3000` |
-| `npm run build` | Build de producción → `dist/` |
+| `npm run dev:ssr` | Dev server con SSR |
+| `npm run build` | Build de producción → `dist/` + bundle SSR + prerender |
+| `npm run prerender` | Genera páginas estáticas |
 | `npm run preview` | Preview del build localmente |
-| `npm run lint` | Type-check con `tsc --noEmit` |
+| `npm run start:ssr` | Inicia el servidor SSR de producción |
+| `npm run lint` | Type-check con `tsc --noEmit` + ESLint |
+| `npm run test` | Suite de tests (Vitest) |
 | `npm run clean` | Elimina `dist/` |
+| `npm run convert:logos` | Comprime logos de clientes a WebP vía Sharp |
 
 ---
 
@@ -129,6 +136,7 @@ ccg-site/
 │   │   ├── modules/            # Vistas completas (lazy-loaded)
 │   │   │   ├── ServiceModule.tsx   # Detalle de servicio
 │   │   │   ├── ContactModule.tsx   # Formulario de contacto
+│   │   │   ├── CareersModule.tsx   # Postulaciones / bolsa de empleo
 │   │   │   └── PrivacyModule.tsx   # Políticas de privacidad
 │   │   │
 │   │   └── ui/                 # Primitivas de animación
@@ -156,7 +164,8 @@ ccg-site/
 │   │   └── index.tsx           # Traducciones ES/EN + LangProvider + useLang
 │   │
 │   ├── lib/
-│   │   └── utils.ts            # cn() — clsx + tailwind-merge
+│   │   ├── utils.ts            # cn() — clsx + tailwind-merge
+│   │   └── sheetsWebhook.ts    # Envío de leads a Google Sheets (fire-and-forget)
 │   │
 │   ├── App.tsx                 # Orquestador principal + enrutamiento por estado
 │   ├── main.tsx                # Entry point React 19
@@ -193,7 +202,10 @@ const [currentView, setCurrentView] = useState<'home' | string>('home');
 | `'02'` | `ServiceModule` | Leads & Ventas |
 | `'03'` | `ServiceModule` | Agentes Autónomos |
 | `'04'` | `ServiceModule` | Digital Studio |
+| `'05'` | `ServiceModule` | Talento Humano |
+| `'06'` | `ServiceModule` | Agencia Creativa |
 | `'contact'` | `ContactModule` | Formulario de contacto |
+| `'careers'` | `CareersModule` | Bolsa de empleo / postulaciones |
 | `'privacy'` | `PrivacyModule` | Políticas laborales + PDFs |
 
 ### Navegación entre vistas
@@ -237,7 +249,7 @@ getServiceById('03') // → ServiceData | undefined
 
 ```typescript
 const service: ServiceData = {
-  id: '01',                          // '01' | '02' | '03' | '04'
+  id: '01',                          // '01' | '02' | '03' | '04' | '05' | '06'
   title: 'CX – Experiencia del Cliente',
   subtitle: 'Experiencias que escalan negocios',
   desc: 'Descripción corta para tarjetas',
@@ -284,6 +296,7 @@ const service: ServiceData = {
 |---|---|---|
 | `es` | Español | ✓ |
 | `en` | English | — |
+| `pt` | Português | — |
 
 ### Uso en componentes
 

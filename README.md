@@ -10,9 +10,10 @@ Corporate website for **Contact Center Grupo S.A.S.**, a next-generation BPO com
 | Bundler | Vite 6 |
 | Styling | Tailwind CSS v4 |
 | Animations | Motion (Framer Motion v12), GSAP 3.14 + SplitText |
-| 3D / WebGL | Three.js 0.183 (lazy-loaded liquid shader) |
+| 3D / WebGL | Three.js 0.183 + OGL (lazy-loaded liquid shader) |
 | Smooth Scroll | Lenis 1.3 |
 | Icons | Lucide React 0.546 |
+| Forms | EmailJS + Google Sheets webhook + react-phone-number-input |
 | Testing | Vitest 4 |
 | SSR | Express + React 19 server renderer |
 | Linting | ESLint 10 + TypeScript 5.8 |
@@ -43,6 +44,7 @@ npm run dev
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run test:coverage` | Run tests with coverage report |
 | `npm run clean` | Remove `dist/` |
+| `npm run convert:logos` | Compress all client logos to WebP via Sharp |
 
 ## Environment Variables
 
@@ -53,6 +55,7 @@ Copy `.env.example` to `.env.local`.
 | `VITE_EMAILJS_SERVICE_ID` | EmailJS service ID for contact form | Yes |
 | `VITE_EMAILJS_TEMPLATE_ID` | EmailJS template ID for contact form | Yes |
 | `VITE_EMAILJS_PUBLIC_KEY` | EmailJS public API key | Yes |
+| `VITE_SHEETS_WEBHOOK_URL` | Google Apps Script URL to log leads to Google Sheets | No |
 | `VITE_WHATSAPP_NUMBER` | Floating WhatsApp button number (international format) | No |
 | `VITE_GA_ID` | Google Analytics 4 Measurement ID | No |
 | `GEMINI_API_KEY` | Gemini AI API key (legacy / AI feature hook) | No |
@@ -76,7 +79,7 @@ ccg-site/
 │   ├── components/
 │   │   ├── layout/             # Navbar, Footer (persistent shell)
 │   │   ├── sections/           # Hero, About, Services, Reasons, Sectors, Clients, CTA
-│   │   ├── modules/            # ServiceModule, ContactModule, PrivacyModule
+│   │   ├── modules/            # ServiceModule, ContactModule, PrivacyModule, CareersModule
 │   │   └── ui/                 # SplitText, CircularText, ScrambledText, LiquidEther,
 │   │                           # ScrollStack, CustomCursor, Preloader, BackgroundEffects
 │   ├── data/
@@ -89,7 +92,8 @@ ccg-site/
 │   ├── i18n/
 │   │   └── index.tsx           # Translations (es, en, pt) + LangProvider + useLang
 │   ├── lib/
-│   │   └── utils.ts            # cn() — clsx + tailwind-merge
+│   │   ├── utils.ts            # cn() — clsx + tailwind-merge
+│   │   └── sheetsWebhook.ts    # Google Sheets lead submission helper
 │   ├── config/
 │   │   └── branding.ts         # Branding and asset references
 │   ├── App.tsx                 # State-based router orchestrator
@@ -140,6 +144,8 @@ Dark mode (default) and light mode controlled by a `light` class on `<html>`. Th
 | 02 | Leads & Ventas | Sales process optimization, lead capture, CRM automation, WhatsApp sales |
 | 03 | Agentes Autónomos | AI-powered autonomous agents (AVA suite): WhatsApp, chat, voice, leads, social |
 | 04 | Digital Studio | Custom CRM, web/mobile apps, e-commerce, dashboards, AI avatars |
+| 05 | Talento Humano | BPO-specialized talent recruitment, nearshore staffing, multilingual teams |
+| 06 | Agencia Creativa | Brand identity, web development, Meta/Google/LinkedIn Ads, content production |
 | 05 | Talento Humano | BPO-specialized talent recruitment, nearshore staffing, multilingual teams |
 | 06 | Agencia Creativa | Brand identity, web development, Meta/Google/LinkedIn Ads, content production |
 
