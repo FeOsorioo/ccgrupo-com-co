@@ -4,9 +4,8 @@ import { useLang } from '../../i18n';
 const SECTIONS = [
   { id: 'hero' },
   { id: 'journey' },
-  { id: 'services' },
-  { id: 'reasons' },
   { id: 'sectores' },
+  { id: 'reasons' },
   { id: 'talento' },
   { id: 'clients' },
 ] as const;
@@ -18,9 +17,8 @@ export default function ScrollTracker() {
   const sectionLabels: Record<string, string> = {
     hero:     'Inicio',
     journey:  t.journey?.label ?? 'Ecosistema',
-    services: t.nav.links[0]?.name ?? 'Soluciones',
+    sectores: t.nav.links[0]?.name ?? 'Soluciones',
     reasons:  t.reasons?.label ?? 'Diferencial',
-    sectores: t.sectors?.label ?? t.common.sectors,
     talento:  t.talento?.label ?? 'Talento',
     clients:  'Clientes',
   };

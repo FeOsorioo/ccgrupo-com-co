@@ -1,21 +1,20 @@
 /**
- * Shared helper that POSTs a lead payload to the Google Sheets webhook
- * (Apps Script Web App). Used by both ContactModule and CareersModule so
- * the column order and field names stay consistent across the two forms.
+ * Shared helper that POSTs a lead payload to our PHP proxy at /api/lead.php.
+ * The proxy reads the real Apps Script webhook URL from a config file
+ * OUTSIDE the docroot (/home/$USER/ccg-config.php) so the URL never
+ * leaves the server — it's not in the JS bundle, not in the network
+ * tab, not in the GitHub repo.
  *
- * The unified Apps Script behind the webhook supports two callers:
- *   1. Legacy Divi forms — posted as URL-encoded params (e.parameter)
- *   2. This React SPA       — posted as JSON in e.postData.contents
- *
- * The script tells them apart by inspecting the body. We send a
- * `formularioOrigen: "spa"` marker for extra robustness.
+ * Used by both ContactModule and CareersModule so the column order
+ * stays consistent across the two forms.
  *
  * Column layout on the sheet (must match the Apps Script):
  *   A  ID                  ← generated server-side (CCG-NNN)
  *   B  Fecha               ← server-side, dd/MM/yyyy America/Bogota
  *   C  Tipo de lead        ← "CONTACTO" | "NOSOTROS"
  *   D  Nombre Completo
- *   E  Teléfono            ← international format (+57 300 123 4567)
+ *   E  Teléfono            ← prefixed with "'" by the proxy so Sheets
+ *                            stores it as text, not as a formula
  *   F  Correo
  *   G  Empresa
  *   H  Cargo
@@ -24,15 +23,15 @@
  *   K  Tipo Contacto       ← server-side: Prospecto / Candidato per tipoLead
  *   L  Servicio de Interés
  *   M  Mensaje
- *
- * Uses `mode: 'no-cors'` because Apps Script Web Apps don't return CORS
- * headers; this is fire-and-forget. EmailJS remains the primary channel.
  */
 
 import { parsePhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input';
 import esLabels from 'react-phone-number-input/locale/es.json';
 
-const SHEETS_URL = import.meta.env.VITE_SHEETS_WEBHOOK_URL as string | undefined;
+// Same-origin endpoint — no secrets in the client bundle. The PHP at
+// /api/lead.php (lives in public_html/api/) reads the webhook URL from
+// /home/$USER/ccg-config.php (outside the docroot) and forwards there.
+const PROXY_URL = '/api/lead.php';
 
 export type LeadType = 'CONTACTO' | 'NOSOTROS';
 
@@ -72,8 +71,6 @@ function prettyPhone(phone: string): string {
 }
 
 export async function sendLeadToSheets(payload: LeadPayload): Promise<void> {
-  if (!SHEETS_URL) return; // webhook not configured — silently no-op
-
   const body = {
     formularioOrigen: 'spa',
     timestamp: new Date().toISOString(),
@@ -90,12 +87,9 @@ export async function sendLeadToSheets(payload: LeadPayload): Promise<void> {
   };
 
   try {
-    await fetch(SHEETS_URL, {
+    await fetch(PROXY_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      // Apps Script reads e.postData.contents; text/plain avoids the CORS
-      // preflight that application/json would trigger.
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
   } catch {
