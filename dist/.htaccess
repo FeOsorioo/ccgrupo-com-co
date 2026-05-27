@@ -62,14 +62,8 @@
   Header set Content-Disposition "inline"
 </FilesMatch>
 
-# ─── Block hidden files ───────────────────────────────────────
-<FilesMatch "^\.">
+# ─── Block hidden dotfiles (.env, .git, .htaccess) ────────────
+# Excluye .well-known/ que Let's Encrypt necesita para validar SSL.
+<FilesMatch "^\.(?!well-known)">
   Require all denied
 </FilesMatch>
-
-# Allow .well-known (Let's Encrypt verification)
-<IfModule mod_alias.c>
-  <Directory "/.well-known">
-    Require all granted
-  </Directory>
-</IfModule>
