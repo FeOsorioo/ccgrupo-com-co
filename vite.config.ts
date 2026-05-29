@@ -5,6 +5,8 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
+  const isProd = mode === 'production';
+  
   return {
     plugins: [react(), tailwindcss()],
     define: {
@@ -32,19 +34,29 @@ export default defineConfig(({mode}) => {
     },
     esbuild: {
       legalComments: 'none',
-      drop: mode === 'production' ? ['console', 'debugger'] : [],
+      drop: isProd ? ['console', 'debugger'] : [],
     },
     build: {
       target: 'es2020',
       reportCompressedSize: false,
       chunkSizeWarningLimit: 1500,
-      assetsInlineLimit: 4096,
+      assetsInlineLimit: 2048,
       cssCodeSplit: true,
       cssMinify: 'esbuild',
       minify: 'esbuild',
       sourcemap: false,
+      terserOptions: isProd ? {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          dead_code: true,
+        },
+      } : undefined,
       modulePreload: { polyfill: false },
       rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+        },
         output: {
           manualChunks: (id) => {
             if (!id.includes('node_modules')) return;

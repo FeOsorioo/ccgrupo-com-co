@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "dev:ssr": "set VITE_SSR_DEV=true&& node server.js",
-    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && tsx scripts/prerender.ts",
+    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && tsx scripts/prerender.ts && tsx scripts/clean-build.ts",
+    "build:fast": "npm run build -- --mode production",
     "prerender": "tsx scripts/prerender.ts",
+    "clean-build": "tsx scripts/clean-build.ts",
     "preview": "vite preview",
     "start:ssr": "node server.js",
     "clean": "rm -rf dist",
